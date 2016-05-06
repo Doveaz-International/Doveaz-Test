@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/doveaz_blue" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/two_dp"
+            android:layout_marginTop="@dimen/two_dp"
+            android:gravity="center"
+            android:text="@string/transfer_credit"
+            android:textColor="@color/doveaz_blue"
+            android:textSize="@dimen/twenty_dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/doveaz_blue" />
+
+    </LinearLayout>
+
+    <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/twentyfive_dp"
+            android:paddingRight="@dimen/twentyfive_dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/forty_dp"
+                    android:text="@string/valueofitem"
+                    android:textColor="@color/doveaz_blue"/>
+
+                <TextView
+                    android:textColor="@color/doveaz_orange"
+                    android:id="@+id/text_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/twentyfive_dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@color/doveaz_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/forty_dp"
+                    android:text="@string/fee" />
+
+                <TextView
+                    android:textColor="@color/doveaz_orange"
+                    android:id="@+id/text_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/twentyfive_dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@color/doveaz_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/forty_dp"
+                    android:text="@string/tot_credits" />
+
+                <TextView
+                    android:textColor="@color/doveaz_orange"
+                    android:id="@+id/text_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableRow
+                android:layout_marginLeft="@dimen/twentyfive_dp"
+                android:layout_marginRight="@dimen/twentyfive_dp"
+                android:layout_marginTop="@dimen/twentyfive_dp"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/forty_dp"
+                    android:text="@string/valueofitem"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/doveaz_orange" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginLeft="@dimen/twentyfive_dp"
+                android:layout_marginRight="@dimen/twentyfive_dp"
+                android:layout_marginTop="@dimen/twentyfive_dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/forty_dp"
+                    android:text="@string/fee"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/doveaz_orange" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginLeft="@dimen/twentyfive_dp"
+                android:layout_marginRight="@dimen/twentyfive_dp"
+                android:layout_marginTop="@dimen/twentyfive_dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/forty_dp"
+                    android:text="@string/tot_credits"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/doveaz_orange" />
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/sixty_dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/button_confirm_fee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:text="@string/confirm"
+                android:textColor="@color/appbackround" />
+
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/decline_round"
+                android:text="@string/cancel"
+                android:textColor="@color/appbackround" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

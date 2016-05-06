@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appbackround"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/doveaz_blue" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/two_dp"
+            android:layout_marginTop="@dimen/two_dp"
+            android:gravity="center"
+            android:text="@string/send"
+            android:textColor="@color/doveaz_blue"
+            android:textSize="@dimen/twenty_dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/doveaz_blue" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="@dimen/ten_dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/twenty_dp"
+            android:paddingRight="@dimen/twenty_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="@string/item_details"
+                android:textColor="@color/doveaz_blue" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/form_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:text="@string/pickacate" />
+
+                <Spinner
+                    android:id="@+id/spin_pickcategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_marginLeft="@dimen/five_dp"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:layout_marginTop="@dimen/ten_dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_itemshortdesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edit_itemshortdesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/item_shortdesc"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:singleLine="false"
+                        android:gravity="top"
+                        android:textColor="@color/doveaz_blue"
+                        android:textColorHint="@color/doveaz_blue" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- <android.support.design.widget.TextInputLayout
+                     android:id="@+id/input_itembrief"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                     <EditText
+                         android:id="@+id/edit_itembrief"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:hint="@string/item_brief"
+                         android:inputType="textImeMultiLine"
+                         android:lines="4"
+                         android:minLines="4"
+                         android:textColor="@color/doveaz_blue"
+                         android:textColorHint="@color/doveaz_blue" />
+                 </android.support.design.widget.TextInputLayout>-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:gravity="center"
+                        android:text="@string/upload_image" />
+
+                    <ImageButton
+                        android:id="@+id/pick_img"
+                        android:layout_width="@dimen/eighty_dp"
+                        android:layout_height="@dimen/eighty_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/twenty_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:background="@color/form_bg"
+                        android:src="@drawable/upload_item" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:text="@string/wheretobuy" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup_region"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_local"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/local" />
+
+                    <RadioButton
+                        android:id="@+id/radio_domestic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/domestic" />
+
+                    <RadioButton
+                        android:id="@+id/radio_international"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/international" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="@string/pickup_address"
+                android:textColor="@color/doveaz_blue" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/form_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:text="@string/country" />
+
+                <Spinner
+                    android:id="@+id/spin_country_bd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:paddingLeft="@dimen/five_dp"
+                    android:paddingRight="@dimen/five_dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_streetaddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edit_streetaddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/street_addr"
+                        android:inputType="textPostalAddress"
+                        android:textColor="@color/doveaz_blue"
+                        android:textColorHint="@color/doveaz_blue" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edit_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/city"
+                        android:inputType="textPostalAddress"
+                        android:textColor="@color/doveaz_blue"
+                        android:textColorHint="@color/doveaz_blue" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edit_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/state"
+                        android:inputType="textPostalAddress"
+                        android:textColor="@color/doveaz_blue"
+                        android:textColorHint="@color/doveaz_blue" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_postalcode_bd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edit_postalcode_bd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/postal"
+                        android:inputType="text"
+                        android:textColor="@color/doveaz_blue"
+                        android:textColorHint="@color/doveaz_blue" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="@string/package_details"
+                android:textColor="@color/doveaz_blue" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/form_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:text="@string/typeofpackage" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:background="@color/doveaz_blue" />
+
+                <Spinner
+                    android:id="@+id/spinner_package_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:background="@color/doveaz_blue" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/button_ok"
+                android:layout_width="@dimen/twofifty_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/thirty_dp"
+                android:background="@color/doveaz_orange"
+                android:text="@string/next"
+                android:textColor="@color/white"
+                android:textSize="@dimen/twenty_dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

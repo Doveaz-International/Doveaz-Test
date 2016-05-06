@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="314dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="1dp"
+        android:layout_weight="0.48"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/twenty_dp">
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+
+            <!--<TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/item_img"
+                android:textColor="@color/doveaz_blue" />-->
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/img"
+                android:layout_width="@dimen/two_twenty_dp"
+                android:layout_height="@dimen/two_twenty_dp"
+                android:src="@drawable/profile_photo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/dismiss"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:background="@color/doveaz_blue"
+                    android:text="@string/ok"
+                    android:textColor="@color/appbackround" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

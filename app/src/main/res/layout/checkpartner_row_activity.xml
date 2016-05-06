@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/five_dp"
+    android:paddingLeft="@dimen/five_dp"
+    android:paddingRight="@dimen/five_dp"
+    android:paddingTop="@dimen/five_dp">
+
+    <TextView
+        android:id="@+id/list_txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/five_dp"
+        android:text="@string/full_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/userid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/service_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <com.doveazapp.Utils.UserAvatar
+                android:id="@+id/img_profilepic"
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:src="@drawable/profile_photo" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/travelling_on" />
+
+            <TextView
+                android:id="@+id/travel_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26/11/2015" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/risk_txt" />
+
+                <ImageView
+                    android:id="@+id/img_risk"
+                    android:layout_width="@dimen/ten_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/ten_dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/button_ok_row"
+                android:layout_width="@dimen/fifty_two_dp"
+                android:layout_height="@dimen/fifty_two_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:background="@color/white"
+                android:src="@drawable/ok_small" />
+
+            <ImageButton
+                android:id="@+id/button_add_row"
+                android:layout_width="@dimen/fifty_two_dp"
+                android:layout_height="@dimen/fifty_two_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:background="@color/white"
+                android:src="@drawable/add_small" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/risk_score" />
+
+                <TextView
+                    android:id="@+id/txt_risk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="80" />
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/risk_txt" />
+
+                <ImageView
+                    android:id="@+id/img_risk"
+                    android:layout_width="@dimen/fifteen_dp"
+                    android:layout_height="@dimen/fifteen_dp"
+                    android:layout_gravity="center" />
+            </LinearLayout>-->
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

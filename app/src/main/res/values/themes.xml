@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle" tools:targetApi="honeycomb">@style/MyActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/action_bar</item>
+        <item name="android:logo" tools:targetApi="honeycomb">@drawable/logo_action</item>
+        <item name="android:displayOptions" tools:targetApi="honeycomb">useLogo|showHome</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/action_bar</item>
+        <item name="logo">@drawable/logo_action</item>
+        <item name="displayOptions">useLogo|showHome</item>
+    </style>
+
+    <!--<style name="Theme.AppCompat.Light.NoActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>-->
+</resources>

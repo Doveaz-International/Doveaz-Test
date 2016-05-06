@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appbackround"
+    android:orientation="vertical"
+    android:weightSum="3">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_transactionid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:orientation="vertical"
+            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+            <EditText
+                android:id="@+id/edit_transactionid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/tool"
+                android:hint="@string/transaction_id"
+                android:inputType="number"
+                android:paddingRight="@dimen/twenty_dp"
+                android:textColor="@color/doveaz_blue"
+                android:textColorHint="@color/doveaz_blue" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:background="@drawable/button_selector"
+            android:text="@string/Search"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/img_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/action_bar"
+        android:orientation="vertical">
+
+        <com.doveazapp.Utils.UserAvatar
+            android:id="@+id/img_check_frnd"
+            android:layout_width="@dimen/eighty_dp"
+            android:layout_height="@dimen/eighty_dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:src="@drawable/user" />
+
+        <TextView
+            android:id="@+id/txt_check_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="@string/full_name"
+            android:textColor="@color/appbackround"
+            android:textSize="@dimen/twenty_dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:background="@color/doveaz_blue" />
+
+
+        <TextView
+            android:id="@+id/txt_verify"
+            android:layout_width="@dimen/twohundred_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:gravity="center"
+            android:text="@string/smile_for_transaction"
+            android:textAlignment="center"
+            android:textColor="@color/appbackround"
+            android:textSize="@dimen/seventeen_dp" />
+
+        <Button
+            android:id="@+id/button_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/thirty_five_dp"
+            android:background="@drawable/button_selector"
+            android:drawableLeft="@drawable/call_icon"
+            android:paddingLeft="@dimen/five_dp"
+            android:paddingRight="@dimen/five_dp"
+            android:text="@string/call"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+    </LinearLayout>
+
+    <!-- <LinearLayout
+         android:id="@+id/button_layout"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_weight="1"
+         android:background="@color/action_bar"
+         android:gravity="center"
+         android:orientation="vertical">
+
+
+     </LinearLayout>-->
+</LinearLayout>

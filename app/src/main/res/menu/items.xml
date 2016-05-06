@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:compat="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/Home"
+        android:icon="@drawable/calendar_icon"
+        android:title="@string/home"
+        compat:showAsAction="never" />
+
+    <item
+        android:id="@+id/pending_milestone"
+        android:icon="@drawable/progress"
+        android:title="@string/view_orders"
+        compat:showAsAction="never" />
+
+    <item
+        android:id="@+id/notifications"
+        android:icon="@drawable/calendar_icon"
+        android:title="@string/notifications"
+        compat:showAsAction="never" />
+
+    <item
+        android:id="@+id/my_wallet"
+        android:icon="@drawable/calendar_icon"
+        android:title="@string/my_wallet"
+        compat:showAsAction="never" />
+
+    <item
+        android:id="@+id/groups"
+        android:icon="@drawable/calendar_icon"
+        android:title="@string/networks"
+        compat:showAsAction="never" />
+
+    <item
+        android:id="@+id/Logout"
+        android:icon="@drawable/calendar_icon"
+        android:title="@string/logout"
+        compat:showAsAction="never" />
+
+</menu>

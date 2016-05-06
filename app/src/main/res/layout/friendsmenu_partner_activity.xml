@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appbackround"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/doveaz_blue" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/two_dp"
+            android:layout_marginTop="@dimen/two_dp"
+            android:gravity="center"
+            android:text="@string/partner_header"
+            android:textAlignment="center"
+            android:textColor="@color/doveaz_blue"
+            android:textSize="@dimen/twenty_dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/doveaz_blue" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/for_delivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/two_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:text="@string/verified_users"
+                android:textColor="@color/doveaz_blue" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:background="@color/doveaz_blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_contacts"
+                    android:layout_width="@dimen/two_twenty_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:background="@drawable/rounded_button"
+                    android:drawableLeft="@drawable/friends1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="@string/contacts"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/text_contacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:text="0"
+                    android:textColor="@color/doveaz_blue"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_1stconnection"
+                    android:layout_width="@dimen/two_twenty_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:background="@drawable/rounded_button"
+                    android:drawableLeft="@drawable/mutualfriends1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="@string/first_connection"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/text_1stconnection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:text="0"
+                    android:textColor="@color/doveaz_blue"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_unknown"
+                    android:layout_width="@dimen/two_twenty_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:background="@drawable/rounded_button"
+                    android:drawableLeft="@drawable/unknown_user"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="@string/unknown"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/text_unknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:text="0"
+                    android:textColor="@color/doveaz_blue"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+           <!-- <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/two_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:text="@string/not_verified_users"
+                android:textColor="@color/doveaz_blue" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:background="@color/doveaz_blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_contacts1"
+                    android:layout_width="@dimen/two_twenty_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:background="@drawable/rounded_button"
+                    android:drawableLeft="@drawable/friends1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="@string/contacts"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/text_contacts1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:text="0"
+                    android:textColor="@color/doveaz_blue"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_1stconnection1"
+                    android:layout_width="@dimen/two_twenty_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:background="@drawable/rounded_button"
+                    android:drawableLeft="@drawable/mutualfriends1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="@string/first_connection"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/text_1stconnection1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:text="0"
+                    android:textColor="@color/doveaz_blue"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_unknown1"
+                    android:layout_width="@dimen/two_twenty_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:background="@drawable/rounded_button"
+                    android:drawableLeft="@drawable/unknown_user"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="@string/unknown"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/text_unknown1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:text="0"
+                    android:textColor="@color/doveaz_blue"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>-->
+
+            <!--<TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/two_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:text="@string/couriers"
+                android:textColor="@color/doveaz_blue" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:background="@color/doveaz_blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_couriers"
+                    android:layout_width="@dimen/two_twenty_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:background="@drawable/rounded_button"
+                    android:drawableLeft="@drawable/courier_icon"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="@string/couriers"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/text_couriers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:text="0"
+                    android:textColor="@color/doveaz_blue"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>-->
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
+

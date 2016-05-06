@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/twenty_dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <com.doveazapp.Utils.UserAvatar
+                android:id="@+id/img_check_frnd"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_gravity="center"
+                android:src="@drawable/user" />
+
+            <TextView
+                android:id="@+id/txt_check_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/full_name" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/five_dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button_view_pro"
+                android:layout_width="@dimen/one_fifty_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:background="@color/doveaz_blue"
+                android:text="@string/view_profile"
+                android:textAllCaps="false"
+                android:textColor="@color/appbackround" />
+
+<!--
+            <LinearLayout
+                android:layout_width="@dimen/one_fifty_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:background="@color/doveaz_orange"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_check_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/total_earnings" />
+
+                <TextView
+                    android:id="@+id/txt_check_credits_values"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="2500" />
+
+                <TextView
+                    android:id="@+id/txtcheck_credits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/credit" />
+            </LinearLayout>
+-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/risk" />
+
+            <ProgressBar
+                android:id="@+id/progress_checkrisk"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_gravity="center"
+                android:indeterminate="false"
+                android:max="100"
+                android:progressDrawable="@drawable/circular_progress_bar" />
+
+            <TextView
+                android:id="@+id/prog_risk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/risk" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:background="@color/doveaz_blue" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_dist_pickup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:gravity="center"
+            android:text="@string/dist_from_pickup"
+            android:textAllCaps="false"
+            android:textColor="@color/doveaz_blue" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txt_check_miles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/doveaz_orange" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_dist_deliver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:gravity="center"
+            android:text="@string/dist_from_deliver_addr"
+            android:textAllCaps="false"
+            android:textColor="@color/doveaz_blue" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txt_check_mile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/doveaz_orange" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_travel_on"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/twenty_dp"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:gravity="center"
+            android:text="@string/travelling_on"
+            android:textAllCaps="false"
+            android:textColor="@color/doveaz_blue" />
+
+        <TextView
+            android:id="@+id/txt_check_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:text="30/11/2015"
+            android:textColor="@color/doveaz_orange" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/fee"
+            android:textAllCaps="false"
+            android:textColor="@color/doveaz_blue" />
+
+        <TextView
+            android:id="@+id/txt_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:text="0"
+            android:textColor="@color/doveaz_orange" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_engage"
+            android:layout_width="@dimen/one_fifty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/engage" />
+
+        <Button
+            android:id="@+id/btn_decline"
+            android:layout_width="@dimen/one_fifty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/decline_round"
+            android:text="@string/decline" />
+    </LinearLayout>
+</LinearLayout>

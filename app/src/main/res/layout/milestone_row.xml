@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/appbackround"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fifteen_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:text="fullname"
+        android:textColor="@color/doveaz_blue" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/ten_dp"
+        android:paddingLeft="@dimen/five_dp"
+        android:paddingRight="@dimen/five_dp"
+        android:paddingTop="@dimen/five_dp"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/Id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five_dp"
+            android:text="id"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date of Acceptance" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/doveaz_orange" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:textColor="@color/doveaz_blue" />
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:textColor="@color/doveaz_orange" />-->
+
+            <Button
+                android:id="@+id/btn_view"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:background="@drawable/rounder_grey_button"
+                android:text="@string/track_it"
+                android:textAllCaps="false"
+                android:textColor="@color/appbackround" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/receiver_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="receiver id"
+            android:textColor="@color/doveaz_blue"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/service_a_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="service A id"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/service_b_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="service B id"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp">
+
+
+
+        &lt;!&ndash;<Button
+            android:id="@+id/btn_engage"
+            android:layout_width="@dimen/hundred_dp"
+            android:layout_height="@dimen/thirty_five_dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:text="@string/accept"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+        <Button
+            android:id="@+id/btn_decline"
+            android:layout_width="@dimen/hundred_dp"
+            android:layout_height="@dimen/thirty_five_dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/decline_round"
+            android:text="@string/decline"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />&ndash;&gt;
+
+    </LinearLayout>-->
+</LinearLayout>

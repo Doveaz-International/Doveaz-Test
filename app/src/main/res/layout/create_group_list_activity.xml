@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="4">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:background="@color/appbackround"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/ten_dp"
+                android:src="@drawable/group_icon" />
+
+            <Button
+                android:id="@+id/button_create_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:text="@string/create_group"
+                android:textAllCaps="false"
+                android:textColor="@color/appbackround" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/doveaz_orange"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:gravity="left"
+            android:text="@string/my_groups"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround"
+            android:textSize="@dimen/twenty_dp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/group_list"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@color/form_bg"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="@dimen/five_dp"
+            android:listSelector="@android:color/transparent"
+            android:paddingTop="5dp"></ListView>
+
+    </LinearLayout>
+
+</LinearLayout>

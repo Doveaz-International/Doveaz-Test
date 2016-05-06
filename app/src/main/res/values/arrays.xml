@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Gender">
+        <item>--Select--</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="Education">
+        <item>--Select--</item>
+        <item>School</item>
+        <item>Graduate</item>
+        <item>Post Graduate</item>
+        <item>Doctor</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="Profession">
+        <item>--Select--</item>
+        <item>Student (over 18+)</item>
+        <item>Self Employed</item>
+        <item>Business</item>
+        <item>Working Professional</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="Nationality">
+        <item>--Select--</item>
+        <item>Afghan</item>
+        <item>Algerian</item>
+        <item>Algerian</item>
+        <item>Angolan</item>
+        <item>Argentine</item>
+        <item>Austrian</item>
+        <item>Australian</item>
+        <item>Bangladeshi</item>
+        <item>Belarusian</item>
+        <item>Belgian</item>
+        <item>Bolivian</item>
+        <item>Bosnian/Herzegovinian</item>
+        <item>Brazilian</item>
+        <item>British</item>
+        <item>Bulgarian</item>
+        <item>Cambodian</item>
+        <item>Cameroonian</item>
+        <item>Canadian</item>
+        <item>Central African</item>
+        <item>Chadian</item>
+        <item>Chinese</item>
+        <item>Colombian</item>
+        <item>Costa Rican</item>
+        <item>Croatian</item>
+        <item>Czech</item>
+        <item>Congolese</item>
+        <item>Danish</item>
+        <item>Ecuadorian</item>
+        <item>Egyptian</item>
+        <item>Salvadoran</item>
+        <item>English</item>
+        <item>Estonian</item>
+        <item>Ethiopian</item>
+        <item>Finnish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Ghanaian</item>
+        <item>Greek</item>
+        <item>Guatemalan</item>
+        <item>Dutch</item>
+        <item>Honduran</item>
+        <item>Hungarian</item>
+        <item>Icelandic</item>
+        <item>Indian</item>
+        <item>Indonesian</item>
+        <item>Iranian</item>
+        <item>Iraqi</item>
+        <item>Irish</item>
+        <item>Israeli</item>
+        <item>Italian</item>
+        <item>Ivorian</item>
+        <item>Jamaican</item>
+        <item>Japanese</item>
+        <item>Jordanian</item>
+        <item>Kazakh</item>
+        <item>Kenyan</item>
+        <item>Lao</item>
+        <item>Latvian</item>
+        <item>Libyan</item>
+        <item>Lithuanian</item>
+        <item>Malagasy</item>
+        <item>Malaysian</item>
+        <item>Malian</item>
+        <item>Mauritanian</item>
+        <item>Mexican</item>
+        <item>Moroccan</item>
+        <item>Namibian</item>
+        <item>New Zealand</item>
+        <item>Nicaraguan</item>
+        <item>Nigerien</item>
+        <item>Nigerian</item>
+        <item>Norwegian</item>
+        <item>Omani</item>
+        <item>Pakistani</item>
+        <item>Panamanian</item>
+        <item>Paraguayan</item>
+        <item>Peruvian</item>
+        <item>Philippine</item>
+        <item>Polish</item>
+        <item>Portuguese</item>
+        <item>Congolese</item>
+        <item>Romanian</item>
+        <item>Russian</item>
+        <item>Saudi, Saudi Arabian</item>
+        <item>Scottish</item>
+        <item>Senegalese</item>
+        <item>Serbian</item>
+        <item>Singaporean</item>
+        <item>Slovak</item>
+        <item>Somalian</item>
+        <item>South African</item>
+        <item>Spanish</item>
+        <item>Sudanese</item>
+        <item>Swedish</item>
+        <item>Swiss</item>
+        <item>Syrian</item>
+        <item>Thai</item>
+        <item>Tunisian</item>
+        <item>Turkish</item>
+        <item>Turkmen</item>
+        <item>Ukranian</item>
+        <item>Emirati</item>
+        <item>American</item>
+        <item>Uruguayan</item>
+        <item>Vietnamese</item>
+        <item>Welsh</item>
+        <item>Zambian</item>
+        <item>Zimbabwean</item>
+    </string-array>
+
+    <string-array name="Country">
+        <item>--Select--</item>
+        <item>Afghanistan</item>
+        <item>Algeria</item>
+        <item>Angola</item>
+        <item>Argentina</item>
+        <item>Austria</item>
+        <item>Australia</item>
+        <item>Bangladesh</item>
+        <item>Belarus</item>
+        <item>Belgium</item>
+        <item>Bolivia</item>
+        <item>Bosnia and Herzegovina</item>
+        <item>Brazil</item>
+        <item>Britain</item>
+        <item>Bulgaria</item>
+        <item>Cambodia</item>
+        <item>Cameroon</item>
+        <item>Canada</item>
+        <item>Central African Republic</item>
+        <item>Chad</item>
+        <item>China</item>
+        <item>Colombia</item>
+        <item>Costa Rica</item>
+        <item>Croatia</item>
+        <item>the Czech Republic</item>
+        <item>Democratic Republic of the Congo</item>
+        <item>Denmark</item>
+        <item>Ecuador</item>
+        <item>Egypt</item>
+        <item>El Salvador</item>
+        <item>England</item>
+        <item>Estonia</item>
+        <item>Ethiopia</item>
+        <item>Finland</item>
+        <item>France</item>
+        <item>Germany</item>
+        <item>Ghana</item>
+        <item>Greece</item>
+        <item>Guatemala</item>
+        <item>Holland</item>
+        <item>Honduras</item>
+        <item>Hungary</item>
+        <item>Iceland</item>
+        <item>India</item>
+        <item>Indonesia</item>
+        <item>Iran</item>
+        <item>Iraq</item>
+        <item>Ireland</item>
+        <item>Israel</item>
+        <item>Italy</item>
+        <item>Ivory Coast</item>
+        <item>Jamaica</item>
+        <item>Japan</item>
+        <item>Jordan</item>
+        <item>Kazakhstan</item>
+        <item>Kenya</item>
+        <item>Laos</item>
+        <item>Latvia</item>
+        <item>Libya</item>
+        <item>Lithuania</item>
+        <item>Madagascar</item>
+        <item>Malaysia</item>
+        <item>Mali</item>
+        <item>Mauritania</item>
+        <item>Mexico</item>
+        <item>Morocco</item>
+        <item>Namibia</item>
+        <item>New Zealand</item>
+        <item>Nicaragua</item>
+        <item>Niger</item>
+        <item>Nigeria</item>
+        <item>Norway</item>
+        <item>Oman</item>
+        <item>Pakistan</item>
+        <item>Pakistan</item>
+        <item>Paraguay</item>
+        <item>Peru</item>
+        <item>The Philippines</item>
+        <item>Poland</item>
+        <item>Portugal</item>
+        <item>Republic of the Congo</item>
+        <item>Romania</item>
+        <item>Russia</item>
+        <item>Saudi Arabia</item>
+        <item>Scotland</item>
+        <item>Senegal</item>
+        <item>Serbia</item>
+        <item>Singapore</item>
+        <item>Slovakia</item>
+        <item>Somalia</item>
+        <item>South Africa</item>
+        <item>Spain</item>
+        <item>Sudan</item>
+        <item>Sweden</item>
+        <item>Switzerland</item>
+        <item>Syria</item>
+        <item>Thailand</item>
+        <item>Tunisia</item>
+        <item>Turkey</item>
+        <item>Turkmenistan</item>
+        <item>Ukraine</item>
+        <item>United Arab Emirates</item>
+        <item>United States</item>
+        <item>Uruguay</item>
+        <item>Vietnam</item>
+        <item>Wales</item>
+        <item>Zambia</item>
+        <item>Zimbabwe</item>
+    </string-array>
+
+    <string-array name="type_of_package">
+        <item>--select--</item>
+        <item>ENVELOPE</item>
+        <item>BAG</item>
+        <item>SMALL BOX</item>
+        <item>LARGE BOX</item>
+        <item>EXTRA LARGE</item>
+        <!--<item>CUSTOM</item>-->
+    </string-array>
+
+    <string-array name="package_dimensions">
+        <item>--select--</item>
+        <item>12\' X 10\' X 18\'</item>
+        <item>12\' X 10\' X 18\'</item>
+        <item>14\' X 7\' X 6\'</item>
+        <item>14\' X 14\' X14\'</item>
+        <item>22\'X 22\' X21\'</item>
+        <!--<item>any size</item>-->
+    </string-array>
+
+    <integer-array name="image_type_array">
+        <item>@drawable/select_icon</item>
+        <item>@drawable/envelope</item>
+        <item>@drawable/bag</item>
+        <item>@drawable/custom</item>
+        <item>@drawable/large_box</item>
+        <item>@drawable/small_box</item>
+        <!--<item>@drawable/extra_large</item>-->
+    </integer-array>
+
+    <string-array name="service_category">
+        <item>--select--</item>
+        <item>Electronics</item>
+        <item>Groceries</item>
+        <item>Food</item>
+        <item>Home &amp; Furniture</item>
+        <item>Clothing</item>
+        <item>Books &amp; Media</item>
+        <item>Sports</item>
+        <item>Spirits</item>
+        <item>Medicines</item>
+        <item>Document</item>
+        <item>Beauty &amp; Health</item>
+        <item>Shoes</item>
+        <item>Toys &amp; Baby Products</item>
+    </string-array>
+
+</resources>

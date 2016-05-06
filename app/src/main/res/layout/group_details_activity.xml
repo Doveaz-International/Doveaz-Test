@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sixty_dp"
+        android:layout_gravity="center"
+        android:background="@color/doveaz_orange"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Button
+            android:id="@+id/btn_view_members"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:drawableLeft="@drawable/members"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingLeft="@dimen/ten_dp"
+            android:stateListAnimator="@null"
+            android:text="@string/members"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+        <Button
+            android:id="@+id/btn_view_service_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:drawableLeft="@drawable/services_icon"
+            android:paddingLeft="@dimen/ten_dp"
+            android:stateListAnimator="@null"
+            android:text="@string/services"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+        <Button
+            android:id="@+id/btn_stat_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:drawableLeft="@drawable/stat"
+            android:paddingLeft="@dimen/ten_dp"
+            android:stateListAnimator="@null"
+            android:text="@string/stat"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/members_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/group_members_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/button_grey"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="@dimen/five_dp"
+            android:listSelector="@android:color/transparent"
+            android:paddingTop="5dp"></ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/service_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/service_list_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="@dimen/five_dp"
+            android:listSelector="@android:color/transparent"
+            android:paddingTop="5dp"></ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/stat_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:background="@color/button_grey"
+            android:orientation="horizontal">
+
+            <com.doveazapp.Utils.UserAvatar
+                android:id="@+id/group_image"
+                android:layout_width="@dimen/seventy_dp"
+                android:layout_height="@dimen/seventy_dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:src="@drawable/group" />
+
+            <TextView
+                android:id="@+id/group_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/fifteen_dp"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/doveaz_orange"
+                android:textSize="@dimen/fifteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/twenty_dp"
+            android:paddingRight="@dimen/twenty_dp">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TableRow
+                    android:layout_marginLeft="@dimen/twentyfive_dp"
+                    android:layout_marginRight="@dimen/twentyfive_dp"
+                    android:layout_marginTop="@dimen/twentyfive_dp"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/forty_dp"
+                        android:text="@string/risk_score"
+                        android:textColor="@color/doveaz_blue" />
+
+                    <TextView
+                        android:id="@+id/text_risk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/doveaz_orange" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginLeft="@dimen/twentyfive_dp"
+                    android:layout_marginRight="@dimen/twentyfive_dp"
+                    android:layout_marginTop="@dimen/twentyfive_dp"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/forty_dp"
+                        android:text="@string/group_admin"
+                        android:textColor="@color/doveaz_blue" />
+
+                    <TextView
+                        android:id="@+id/text_admin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/doveaz_orange" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginLeft="@dimen/twentyfive_dp"
+                    android:layout_marginRight="@dimen/twentyfive_dp"
+                    android:layout_marginTop="@dimen/twentyfive_dp"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/forty_dp"
+                        android:text="@string/total_members"
+                        android:textColor="@color/doveaz_blue" />
+
+                    <TextView
+                        android:id="@+id/text_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/doveaz_orange" />
+                </TableRow>
+            </TableLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_delete_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:background="@drawable/decline_round"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:text="@string/delete_group"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+    </LinearLayout>
+</LinearLayout>

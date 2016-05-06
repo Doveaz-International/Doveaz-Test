@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/twenty_dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <com.doveazapp.Utils.UserAvatar
+                android:id="@+id/img_check_frnd"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_gravity="center"
+                android:src="@drawable/user" />
+
+            <TextView
+                android:id="@+id/txt_check_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/full_name" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/five_dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button_view_pro"
+                android:layout_width="@dimen/one_fifty_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:background="@color/doveaz_blue"
+                android:text="@string/view_profile"
+                android:textAllCaps="false"
+                android:textColor="@color/appbackround" />
+
+<!--
+            <LinearLayout
+                android:layout_width="@dimen/one_fifty_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:background="@color/doveaz_orange"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_check_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/total_earnings" />
+
+                <TextView
+                    android:id="@+id/txt_check_credits_values"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="2500" />
+
+                <TextView
+                    android:id="@+id/txtcheck_credits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/credit" />
+            </LinearLayout>
+-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/risk" />
+
+            <ProgressBar
+                android:id="@+id/progress_checkrisk"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_gravity="center"
+                android:indeterminate="false"
+                android:max="100"
+                android:progressDrawable="@drawable/circular_progress_bar" />
+
+            <TextView
+                android:id="@+id/prog_risk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/risk" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/five_dp"
+        android:layout_marginRight="@dimen/five_dp"
+        android:background="@color/doveaz_blue"
+        android:orientation="horizontal" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/twenty_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Type"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/txt_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/doveaz_orange" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="@string/item_desc"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_itemdesc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/doveaz_orange" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="@string/collectionaddr"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_collectionaddress"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/doveaz_orange" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="@string/deliveryaddr"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_deliveraddr"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="110 5th st, san francisco, ca, 94103"
+                    android:textColor="@color/doveaz_orange" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:text="@string/item_img"
+                        android:textColor="@color/doveaz_blue" />
+
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/item_img"
+                        android:layout_width="@dimen/eighty_dp"
+                        android:layout_height="@dimen/eighty_dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/user" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="@string/item_value"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_tipprice"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="500"
+                    android:textColor="@color/doveaz_orange" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="@string/fee"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_fee"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/doveaz_orange" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="@string/delivery_date"
+                    android:textColor="@color/doveaz_blue" />
+
+                <TextView
+                    android:id="@+id/text_date"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2016/02/02"
+                    android:textColor="@color/doveaz_orange" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/eighty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <!--<Button
+                        android:id="@+id/btn_negotiate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_button"
+                        android:text="@string/negotiate" />-->
+
+                    <Button
+                        android:id="@+id/btn_engage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_button"
+                        android:text="@string/engage" />
+
+                    <Button
+                        android:id="@+id/btn_decline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/decline_round"
+                        android:text="@string/decline" />
+
+                </LinearLayout>
+
+                <!--<TextView
+                    android:id="@+id/negotiate_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:gravity="center"
+                    android:text="only 2 left" />-->
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

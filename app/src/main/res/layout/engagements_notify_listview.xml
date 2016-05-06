@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e2e4fe"
+    tools:context=".Activities.CheckPartnerListActivity">
+
+    <ListView
+        android:id="@+id/engage_list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="@dimen/five_dp"
+        android:listSelector="@android:color/transparent"
+        android:paddingTop="5dp"></ListView>
+
+</RelativeLayout>

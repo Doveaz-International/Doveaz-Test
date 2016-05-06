@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/five_dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/doveaz_orange"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingBottom="@dimen/ten_dp"
+                android:paddingTop="@dimen/ten_dp"
+                android:text="Real time tracking"
+                android:textAllCaps="false"
+                android:textColor="@color/appbackround"
+                android:textSize="@dimen/fifteen_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/five_dp"
+            android:background="@color/doveaz_blue"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingBottom="@dimen/ten_dp"
+                android:paddingTop="@dimen/ten_dp"
+                android:text="Transaction id:"
+                android:textAllCaps="false"
+                android:textColor="@color/appbackround"
+                android:textSize="@dimen/fifteen_dp" />
+
+            <TextView
+                android:id="@+id/text_transactionid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/doveaz_blue"
+                android:paddingBottom="@dimen/ten_dp"
+                android:paddingTop="@dimen/ten_dp"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/appbackround"
+                android:textSize="@dimen/fifteen_dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--<Button
+        android:id="@+id/button_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/five_dp"
+        android:background="@drawable/rounded_button"
+        android:drawableLeft="@drawable/refresh"
+        android:paddingLeft="@dimen/five_dp"
+        android:text="@string/refresh"
+        android:textAllCaps="false"
+        android:textColor="@color/appbackround" />
+
+    <TextView
+        android:id="@+id/text_refresh_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/doveaz_blue"
+        android:text="" />
+-->
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/milestone1"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:gravity="center"
+                    android:padding="@dimen/five_dp"
+                    android:text="@string/mile1" />
+
+                <!--<TextView
+                    android:id="@+id/target1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    android:text="Target Date: 27/11/2016"
+                    android:textColor="@color/doveaz_blue"
+                    android:textStyle="bold" />-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/photo_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center"
+                    android:text="@string/upload_image" />
+
+                <ImageButton
+                    android:id="@+id/pick_item_img"
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="@dimen/eighty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:src="@drawable/upload_item" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/upload_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TableRow
+                        android:layout_marginLeft="@dimen/twentyfive_dp"
+                        android:layout_marginRight="@dimen/twentyfive_dp"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/step1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/twenty_dp"
+                            android:text="Step 1:"
+                            android:textColor="@color/doveaz_orange"
+                            android:textSize="@dimen/fifteen_dp" />
+
+                        <Button
+                            android:id="@+id/upload_item_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_button"
+                            android:text="@string/upload_pic"
+                            android:textAllCaps="false"
+                            android:textColor="@color/appbackround" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/status_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TableRow
+                        android:layout_marginLeft="@dimen/twentyfive_dp"
+                        android:layout_marginRight="@dimen/twentyfive_dp"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/step2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/twenty_dp"
+                            android:text="Step 2:"
+                            android:textColor="@color/doveaz_orange"
+                            android:textSize="@dimen/fifteen_dp" />
+
+                        <Button
+                            android:id="@+id/check_status1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounder_grey_button"
+                            android:text="@string/check_status"
+                            android:textAllCaps="false"
+                            android:textColor="@color/appbackround" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/upload_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/done_icon" />
+
+            <LinearLayout
+                android:id="@+id/credit_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow
+                            android:layout_marginLeft="@dimen/twentyfive_dp"
+                            android:layout_marginRight="@dimen/twentyfive_dp"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/twenty_dp"
+                                android:text="Step 1:"
+                                android:textColor="@color/doveaz_orange"
+                                android:textSize="@dimen/fifteen_dp" />
+
+                            <Button
+                                android:id="@+id/btn_transfer_credit"
+                                android:layout_width="@dimen/hundred_dp"
+                                android:layout_height="@dimen/forty_dp"
+                                android:background="@drawable/rounded_button"
+                                android:text="@string/transfer_credit"
+                                android:textAllCaps="false"
+                                android:textColor="@color/appbackround" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow
+                            android:layout_marginLeft="@dimen/twentyfive_dp"
+                            android:layout_marginRight="@dimen/twentyfive_dp"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/twenty_dp"
+                                android:text="Step 2:"
+                                android:textColor="@color/doveaz_orange"
+                                android:textSize="@dimen/fifteen_dp" />
+
+                            <Button
+                                android:id="@+id/btn_confirm"
+                                android:layout_width="@dimen/hundred_dp"
+                                android:layout_height="@dimen/forty_dp"
+                                android:background="@drawable/rounder_grey_button"
+                                android:text="@string/confirm"
+                                android:textAllCaps="false"
+                                android:textColor="@color/appbackround" />
+
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/transfer_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/done_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/status1_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/txt_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/five_dp"
+                    android:text="@string/status" />
+
+                <TextView
+                    android:id="@+id/txt_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twelve_sp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/doveaz_blue"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:background="@color/doveaz_blue" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/milestone2"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:gravity="center"
+                    android:padding="@dimen/five_dp"
+                    android:text="@string/mile2" />
+
+                <!--<TextView
+                    android:id="@+id/target2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    android:text="Target Date: 27/11/2016"
+                    android:textColor="@color/doveaz_blue"
+                    android:textStyle="bold" />-->
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload the item that been collected" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center"
+                    android:text="@string/upload_bill" />
+
+                <ImageButton
+                    android:id="@+id/pick_bill_img"
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="@dimen/eighty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:src="@drawable/upload_item" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow
+                            android:layout_marginLeft="@dimen/twentyfive_dp"
+                            android:layout_marginRight="@dimen/twentyfive_dp"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/twenty_dp"
+                                android:text="Step 1:"
+                                android:textColor="@color/doveaz_orange"
+                                android:textSize="@dimen/fifteen_dp" />
+
+                            <Button
+                                android:id="@+id/upload_bill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/forty_dp"
+                                android:background="@drawable/rounded_button"
+                                android:text="@string/upload_pic"
+                                android:textAllCaps="false"
+                                android:textColor="@color/appbackround" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow
+                            android:layout_marginLeft="@dimen/twentyfive_dp"
+                            android:layout_marginRight="@dimen/twentyfive_dp"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/twenty_dp"
+                                android:text="Step 2:"
+                                android:textColor="@color/doveaz_orange"
+                                android:textSize="@dimen/fifteen_dp" />
+
+                            <Button
+                                android:id="@+id/check_status2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/forty_dp"
+                                android:background="@drawable/rounder_grey_button"
+                                android:text="@string/check_status"
+                                android:textAllCaps="false"
+                                android:textColor="@color/appbackround" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/upload2_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/done_icon" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/status_layout2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_status2"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:gravity="center"
+                    android:padding="@dimen/five_dp"
+                    android:text="@string/status" />
+
+                <TextView
+                    android:id="@+id/txt_progress2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    android:text="In Progress"
+                    android:textColor="@color/doveaz_blue" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:background="@color/doveaz_blue" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/milestone3"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:gravity="center"
+                    android:padding="@dimen/five_dp"
+                    android:text="@string/mile3" />
+
+                <!--<TextView
+                    android:id="@+id/target3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    android:text="Target Date: 27/11/2016"
+                    android:textColor="@color/doveaz_blue"
+                    android:textStyle="bold" />-->
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="@string/item_delivered" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:text="@string/yes" />
+
+                <RadioButton
+                    android:id="@+id/radio_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/no" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/check_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:paddingLeft="@dimen/five_dp"
+                android:paddingRight="@dimen/five_dp"
+                android:text="@string/update"
+                android:textAllCaps="false"
+                android:textColor="@color/appbackround" />
+
+            <!--  <TextView
+                  android:id="@+id/delivery"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/final_delivery" />-->
+
+            <!--  <LinearLayout
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:gravity="center"
+                  android:orientation="horizontal">
+
+                  <TextView
+                      android:id="@+id/txt_status3"
+                      android:layout_width="@dimen/hundred_dp"
+                      android:layout_height="@dimen/forty_dp"
+                      android:gravity="center"
+                      android:padding="@dimen/five_dp"
+                      android:text="@string/status" />
+
+                  <TextView
+                      android:id="@+id/txt_progress3"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="@dimen/twenty_dp"
+                      android:text="In Progress"
+                      android:textColor="@color/doveaz_blue"
+                      android:textStyle="bold" />
+              </LinearLayout>-->
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:background="@color/doveaz_blue" />
+
+            <Button
+                android:id="@+id/credits_final"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:text="@string/goto_rating" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

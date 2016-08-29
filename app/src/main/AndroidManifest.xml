@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.doveazapp">
+    package="com.doveazapp" >
 
     <supports-screens
         android:anyDensity="true"
@@ -25,6 +25,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <permission
         android:name="com.doveazapp.permission.C2D_MESSAGE"
@@ -42,13 +44,13 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/CustomActionBarTheme">
+        android:theme="@style/CustomActionBarTheme" >
         <uses-library android:name="com.google.android.maps" />
 
         <activity
             android:name=".Activities.SplashScreen"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,10 +61,19 @@
             android:name=".Activities.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.MenuActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.UpdateLocationPartnerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.ShowAreaListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.MenuActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -75,10 +86,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activities.BuyandDeliveryActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".Activities.DeliveryAddressActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -114,9 +121,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Activities.TakeTourVideo"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".Activities.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
@@ -129,15 +133,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Activities.CollectionDeliverAddressActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".Activities.SendActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".Activities.SendDeliverAddress"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -148,13 +144,6 @@
             android:name=".Activities.EditDescription"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".Activities.WelcomePartnerActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".Activities.NotificationsMenuActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.AcceptCreditActivity"
             android:screenOrientation="portrait"
@@ -179,22 +168,56 @@
             android:name=".Activities.PartnerLocalTravelDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".Activities.SearchTransactionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".Activities.RegisterAsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".Activities.PartnerManualTravelDetails"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
+        <activity
+            android:name=".Activities.StoreMenuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppDialogTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.OrderReviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.AgentLocationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.LoadingAgentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.AgentMenuUpdateActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.PromoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.ViewOrderActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.AgentAcceptDeclineActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.CallDialogActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Groups.CreateGroupListActivity"
             android:screenOrientation="portrait"
@@ -216,29 +239,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Notifications.StatusForPartnerActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".Notifications.SentNotificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Notifications.DeclineNotificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Notifications.AcceptNotificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Notifications.EngagementsNotificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Notifications.NegotiationsNotificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Notifications.StatusNotificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Notifications.MilestoneNotificationActivity"
+            android:name="com.paytm.pgsdk.PaytmPGActivity"
+            android:configChanges="keyboardHidden|orientation|keyboard"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -251,7 +253,7 @@
         -->
         <receiver
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-            android:enabled="true">
+            android:enabled="true" >
             <intent-filter>
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
@@ -268,7 +270,7 @@
         -->
         <receiver
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
@@ -277,15 +279,14 @@
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
         <!-- for sms receiver -->
-        <receiver android:name=".SmsReceiver.IncomingSms">
+        <receiver android:name=".SmsReceiver.IncomingSms" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".GcmClasses.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />

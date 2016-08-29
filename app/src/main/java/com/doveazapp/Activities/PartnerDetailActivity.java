@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
+ * PartnerDetailActivity.java
  * Created by Karthik on 11/25/2015.
  */
 public class PartnerDetailActivity extends AppCompatActivity implements View.OnClickListener {

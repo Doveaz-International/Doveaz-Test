@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * ForgotPasswordActivity.java
  * Created by Karthik on 12/13/2015.
  */
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.doveazapp.Utils.UserAvatar
+            android:id="@+id/image_agent"
+            android:layout_width="@dimen/eighty_dp"
+            android:layout_height="@dimen/eighty_dp" />
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:layout_marginRight="@dimen/three_dp"
+            android:text="Agent Name: " />
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading..." />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.doveazapp.Utils.CustomDoveazFont
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Item approved"
+                android:textSize="10dp" />
+
+            <ImageView
+                android:id="@+id/img_item_approved"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_not_delivered" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.doveazapp.Utils.CustomDoveazFont
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Item Picked"
+                android:textSize="10dp" />
+
+            <ImageView
+                android:id="@+id/img_item_picked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_not_delivered" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.doveazapp.Utils.CustomDoveazFont
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Item Delivered"
+                android:textSize="10dp" />
+
+            <ImageView
+                android:id="@+id/img_item_delivered"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_not_delivered" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.doveazapp.Utils.CustomDoveazFont
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:text="To view orders goto Menu -> view order" />
+
+</LinearLayout>

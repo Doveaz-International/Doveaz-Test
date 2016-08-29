@@ -1,6 +1,7 @@
 package com.doveazapp.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -107,7 +108,9 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
                                 Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                             } else if (status.equals("true")) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Password reset successful please try login now ", Toast.LENGTH_SHORT).show();
+                                Intent to_login = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(to_login);
                             }
                         } catch (JSONException exception) {
                             progressDialog.dismiss();

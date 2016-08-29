@@ -1,0 +1,175 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Add"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="S.no"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Product Name"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Price (‎₹)"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Selected quantity"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/a"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/btnAdd"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:background="#8DB3E1" />
+
+    <ListView
+        android:id="@+id/List"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/a"
+        android:dividerHeight="1.5dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TableRow
+            android:layout_marginLeft="@dimen/twentyfive_dp"
+            android:layout_marginRight="@dimen/twentyfive_dp"
+            android:layout_marginTop="@dimen/twentyfive_dp"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/forty_dp"
+                android:text="Price (‎₹)"
+                android:textColor="@color/doveaz_blue" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/doveaz_orange" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginLeft="@dimen/twentyfive_dp"
+            android:layout_marginRight="@dimen/twentyfive_dp"
+            android:layout_marginTop="@dimen/twentyfive_dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/forty_dp"
+                android:text="Fee (‎₹)"
+                android:textColor="@color/doveaz_blue" />
+
+            <TextView
+                android:id="@+id/fee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/doveaz_orange" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginLeft="@dimen/twentyfive_dp"
+            android:layout_marginRight="@dimen/twentyfive_dp"
+            android:layout_marginTop="@dimen/twentyfive_dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/forty_dp"
+                android:text="@string/total_cost"
+                android:textColor="@color/doveaz_blue" />
+
+            <TextView
+                android:id="@+id/text_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/doveaz_orange" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:id="@+id/checkout_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/doveaz_orange"
+            android:text="@string/cancel"
+            android:textColor="@color/appbackround" />
+
+        <Button
+            android:id="@+id/checkout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/doveaz_blue"
+            android:text="checkout for Payment"
+            android:textColor="@color/appbackround" />
+    </LinearLayout>
+
+</LinearLayout>

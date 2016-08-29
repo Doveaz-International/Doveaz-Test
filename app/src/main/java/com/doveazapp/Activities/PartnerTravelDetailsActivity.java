@@ -19,12 +19,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -56,6 +58,7 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -73,13 +76,13 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
 
     Button button_ok;
 
-    EditText editText_streetaddr, editText_city, editText_state, editText_postalcode, editText_minimumtip;
+    EditText editText_streetaddr, editText_postalcode, editText_minimumtip;
 
     TextInputLayout input_streetaddr, input_postalcode, input_minimumtip, input_city, input_state;
 
     String street_address, postal_code, minimum_tip, city, state, country;
 
-    Spinner spinner_country;
+    Spinner spinner_country, spin_state_bd, spin_city_bd;
 
     // Request code for READ_CONTACTS. It can be any number > 0.
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
@@ -92,6 +95,16 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
 
     // Session Manager Class
     SessionManager session;
+
+    SimpleAdapter stateAdapPROJ, cityAdapPROJ;
+
+    ArrayList<HashMap<String, String>> stateArrayList = null;
+
+    ArrayList<HashMap<String, String>> cityArrayList = null;
+
+    HashMap<String, String> stateList;
+
+    HashMap<String, String> cityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +127,6 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
 
         //Edittext
         editText_streetaddr = (EditText) findViewById(R.id.edit_streetaddress_bd);
-        editText_city = (EditText) findViewById(R.id.edit_city);
-        editText_state = (EditText) findViewById(R.id.edit_state);
         editText_postalcode = (EditText) findViewById(R.id.edit_postalcode_bd);
         editText_minimumtip = (EditText) findViewById(R.id.edit_minimum_tip);
 
@@ -131,6 +142,8 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
 
         //Spinners
         spinner_country = (Spinner) findViewById(R.id.spin_country_partner);
+        spin_state_bd = (Spinner) findViewById(R.id.spin_state_bd);
+        spin_city_bd = (Spinner) findViewById(R.id.spin_city_bd);
 
         // Listeners
         btndate_travelon.setOnClickListener(this);
@@ -152,7 +165,30 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
         // email
         String email = user.get(SessionManager.KEY_EMAIL);
 
-        //Toast.makeText(getApplicationContext(), api_token + email, Toast.LENGTH_LONG).show();
+        spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Loadstates_fromAPI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spin_state_bd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                LoadCities_fromAPI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         open_gpswhenlocal();
         loadSpinners();
@@ -162,6 +198,105 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
 
     private void menuvisibilityinAlldevices() {
         MenuVisibility.menuVisible(PartnerTravelDetailsActivity.this);
+    }
+
+    private void Loadstates_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("--OUTPUT STATE--", response);
+                Log.v("==state success==", response);
+                // response will be like {"status":"false","value":"Username\/Password Incorrect"}
+                try {
+
+                    stateArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+                    JSONObject value_obj = obj.getJSONObject("value");
+                    JSONArray states_array = value_obj.getJSONArray("states");
+
+                    for (int i = 0; i < states_array.length(); i++) {
+                        JSONObject json_data = states_array.getJSONObject(i);
+                        Log.i("log_tag", " state_name" + json_data.getString("state_name"));
+
+                        String state_name = states_array.getJSONObject(i).getString("state_name");
+
+                        if (status.equals("false")) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals("true")) {
+                            Log.v("STATES", state_name);
+
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            stateList = new HashMap<String, String>();
+                            stateList.put("state_name", state_name);
+
+                            stateArrayList.add(stateList);
+
+                            stateAdapPROJ = new SimpleAdapter(PartnerTravelDetailsActivity.this, stateArrayList, R.layout.spinner_item,
+                                    new String[]{"id", "state_name"}, new int[]{R.id.Id, R.id.Name});
+                            spin_state_bd.setAdapter(stateAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        country = spinner_country.getSelectedItem().toString();
+
+        ServiceCalls.callAPI_togetStates(this, Request.Method.POST, Constants.GET_STATES, country, listener);
+    }
+
+    private void LoadCities_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("--OUTPUT CITY--", response);
+                Log.v("==city success==", response);
+                try {
+
+                    cityArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+                    JSONObject value_obj = obj.getJSONObject("value");
+                    JSONArray city_array = value_obj.getJSONArray("cities");
+
+                    for (int i = 0; i < city_array.length(); i++) {
+                        JSONObject json_data = city_array.getJSONObject(i);
+                        Log.i("log_tag", " city_name" + json_data.getString("city_name"));
+
+                        String city_name = city_array.getJSONObject(i).getString("city_name");
+
+                        if (status.equals("false")) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals("true")) {
+                            Log.v("CITIES", city_name);
+
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            cityList = new HashMap<String, String>();
+                            cityList.put("city_name", city_name);
+
+                            cityArrayList.add(cityList);
+
+                            cityAdapPROJ = new SimpleAdapter(PartnerTravelDetailsActivity.this, cityArrayList, R.layout.spinner_item,
+                                    new String[]{"id", "city_name"}, new int[]{R.id.Id, R.id.Name});
+                            spin_city_bd.setAdapter(cityAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        country = spinner_country.getSelectedItem().toString();
+        String state = spin_state_bd.getSelectedItem().toString();
+        state = state.replace("state_name=", "");
+        state = state.replaceAll("[\\[\\](){}]", "");
+
+        Log.v("country, state", country + state);
+        ServiceCalls.callAPI_togetCity(this, Request.Method.POST, Constants.GET_CITIES, country, state, listener);
     }
 
     private void way_filter() {
@@ -176,9 +311,9 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
                     case R.id.radio_partreturn:
                         showreturn();
                         break;
-                    case R.id.radio_international:
+                    /*case R.id.radio_international:
 
-                        break;
+                        break;*/
                 }
             }
         });
@@ -196,7 +331,7 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
     private void loadSpinners() {
         //spinner adapter for country
         ArrayAdapter<CharSequence> adapter_country = ArrayAdapter.createFromResource(this,
-                R.array.Country, android.R.layout.simple_spinner_item);
+                R.array.Countries, android.R.layout.simple_spinner_item);
         adapter_country.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_country.setAdapter(adapter_country);
     }
@@ -213,9 +348,9 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
                     case R.id.radio_partnerdomestic:
 
                         break;
-                    case R.id.radio_international:
+                    /*case R.id.radio_international:
 
-                        break;
+                        break;*/
                 }
             }
         });
@@ -229,7 +364,6 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
         else
             Toast.makeText(getApplicationContext(), "GPS is enabled!", Toast.LENGTH_LONG).show();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -268,16 +402,12 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
     private void validate_gotofriendsmenu() {
         // get values form edittexts
         street_address = editText_streetaddr.getText().toString();
-        city = editText_city.getText().toString();
-        state = editText_state.getText().toString();
         postal_code = editText_postalcode.getText().toString();
         minimum_tip = editText_minimumtip.getText().toString();
         country = spinner_country.getSelectedItem().toString();
 
         if (street_address.equals("") && postal_code.equals("") && minimum_tip.equals("")) {
             input_streetaddr.setError("street address is required");
-            input_city.setError("City is required");
-            input_state.setError("State is required");
             input_postalcode.setError("Postal code is required");
             input_minimumtip.setError("Minimum tip is required");
 
@@ -287,8 +417,8 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
         } else {
             /*Intent to_friends = new Intent(getApplicationContext(), FriendsMenuPartnerActivity.class);
             startActivity(to_friends);*/
-            //callServiceAPI();
-            callSmartyStreetForStreetValidation();
+            callServiceAPI();
+            //callSmartyStreetForStreetValidation();
         }
     }
 
@@ -296,7 +426,7 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
         progressDialog = ProgressDialog.show(PartnerTravelDetailsActivity.this, "Please wait ...", "Validating Address...", true);
         progressDialog.setCancelable(false);
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.SMARTY_STREETS_FOR_VALIDATION + "&street=" + editText_streetaddr.getText().toString() + "&city=" + editText_city.getText().toString() + "&state=" + editText_state.getText().toString() + "&zipcode=" + editText_postalcode.getText().toString() + "&candidates=1";
+        String url = Constants.SMARTY_STREETS_FOR_VALIDATION + "&street=" + editText_streetaddr.getText().toString() + "&city=" + "" + "&state=" + "" + "&zipcode=" + editText_postalcode.getText().toString() + "&candidates=1";
         Log.v("--SMARTY INPUTS--", url);
         url = url.replaceAll(" ", "%20");
         URL sourceUrl = null;
@@ -410,8 +540,12 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
 
                 String travel_country = spinner_country.getSelectedItem().toString().trim();
                 String travel_address = editText_streetaddr.getText().toString();
-                String travel_city = editText_city.getText().toString();
-                String travel_state = editText_state.getText().toString();
+                city = spin_city_bd.getSelectedItem().toString();
+                city = city.replace("city_name=", "");
+                city = city.replaceAll("[\\[\\](){}]", "");
+                state = spin_state_bd.getSelectedItem().toString();
+                state = state.replace("state_name=", "");
+                state = state.replaceAll("[\\[\\](){}]", "");
                 String travel_postal = editText_postalcode.getText().toString();
                 String tip = editText_minimumtip.getText().toString();
 
@@ -461,8 +595,8 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
                 params.put(Constants.KEY_RETURN_DATE, return_on);
                 params.put(Constants.KEY_DESTINATION_COUNTRY, travel_country);
                 params.put(Constants.KEY_DESTINATION_ADDRESS, travel_address);
-                params.put(Constants.KEY_DESTINATION_CITY, travel_city);
-                params.put(Constants.KEY_DESTINATION_STATE, travel_state);
+                params.put(Constants.KEY_DESTINATION_CITY, city);
+                params.put(Constants.KEY_DESTINATION_STATE, state);
                 params.put(Constants.KEY_DESTINATION_POSTAL, travel_postal);
                 params.put(Constants.KEY_TIP_FEE, tip);
                 params.put(Constants.KEY_OFFER, offer);
@@ -684,13 +818,13 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
             int month = monthOfYear + 1;
 
             if (month < 10 && dayOfMonth < 10) {
-                btndate_travelon.setText(year + "-" + "0" + month + "-" + "0" + dayOfMonth);
+                btndate_return.setText(year + "-" + "0" + month + "-" + "0" + dayOfMonth);
             } else if (month >= 10 && dayOfMonth < 10) {
-                btndate_travelon.setText(year + "-" + month + "-" + "0" + dayOfMonth);
+                btndate_return.setText(year + "-" + month + "-" + "0" + dayOfMonth);
             } else if (month < 10 && dayOfMonth > 10) {
-                btndate_travelon.setText(year + "-" + "0" + month + "-" + dayOfMonth);
+                btndate_return.setText(year + "-" + "0" + month + "-" + dayOfMonth);
             } else {
-                btndate_travelon.setText(year + "-" + month + "-" + dayOfMonth);
+                btndate_return.setText(year + "-" + month + "-" + dayOfMonth);
             }
         }
     };
@@ -713,8 +847,6 @@ public class PartnerTravelDetailsActivity extends AppCompatActivity implements V
             input_postalcode.setError(null);
         } else if (editable == editText_minimumtip.getEditableText()) {
             input_minimumtip.setError(null);
-        } else if (editable == editText_city.getEditableText()) {
-            input_city.setError(null);
         }
     }
 

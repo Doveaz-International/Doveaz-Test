@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">-->
+
+    <!--<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fifty_dp">
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_marginBottom="@dimen/forty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:background="@color/action_bar" />
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/buy_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/five_dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:src="@drawable/buy_deliver_icon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.doveazapp.Utils.CustomDoveazFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center"
+                    android:text="@string/buy"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/twenty_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center"
+                    android:text="@string/buy_desc"
+                    android:textColor="#000000" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/collection_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/five_dp"
+            android:layout_marginTop="@dimen/thirty_dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:src="@drawable/collect_icon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.doveazapp.Utils.CustomDoveazFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center"
+                    android:text="@string/collection"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/twenty_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center"
+                    android:text="@string/collection_desc"
+                    android:textColor="#000000" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/send_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/five_dp"
+            android:layout_marginTop="@dimen/thirty_dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:src="@drawable/send_icon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.doveazapp.Utils.CustomDoveazFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center"
+                    android:text="@string/send"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/twenty_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center"
+                    android:text="@string/send_desc"
+                    android:textColor="#000000" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--</LinearLayout>-->
+</LinearLayout>

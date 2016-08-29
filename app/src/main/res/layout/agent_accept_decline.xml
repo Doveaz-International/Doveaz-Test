@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.doveazapp.Utils.CustomDoveazFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:text="@string/one_order"
+        android:textSize="@dimen/twenty_dp" />
+
+    <com.doveazapp.Utils.CustomDoveazFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:text="@string/want_to_accept"
+        android:textSize="@dimen/twenty_dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/button_accept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:text="@string/accept"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+        <Button
+            android:id="@+id/button_decline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_weight="1"
+            android:background="@drawable/decline_round"
+            android:text="@string/decline"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+    </LinearLayout>
+</LinearLayout>

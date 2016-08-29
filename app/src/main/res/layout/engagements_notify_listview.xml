@@ -6,6 +6,31 @@
     android:background="#e2e4fe"
     tools:context=".Activities.CheckPartnerListActivity">
 
+    <LinearLayout
+        android:id="@+id/no_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img_no"
+            android:layout_width="@dimen/one_fifty_dp"
+            android:layout_height="@dimen/one_fifty_dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:src="@drawable/sad" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/thirty_five_dp"
+            android:gravity="center"
+            android:text="@string/no_new_updates"
+            android:textColor="@color/doveaz_blue"
+            android:textSize="@dimen/twenty_dp" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/engage_list"
         android:layout_width="fill_parent"

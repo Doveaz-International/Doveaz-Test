@@ -13,8 +13,8 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.doveazapp.Activities.AgentAcceptDeclineActivity;
 import com.doveazapp.Activities.MenuActivity;
-import com.doveazapp.Activities.WelcomePartnerActivity;
 import com.doveazapp.Constants;
 import com.doveazapp.R;
 import com.doveazapp.Utils.Config;
@@ -53,6 +53,7 @@ public class GCMNotificationIntentService extends IntentService {
         String email = user.get(SessionManager.KEY_EMAIL);
 
         Bundle extras = intent.getExtras();
+        String msg = intent.getStringExtra("message");
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
         String messageType = gcm.getMessageType(intent);
@@ -81,6 +82,7 @@ public class GCMNotificationIntentService extends IntentService {
 
                 sendNotification("Message: " + extras.get(Config.MESSAGE_KEY));
                 Log.i(TAG, "Received: " + extras.toString());
+
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
@@ -97,7 +99,8 @@ public class GCMNotificationIntentService extends IntentService {
         PendingIntent contentIntent = null;
         if (partner.equals(Constants.KEY_TYPE_PARTNER)) {
             contentIntent = PendingIntent.getActivity(this, 0,
-                    new Intent(this, WelcomePartnerActivity.class), 0);
+                    new Intent(this, AgentAcceptDeclineActivity.class), 0);
+
         } else if (partner.equals(Constants.KEY_TYPE_DELIVER)) {
             contentIntent = PendingIntent.getActivity(this, 0,
                     new Intent(this, MenuActivity.class), 0);

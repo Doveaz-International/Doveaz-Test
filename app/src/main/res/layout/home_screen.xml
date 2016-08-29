@@ -8,79 +8,80 @@
     android:orientation="vertical"
     tools:context=".Activities.HomeActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/thirty_dp"
-        android:src="@drawable/logo1" />
+     <ImageView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:layout_marginTop="@dimen/thirty_dp"
+         android:src="@drawable/logo1" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
+     <LinearLayout
+         android:layout_width="fill_parent"
+         android:layout_height="match_parent"
+         android:layout_gravity="center"
+         android:gravity="center"
+         android:orientation="vertical">
 
-        <!--<Button
-            android:id="@+id/main_tourbtn"
-            android:layout_width="@dimen/onetwenty_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/button_grey"
-            android:drawableLeft="@drawable/play"
-            android:gravity="center"
-            android:text="@string/takeatour"
-            android:textAllCaps="false"
-            android:textColor="@color/doveaz_blue" />-->
+         <!--<Button
+             android:id="@+id/main_tourbtn"
+             android:layout_width="@dimen/onetwenty_dp"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:background="@color/button_grey"
+             android:drawableLeft="@drawable/play"
+             android:gravity="center"
+             android:text="@string/takeatour"
+             android:textAllCaps="false"
+             android:textColor="@color/doveaz_blue" />-->
 
-        <com.doveazapp.Utils.CustomText
-            android:id="@+id/main_tourbtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/smart_deliver"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/twentyfive_dp" />
+         <com.doveazapp.Utils.CustomText
+             android:id="@+id/main_tourbtn"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:gravity="center"
+             android:text="@string/smart_deliver"
+             android:textAllCaps="false"
+             android:textColor="@color/white"
+             android:textSize="@dimen/twentyfive_dp" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/twentyfive_dp"
-            android:layout_marginRight="@dimen/twentyfive_dp"
-            android:layout_marginTop="@dimen/thirty_dp"
-            android:gravity="bottom"
-            android:orientation="vertical">
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_gravity="center"
+             android:layout_marginLeft="@dimen/twentyfive_dp"
+             android:layout_marginRight="@dimen/twentyfive_dp"
+             android:layout_marginTop="@dimen/thirty_dp"
+             android:gravity="bottom"
+             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/main_deliverybtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/home_screen_buttons"
-                android:padding="@dimen/five_dp"
-                android:text="@string/deliver_button"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/twentyfive_dp" />
+             <Button
+                 android:id="@+id/main_deliverybtn"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@drawable/home_screen_buttons"
+                 android:padding="@dimen/five_dp"
+                 android:text="@string/deliver_button"
+                 android:textAllCaps="false"
+                 android:textColor="@color/white"
+                 android:textSize="@dimen/twentyfive_dp" />
 
-            <Button
-                android:id="@+id/main_partnerbtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/twentyfive_dp"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:background="@drawable/home_screen_buttons"
-                android:padding="@dimen/five_dp"
-                android:text="@string/agent_button"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/twentyfive_dp" />
+             <Button
+                 android:id="@+id/main_partnerbtn"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="@dimen/twentyfive_dp"
+                 android:layout_marginTop="@dimen/twenty_dp"
+                 android:background="@drawable/home_screen_buttons"
+                 android:padding="@dimen/five_dp"
+                 android:text="@string/agent_button"
+                 android:textAllCaps="false"
+                 android:textColor="@color/white"
+                 android:textSize="@dimen/twentyfive_dp" />
 
-        </LinearLayout>
+         </LinearLayout>
 
-    </LinearLayout>
+     </LinearLayout>
+
 </LinearLayout>

@@ -30,17 +30,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.doveazapp.Analytics.MyApplication;
 import com.doveazapp.Constants;
 import com.doveazapp.Dialogs.DatePickerFragment;
@@ -54,10 +49,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,27 +75,38 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
     final int CAMERA_NO_CROP2 = 4;
     //Edittext
     EditText editText_fullname, editText_usrname, editText_pass,
-            editText_email, editText_street, editText_postal, editText_state, editText_city;
+            editText_email, editText_street, editText_postal;
     //spinners
     Spinner spinner_gender, spinner_university, spinner_employer, spinner_nationality;
-    Spinner spinner_country, spinner_state, spinner_city, spinner_area;
+    Spinner spinner_country, spin_state_bd, spin_city_bd;
     //textLayouts
     TextInputLayout input_fullname, input_username, input_password, input_email,
-            input_streetaddress, input_postalcode, input_state, input_city;
+            input_streetaddress, input_postalcode;
     //Img Buttons
-    ImageButton captureBtn, Proof1, Proof2;
+    ImageButton captureBtn;
     //Img views
-    ImageView picView, proof_pic1, proof_pic2;
+    ImageView picView;
     //Buttons
     Button btn_done, btn_pickdate;
     String full_name, username, password, email, street, postal, gender, university, profession, nationality, country, city, state;
-    Bitmap thePic, proof1, proof2;
+    Bitmap thePic;
     //Progress dialog
     ProgressDialog progressDialog;
     TextView text_cc, text_mob, text_tc;
     String CC_fromnewuser, mobile_numfromnewuser, user_type;
     String be_a_partner = null;
     CheckBox check_termsandcond;
+
+    ArrayList<HashMap<String, String>> stateArrayList = null;
+
+    ArrayList<HashMap<String, String>> cityArrayList = null;
+
+    HashMap<String, String> stateList;
+
+    HashMap<String, String> cityList;
+
+    SimpleAdapter stateAdapPROJ, cityAdapPROJ;
+
 
     DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -150,8 +156,8 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
 
         // retrieve a reference to the UI button
         captureBtn = (ImageButton) findViewById(R.id.picture);
-        Proof1 = (ImageButton) findViewById(R.id.proof1);
-        Proof2 = (ImageButton) findViewById(R.id.proof2);
+        /*Proof1 = (ImageButton) findViewById(R.id.proof1);
+        Proof2 = (ImageButton) findViewById(R.id.proof2);*/
 
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.user_img_upload);
 
@@ -160,8 +166,8 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         captureBtn.setImageBitmap(graphicUtil.getCircleBitmap(bm, 16));
         // handle button click
         captureBtn.setOnClickListener(this);
-        Proof1.setOnClickListener(this);
-        Proof2.setOnClickListener(this);
+        /*Proof1.setOnClickListener(this);
+        Proof2.setOnClickListener(this);*/
 
         // input layout for validation
         input_fullname = (TextInputLayout) findViewById(R.id.input_fullname);
@@ -171,9 +177,6 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         //input_presentaddr = (TextInputLayout) findViewById(R.id.input_presentaddr);
         input_streetaddress = (TextInputLayout) findViewById(R.id.input_streetaddress);
         input_postalcode = (TextInputLayout) findViewById(R.id.input_postalcode);
-        input_state = (TextInputLayout) findViewById(R.id.input_state);
-        input_city = (TextInputLayout) findViewById(R.id.input_city);
-        //input_area = (TextInputLayout) findViewById(R.id.input_area);
         text_tc = (TextView) findViewById(R.id.text_tc);
         check_termsandcond = (CheckBox) findViewById(R.id.check_termsandcond);
 
@@ -185,19 +188,15 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         //editText_presentaddr = (EditText) findViewById(R.id.edit_presentaddr);
         editText_street = (EditText) findViewById(R.id.edit_streetaddress);
         editText_postal = (EditText) findViewById(R.id.edit_postalcode);
-        editText_state = (EditText) findViewById(R.id.edit_state);
-        editText_city = (EditText) findViewById(R.id.edit_city);
-        //editText_area = (EditText) findViewById(R.id.edit_area);
 
         //spinner init
-        spinner_gender = (Spinner) findViewById(R.id.spin_gender);
+        /*spinner_gender = (Spinner) findViewById(R.id.spin_gender);
         spinner_university = (Spinner) findViewById(R.id.spin_university);
         spinner_employer = (Spinner) findViewById(R.id.spin_employer);
-        spinner_nationality = (Spinner) findViewById(R.id.spin_nationality);
+        spinner_nationality = (Spinner) findViewById(R.id.spin_nationality);*/
         spinner_country = (Spinner) findViewById(R.id.spin_country);
-        /*spinner_state = (Spinner) findViewById(R.id.spin_state);
-        spinner_city = (Spinner) findViewById(R.id.spin_city);
-        spinner_area = (Spinner) findViewById(R.id.spin_area);*/
+        spin_state_bd = (Spinner) findViewById(R.id.spin_state_bd);
+        spin_city_bd = (Spinner) findViewById(R.id.spin_city_bd);
 
         //button init
         btn_done = (Button) findViewById(R.id.button_done);
@@ -217,17 +216,17 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         editText_postal.addTextChangedListener(this);
 
         //for spinners
-        spinner_gender.setOnItemSelectedListener(this);
+        /*spinner_gender.setOnItemSelectedListener(this);
         spinner_university.setOnItemSelectedListener(this);
         spinner_employer.setOnItemSelectedListener(this);
         spinner_nationality.setOnItemSelectedListener(this);
-        spinner_country.setOnItemSelectedListener(this);
+        spinner_country.setOnItemSelectedListener(this);*/
         text_tc.setOnClickListener(this);
 
         //ImageView
         picView = (ImageView) findViewById(R.id.picture);
-        proof_pic1 = (ImageView) findViewById(R.id.proof1);
-        proof_pic2 = (ImageView) findViewById(R.id.proof2);
+        /*proof_pic1 = (ImageView) findViewById(R.id.proof1);
+        proof_pic2 = (ImageView) findViewById(R.id.proof2);*/
 
         //checkbox
         //check_bepartner = (CheckBox) findViewById(R.id.check_bepartner);
@@ -246,7 +245,131 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
             /*text_cc.setText(CC_fromnewuser);
             text_mob.setText(mobile_numfromnewuser);*/
         }
+        spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Loadstates_fromAPI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spin_state_bd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                LoadCities_fromAPI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         LoadSpinners();
+    }
+
+    private void Loadstates_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("--OUTPUT STATE--", response);
+                Log.v("==state success==", response);
+                // response will be like {"status":"false","value":"Username\/Password Incorrect"}
+                try {
+
+                    stateArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+                    JSONObject value_obj = obj.getJSONObject("value");
+                    JSONArray states_array = value_obj.getJSONArray("states");
+
+                    for (int i = 0; i < states_array.length(); i++) {
+                        JSONObject json_data = states_array.getJSONObject(i);
+                        Log.i("log_tag", " state_name" + json_data.getString("state_name"));
+
+                        String state_name = states_array.getJSONObject(i).getString("state_name");
+
+                        if (status.equals("false")) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals("true")) {
+                            Log.v("STATES", state_name);
+
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            stateList = new HashMap<String, String>();
+                            stateList.put("state_name", state_name);
+
+                            stateArrayList.add(stateList);
+
+                            stateAdapPROJ = new SimpleAdapter(RegisterActivity.this, stateArrayList, R.layout.spinner_item,
+                                    new String[]{"id", "state_name"}, new int[]{R.id.Id, R.id.Name});
+                            spin_state_bd.setAdapter(stateAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        country = spinner_country.getSelectedItem().toString();
+
+        ServiceCalls.callAPI_togetStates(this, Request.Method.POST, Constants.GET_STATES, country, listener);
+    }
+
+    private void LoadCities_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("--OUTPUT CITY--", response);
+                Log.v("==city success==", response);
+                try {
+
+                    cityArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+                    JSONObject value_obj = obj.getJSONObject("value");
+                    JSONArray city_array = value_obj.getJSONArray("cities");
+
+                    for (int i = 0; i < city_array.length(); i++) {
+                        JSONObject json_data = city_array.getJSONObject(i);
+                        Log.i("log_tag", " city_name" + json_data.getString("city_name"));
+
+                        String city_name = city_array.getJSONObject(i).getString("city_name");
+
+                        if (status.equals("false")) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals("true")) {
+                            Log.v("CITIES", city_name);
+
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            cityList = new HashMap<String, String>();
+                            cityList.put("city_name", city_name);
+
+                            cityArrayList.add(cityList);
+
+                            cityAdapPROJ = new SimpleAdapter(RegisterActivity.this, cityArrayList, R.layout.spinner_item,
+                                    new String[]{"id", "city_name"}, new int[]{R.id.Id, R.id.Name});
+                            spin_city_bd.setAdapter(cityAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        country = spinner_country.getSelectedItem().toString();
+        String state = spin_state_bd.getSelectedItem().toString();
+        state = state.replace("state_name=", "");
+        state = state.replaceAll("[\\[\\](){}]", "");
+
+        Log.v("country, state", country + state);
+        ServiceCalls.callAPI_togetCity(this, Request.Method.POST, Constants.GET_CITIES, country, state, listener);
     }
 
     /**
@@ -254,7 +377,7 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
      */
     private void LoadSpinners() {
         // Spinner for gender
-        ArrayAdapter<CharSequence> adapter_gender = ArrayAdapter.createFromResource(this,
+        /*ArrayAdapter<CharSequence> adapter_gender = ArrayAdapter.createFromResource(this,
                 R.array.Gender, android.R.layout.simple_spinner_item);
         adapter_gender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_gender.setAdapter(adapter_gender);
@@ -275,11 +398,11 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         ArrayAdapter<CharSequence> adapter_nationality = ArrayAdapter.createFromResource(this,
                 R.array.Nationality, android.R.layout.simple_spinner_item);
         adapter_nationality.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_nationality.setAdapter(adapter_nationality);
+        spinner_nationality.setAdapter(adapter_nationality);*/
 
         //spinner adapter for country
         ArrayAdapter<CharSequence> adapter_country = ArrayAdapter.createFromResource(this,
-                R.array.Country, android.R.layout.simple_spinner_item);
+                R.array.Countries, android.R.layout.simple_spinner_item);
         adapter_country.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_country.setAdapter(adapter_country);
     }
@@ -291,12 +414,12 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         if (v == captureBtn) {
             cameraAction();
         }
-        if (v == Proof1) {
+        /*if (v == Proof1) {
             cameraAction1();
         }
         if (v == Proof2) {
             cameraAction2();
-        }
+        }*/
         if (v == btn_done) {
             validateForm();
         }
@@ -428,15 +551,13 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         //present_address = editText_presentaddr.getText().toString();
         street = editText_street.getText().toString();
         postal = editText_postal.getText().toString();
-        gender = spinner_gender.getSelectedItem().toString().trim();
+       /* gender = spinner_gender.getSelectedItem().toString().trim();
         university = spinner_university.getSelectedItem().toString().trim();
         profession = spinner_employer.getSelectedItem().toString().trim();
-        nationality = spinner_nationality.getSelectedItem().toString().trim();
+        nationality = spinner_nationality.getSelectedItem().toString().trim();*/
         country = spinner_country.getSelectedItem().toString().trim();
-        state = editText_state.getText().toString();
-        city = editText_city.getText().toString();
 
-        if (full_name.equals("") && username.equals("") && password.equals("") && email.equals("") && street.equals("") && postal.equals("") && state.equals("") && city.equals("")) {
+        if (full_name.equals("") && username.equals("") && password.equals("") && email.equals("") && street.equals("") && postal.equals("")) {
 
             input_fullname.setError("You should enter fullname");
             input_username.setError("You should enter username");
@@ -445,11 +566,9 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
             //input_presentaddr.setError("Present Address is required");
             input_streetaddress.setError("Street Address is required");
             input_postalcode.setError("Postal code is required");
-            input_city.setError("Please enter your city");
-            input_state.setError("Please enter your state");
         } else if (!isValidEmail(email)) {
             input_email.setError("Please enter valid email ID");
-        } else if (gender.equals("--Select--")) {
+        } /*else if (gender.equals("--Select--")) {
             Toast.makeText(getApplicationContext(), "Please select the gender", Toast.LENGTH_LONG).show();
         } else if (university.equals("--Select--")) {
             Toast.makeText(getApplicationContext(), "Please select your Education", Toast.LENGTH_LONG).show();
@@ -457,7 +576,7 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
             Toast.makeText(getApplicationContext(), "Please select your profession", Toast.LENGTH_LONG).show();
         } else if (nationality.equals("--Select--")) {
             Toast.makeText(getApplicationContext(), "Please select your nationality", Toast.LENGTH_LONG).show();
-        } else if (country.equals("--Select--")) {
+        }*/ else if (country.equals("--Select--")) {
             Toast.makeText(getApplicationContext(), "Please select your country", Toast.LENGTH_LONG).show();
         } else if (!check_termsandcond.isChecked()) {
             Toast.makeText(getApplicationContext(), "Please accept the Terms & Conditions", Toast.LENGTH_LONG).show();
@@ -466,79 +585,6 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
             CallSignUpAPI();
             // Toast.makeText(getApplicationContext(), "DONE", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void callSmartyStreetForStreetValidation() {
-        progressDialog = ProgressDialog.show(RegisterActivity.this, "Please wait ...", "Validating Address...", true);
-        progressDialog.setCancelable(false);
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.SMARTY_STREETS_FOR_VALIDATION + "&street=" + editText_street.getText().toString() + "&city=" + editText_city.getText().toString() + "&state=" + editText_state.getText().toString() + "&zipcode=" + editText_postal.getText().toString() + "&candidates=1";
-        Log.v("--SMARTY INPUTS--", url);
-        url = url.replaceAll(" ", "%20");
-        URL sourceUrl = null;
-        try {
-            sourceUrl = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, sourceUrl.toString(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        progressDialog.dismiss();
-                        Log.v("==Login success==", response);
-                        //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                        try {
-                            JSONArray obj = new JSONArray(response);
-                            if (obj.toString().equals("[]")) {
-                                progressDialog.dismiss();
-                                Toast.makeText(RegisterActivity.this, "Invalid Address contact support", Toast.LENGTH_LONG).show();
-                            } else {
-                                //Registration process
-                                progressDialog.dismiss();
-                                CallSignUpAPI();
-                            }
-                        } catch (JSONException exception) {
-                            Log.e("--JSON EXCEPTION--", exception.toString());
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                        Log.v("==Login Failed==", error.toString());
-                    }
-                }) {
-           /* @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(Constants.KEY_EMAIL, user_name.getText().toString());
-                params.put(Constants.KEY_PASSWORD, password.getText().toString());
-                return params;
-            }*/
-
-        };
-        stringRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 500000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 500000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
     }
 
     private void CallSignUpAPI() {
@@ -578,13 +624,17 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         //String pressent_address = editText_presentaddr.getText().toString().trim();
         String street_address = editText_street.getText().toString().trim();
         String postal_code = editText_postal.getText().toString().trim();
-        String gender = spinner_gender.getSelectedItem().toString().trim();
+       /* String gender = spinner_gender.getSelectedItem().toString().trim();
         String edu = spinner_university.getSelectedItem().toString().trim();
         String profession = spinner_employer.getSelectedItem().toString().trim();
-        String nationality = spinner_nationality.getSelectedItem().toString().trim();
+        String nationality = spinner_nationality.getSelectedItem().toString().trim();*/
         String country = spinner_country.getSelectedItem().toString().trim();
-        String state = editText_state.getText().toString().trim();
-        String city = editText_city.getText().toString().trim();
+        city = spin_city_bd.getSelectedItem().toString();
+        city = city.replace("city_name=", "");
+        city = city.replaceAll("[\\[\\](){}]", "");
+        state = spin_state_bd.getSelectedItem().toString();
+        state = state.replace("state_name=", "");
+        state = state.replaceAll("[\\[\\](){}]", "");
         //String area = editText_area.getText().toString().trim();
         String date = btn_pickdate.getText().toString();
 
@@ -607,14 +657,7 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         String img_proof2 = null;
         String img_profile = null;
 
-        if (thePic != null) {
-            img_profile = getStringImage(thePic);
-        } else {
-            Toast.makeText(getApplicationContext(), "Please select the profile picture from gallery or camera", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if (proof1 != null) {
+        /*if (proof1 != null) {
             img_proof1 = getStringImage(proof1);
         } else {
             Toast.makeText(getApplicationContext(), "Please select proof from gallery or from camera", Toast.LENGTH_LONG).show();
@@ -626,11 +669,23 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
         } else {
             Toast.makeText(getApplicationContext(), "Please select Image from gallery or from camera", Toast.LENGTH_LONG).show();
             return;
+        }*/
+
+        /*ServiceCalls.Call_api_toRegister(this, Request.Method.POST, Constants.REGISTER_URL, listener, fullname, username,
+                email, password, gender, date, state, city, "area", country, street_address, be_a_partner,
+                nationality, edu, profession, "presentaddress", img_proof1, img_proof2, postal_code, mobile_numfromnewuser, CC_fromnewuser, img_profile);*/
+
+        if (thePic != null) {
+            img_profile = getStringImage(thePic);
+            ServiceCalls.Call_api_toRegister(this, Request.Method.POST, Constants.REGISTER_URL, listener, fullname, username,
+                    email, password, date, state, city, "area", country, street_address, be_a_partner,
+                    "presentaddress", postal_code, mobile_numfromnewuser, CC_fromnewuser, img_profile);
+        } else {
+            ServiceCalls.Call_api_toRegister1(this, Request.Method.POST, Constants.REGISTER_URL, listener, fullname, username,
+                    email, password, date, state, city, "area", country, street_address, be_a_partner,
+                    "presentaddress", postal_code, mobile_numfromnewuser, CC_fromnewuser);
         }
 
-        ServiceCalls.Call_api_toRegister(this, Request.Method.POST, Constants.REGISTER_URL, listener, fullname, username,
-                email, password, gender, date, state, city, "area", country, street_address, be_a_partner,
-                nationality, edu, profession, "presentaddress", img_proof1, img_proof2, postal_code, mobile_numfromnewuser, CC_fromnewuser, img_profile);
     }
 
     // validating email id
@@ -664,9 +719,9 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
                 // get the returned data
                 Bundle extras = data.getExtras();
                 // get the cropped bitmap
-                proof2 = extras.getParcelable("data");
+               /* proof2 = extras.getParcelable("data");
 
-                proof_pic1.setImageBitmap(proof2);
+                proof_pic1.setImageBitmap(proof2);*/
             }
 
             if (requestCode == CAMERA_NO_CROP2) {
@@ -676,9 +731,9 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
                 // get the returned data
                 Bundle extras = data.getExtras();
                 // get the cropped bitmap
-                proof1 = extras.getParcelable("data");
+                /*proof1 = extras.getParcelable("data");
 
-                proof_pic2.setImageBitmap(proof1);
+                proof_pic2.setImageBitmap(proof1);*/
             }
             if (requestCode == CAMERA_CAPTURE) {
                 // get the Uri for the captured image
@@ -771,10 +826,6 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
             input_streetaddress.setError(null);
         } else if (editable == editText_postal.getEditableText()) {
             input_postalcode.setError(null);
-        } else if (editable == editText_city.getEditableText()) {
-            input_city.setError(null);
-        } else if (editable == editText_state.getEditableText()) {
-            input_state.setError(null);
         }
     }
 
@@ -810,14 +861,14 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
-            case R.id.spin_gender:
+           /* case R.id.spin_gender:
                 break;
             case R.id.spin_university:
                 break;
             case R.id.spin_employer:
                 break;
             case R.id.spin_nationality:
-                break;
+                break;*/
             case R.id.spin_country:
                 break;
             default:

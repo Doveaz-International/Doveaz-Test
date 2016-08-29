@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/doveaz_blue" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/two_dp"
+            android:layout_marginTop="@dimen/two_dp"
+            android:gravity="center"
+            android:text="@string/update_ur_location"
+            android:textColor="@color/doveaz_blue"
+            android:textSize="@dimen/twenty_dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/doveaz_blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/five_dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/five_dp"
+            android:layout_weight="1"
+            android:background="@color/doveaz_orange"
+            android:text="Pickup Address"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/doveaz_orange"
+            android:text="Final"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/five_dp">
+
+        <TextView
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Majestic(1)"
+            android:textColor="@color/doveaz_blue"
+            android:textSize="@dimen/twenty_dp" />
+    </LinearLayout>
+
+</LinearLayout>

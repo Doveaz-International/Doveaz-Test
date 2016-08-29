@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
+ * MywalletActivity.java
  * Created by Karthik on 2016/02/05.
  */
 public class MywalletActivity extends AppCompatActivity implements View.OnClickListener {

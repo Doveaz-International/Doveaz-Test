@@ -1,8 +1,10 @@
 package com.doveazapp.Activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -30,6 +32,7 @@ import com.android.volley.Request;
 import com.doveazapp.Analytics.MyApplication;
 import com.doveazapp.Constants;
 import com.doveazapp.GcmClasses.ShareExternalServer;
+import com.doveazapp.GettersSetters.AddressInfo;
 import com.doveazapp.GettersSetters.MileStone;
 import com.doveazapp.Interface.OnRequestCompletedListener;
 import com.doveazapp.R;
@@ -45,12 +48,13 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 /**
+ * CongratsFinalActivity.java
  * Created by Karthik on 11/25/2015.
  */
 public class CongratsFinalActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btn_upload_bill, btn_upload_item_image, check_status, btn_transfer_credit,
-            btn_confirm, check_status1, check_status2, credits_final;
+            btn_confirm, check_status1, check_status2, credits_final, delivery_address, item_details;
 
     // Session Manager Class
     SessionManager session;
@@ -106,6 +110,8 @@ public class CongratsFinalActivity extends AppCompatActivity implements View.OnC
         check_status2 = (Button) findViewById(R.id.check_status2);
         credits_final = (Button) findViewById(R.id.credits_final);
         //button_refresh = (Button) findViewById(R.id.button_refresh);
+        delivery_address = (Button) findViewById(R.id.delivery_address);
+        item_details = (Button) findViewById(R.id.item_details);
 
         //Views
         credit_layout = (LinearLayout) findViewById(R.id.credit_layout);
@@ -148,6 +154,8 @@ public class CongratsFinalActivity extends AppCompatActivity implements View.OnC
         check_status2.setOnClickListener(this);
         credits_final.setOnClickListener(this);
         //button_refresh.setOnClickListener(this);
+        delivery_address.setOnClickListener(this);
+        item_details.setOnClickListener(this);
 
         session = new SessionManager(getApplicationContext());
 
@@ -294,6 +302,139 @@ public class CongratsFinalActivity extends AppCompatActivity implements View.OnC
        /* if (v == button_refresh){
             refreshMilestone();
         }*/
+        if (v == delivery_address) {
+            CallAPI_toget_delivery_Address();
+        }
+        if (v == item_details) {
+            CallAPI_toget_item_Details();
+        }
+    }
+
+    private void CallAPI_toget_item_Details() {
+        progressDialog = ProgressDialog.show(CongratsFinalActivity.this, "Please wait ...", "Requesting...", true);
+        progressDialog.setCancelable(false);
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("OUTPUT item_Details", response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+
+                    JSONObject value_obj = obj.getJSONObject("value");
+                    JSONArray delivery_address = value_obj.getJSONArray("item_details");
+
+                    for (int i = 0; i < delivery_address.length(); i++) {
+                        if (status.equals("false")) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals("true")) {
+                            progressDialog.dismiss();
+                        /*{"status":"true","value":{"item_details":[{"item_description":"document "}]}}*/
+                            AddressInfo addressInfo = new AddressInfo();
+                            JSONObject jsonobject = delivery_address.getJSONObject(i);
+
+                            addressInfo.setItem_details(jsonobject.getString(Constants.KEY_ITEM_DETAILS));
+
+                            AlertDialog alertDialog = new AlertDialog.Builder(CongratsFinalActivity.this).create();
+                            alertDialog.setTitle("Item Details");
+                            alertDialog.setMessage(addressInfo.getItem_details());
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+
+                        }
+                    }
+                } catch (JSONException exception) {
+                    progressDialog.dismiss();
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        //  Toast.makeText(getApplicationContext(), rate, Toast.LENGTH_LONG).show();
+        ServiceCalls.CallAPI_to_getDeliveryAddress(this, Request.Method.POST, Constants.GET_ITEM_DETAILS, listener, reference_id, api_token);
+    }
+
+    private void CallAPI_toget_delivery_Address() {
+        progressDialog = ProgressDialog.show(CongratsFinalActivity.this, "Please wait ...", "Requesting...", true);
+        progressDialog.setCancelable(false);
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("OUTPUT DELIVER", response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+
+                    JSONObject value_obj = obj.getJSONObject("value");
+                    JSONArray delivery_address = value_obj.getJSONArray("delivery_address");
+
+                    for (int i = 0; i < delivery_address.length(); i++) {
+                        if (status.equals("false")) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals("true")) {
+                            progressDialog.dismiss();
+                        /*{"status":"true","value":{"delivery_address":[{"delivery_address":"100 wilson garden ",
+                        "delivery_city":"Bangalore ","delivery_state":"ka","delivery_country":"India","delivery_postalcode":"560027"}]}}*/
+                            final AddressInfo addressInfo = new AddressInfo();
+                            JSONObject jsonobject = delivery_address.getJSONObject(i);
+
+                            addressInfo.setDelivery_address(jsonobject.getString(Constants.KEY_DELIVERY_ADDRESS));
+                            addressInfo.setDelivery_city(jsonobject.getString(Constants.KEY_DELIVERY_CITY));
+                            addressInfo.setDelivery_state(jsonobject.getString(Constants.KEY_DELIVERY_STATE));
+                            addressInfo.setDelivery_country(jsonobject.getString(Constants.KEY_DELIVERY_COUNTRY));
+                            addressInfo.setDelivery_postalcode(jsonobject.getString(Constants.KEY_DELIVERY_POSTAL));
+
+                            AlertDialog alertDialog = new AlertDialog.Builder(CongratsFinalActivity.this).create();
+                            alertDialog.setTitle("Delivery Address");
+                            alertDialog.setMessage("Street: " + addressInfo.getDelivery_address() + "\n" +
+                                    "City: " + addressInfo.getDelivery_city() + "\n" +
+                                    "State: " + addressInfo.getDelivery_state() + "\n" +
+                                    "Postalcode: " + addressInfo.getDelivery_postalcode() + "\n" +
+                                    "Country: " + addressInfo.getDelivery_country());
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Navigate",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String directionweburl = "http://maps.google.co.in/maps?q=" + addressInfo.getDelivery_address() + addressInfo.getDelivery_city() +
+                                                    addressInfo.getDelivery_state() + addressInfo.getDelivery_postalcode() + addressInfo.getDelivery_country();
+                                            Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(directionweburl));
+                                            myIntent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                                            startActivity(myIntent);
+                                        }
+                                    });
+                            alertDialog.show();
+                        }
+                    }
+                } catch (JSONException exception) {
+                    progressDialog.dismiss();
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        //  Toast.makeText(getApplicationContext(), rate, Toast.LENGTH_LONG).show();
+        ServiceCalls.CallAPI_to_getDeliveryAddress(this, Request.Method.POST, Constants.GET_DELIVERY_ADDRESS, listener, reference_id, api_token);
     }
 
     private void CallAPI_to_uploadBCimg() {

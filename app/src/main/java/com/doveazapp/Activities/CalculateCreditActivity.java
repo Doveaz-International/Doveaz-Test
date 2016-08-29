@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
+ * CalculateCreditActivity.java
  * Created by Karthik on 2015/12/23.
  */
 public class CalculateCreditActivity extends AppCompatActivity implements View.OnClickListener {
@@ -107,14 +108,14 @@ public class CalculateCreditActivity extends AppCompatActivity implements View.O
                 Log.v("--OUTPUT CALCULATION--", response);
                 try {
                     JSONObject obj = new JSONObject(response);
-                    final String status = obj.getString("status");
-                    final String value = obj.getString("value");
-                    JSONObject fee_object = obj.getJSONObject("value");
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject fee_object = obj.getJSONObject(Constants.KEY_VALUE);
                     String fee = fee_object.getString("credit");
 
-                    if (status.equals("false")) {
+                    if (status.equals(Constants.KEY_FALSE)) {
                         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
-                    } else if (status.equals("true")) {
+                    } else if (status.equals(Constants.KEY_TRUE)) {
                         //Toast.makeText(getApplicationContext(), fee, Toast.LENGTH_SHORT).show();
                         if (fee != null) {
                             text_fee.setText(fee);
@@ -233,16 +234,16 @@ public class CalculateCreditActivity extends AppCompatActivity implements View.O
                     Log.v("--OUTPUT SAVE CONTACT--", response);
                     try {
                         JSONObject obj = new JSONObject(response);
-                        final String status = obj.getString("status");
-                        final String value = obj.getString("value");
+                        final String status = obj.getString(Constants.KEY_STATUS);
+                        final String value = obj.getString(Constants.KEY_VALUE);
                 /*JSONObject fee_object = obj.getJSONObject("value");
                 String fee = fee_object.getString("credit");*/
 
-                        if (status.equals("false")) {
+                        if (status.equals(Constants.KEY_FALSE)) {
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                             to_friendsMenu();
-                        } else if (status.equals("true")) {
+                        } else if (status.equals(Constants.KEY_TRUE)) {
                             progressDialog.dismiss();
                             //Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                             to_friendsMenu();

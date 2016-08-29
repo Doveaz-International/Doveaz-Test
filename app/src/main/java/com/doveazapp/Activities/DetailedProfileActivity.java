@@ -24,6 +24,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import java.util.HashMap;
 
 /**
+ * DetailedProfileActivity.java
  * Created by Karthik on 2016/01/09.
  */
 public class DetailedProfileActivity extends AppCompatActivity {

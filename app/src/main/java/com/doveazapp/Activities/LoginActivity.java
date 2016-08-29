@@ -26,6 +26,7 @@ import com.doveazapp.Interface.OnRequestCompletedListener;
 import com.doveazapp.R;
 import com.doveazapp.Utils.Config;
 import com.doveazapp.Utils.SessionManager;
+import com.doveazapp.Utils.Utils;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -38,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * LoginActivity.java
  * Created by Karthik on 11/16/2015.
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
@@ -60,9 +62,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     SessionManager session;
 
     //STORE LAST ENTERED EMAIL ID
-    private static final String PREFS_NAME = "preferences";
-
-    private static final String PREF_UNAME = "Username";
 
     private final String DefaultUnameValue = "";
 
@@ -128,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             input_layout_username.setError(Constants.KEY_MAILID_VALIDATE);
         } else if (!isValidPassword(pass)) {
             input_layout_password.setError(Constants.KEY_PASSWORD_VALIDATE);
-        } else if (!BaseActivity.CommonClass.isNetworkAvailable(LoginActivity.this)) {
+        } else if (!Utils.isOnline(LoginActivity.this)) {
             Toast.makeText(getApplicationContext(), "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
         } else {
             LoginRequestAPI();
@@ -139,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * LOGIN API CALLS THE FUNCTION IN SERVICE CALLS (callAPI_toLogin)
      */
     private void LoginRequestAPI() {
-        progressDialog = ProgressDialog.show(LoginActivity.this, Constants.KEY_PLEASE_WAIT, Constants.KEY_LOADING, true);
+        progressDialog = ProgressDialog.show(LoginActivity.this, Constants.PLEASE_WAIT, Constants.LOADING, true);
         progressDialog.setCancelable(false);
         final OnRequestCompletedListener listener = new OnRequestCompletedListener() {
             @Override
@@ -148,18 +147,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 progressDialog.dismiss();
                 try {
                     JSONObject obj = new JSONObject(response);
-                    final String status = obj.getString("status");
-                    final String value = obj.getString("value");
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
 
-                    if (status.equals("false")) {
+                    if (status.equals(Constants.KEY_FALSE)) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
-                    } else if (status.equals("true")) {
+                    } else if (status.equals(Constants.KEY_TRUE)) {
                         progressDialog.dismiss();
                         Log.v("Login", value.toString());
                         // Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
-                        JSONObject login_response = obj.getJSONObject("value");
-                        JSONArray jsonArray = login_response.getJSONArray("user");
+                        JSONObject login_response = obj.getJSONObject(Constants.KEY_VALUE);
+                        JSONArray jsonArray = login_response.getJSONArray(Constants.KEY_USER);
 
                         for (int j = 0; j < jsonArray.length(); j++) {
                             JSONObject jobj = jsonArray.getJSONObject(j);
@@ -171,15 +170,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             String userid = jobj.getString(Constants.KEY_USER_ID);
                             String u_name = jobj.getString(Constants.KEY_FULLNAME);
                             String cc_iso = jobj.getString(Constants.KEY_COUNTRY_CODE_ISO);
+                            String phone_number = jobj.getString(Constants.KEY_PHONE);
                             Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
                             if (partner.equals(Constants.KEY_TYPE_PARTNER)) {
                                 //SAVING SESSIONS TO SHARED PREFERENCES
 
-                                session.createLoginSession(email, api_token, partner, userid, u_name, cc_iso);
+                                session.createLoginSession(email, api_token, partner, userid, u_name, cc_iso, phone_number);
                                 to_partnerMenu();
                             } else if (partner.equals(Constants.KEY_TYPE_DELIVER)) {
                                 //SAVING SESSIONS TO SHARED PREFERENCES
-                                session.createLoginSession(email, api_token, partner, userid, u_name, cc_iso);
+                                session.createLoginSession(email, api_token, partner, userid, u_name, cc_iso, phone_number);
                                 to_deliveryMenu();
                             }
                         }
@@ -223,7 +223,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void to_partnerMenu() {
-        Intent to_menuPartner = new Intent(getApplicationContext(), WelcomePartnerActivity.class);
+        Intent to_menuPartner = new Intent(getApplicationContext(), AgentLocationActivity.class);
         startActivity(to_menuPartner);
     }
 
@@ -364,23 +364,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //STORE LAST ENTERED EMAIL ID
     private void savePreferences() {
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME,
+        SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         // Edit and commit
         UnameValue = user_name.getText().toString();
         System.out.println("onPause save name: " + UnameValue);
-        editor.putString(PREF_UNAME, UnameValue);
+        editor.putString(Constants.PREF_UNAME, UnameValue);
         editor.commit();
     }
 
     //STORE LAST ENTERED EMAIL ID
     private void loadPreferences() {
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME,
+        SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME,
                 Context.MODE_PRIVATE);
         // Get value
-        UnameValue = settings.getString(PREF_UNAME, DefaultUnameValue);
+        UnameValue = settings.getString(Constants.PREF_UNAME, DefaultUnameValue);
         user_name.setText(UnameValue);
         System.out.println("onResume load name: " + UnameValue);
     }

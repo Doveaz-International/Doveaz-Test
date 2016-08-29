@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
+ * FriendsMenuPartnerActivity.java
  * Created by Karthik on 11/25/2015.
  */
 public class FriendsMenuPartnerActivity extends AppCompatActivity implements View.OnClickListener {

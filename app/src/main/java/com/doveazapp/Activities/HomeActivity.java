@@ -11,6 +11,11 @@ import com.doveazapp.Analytics.MyApplication;
 import com.doveazapp.R;
 import com.google.android.gms.analytics.GoogleAnalytics;
 
+/**
+ * HomeActivity.java
+ * Created by Karthik on 11/25/2015.
+ */
+
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button to_delivery, to_partner;
@@ -94,8 +99,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(to_login);
         }
        /* if (view == to_takeatour) {
-            Intent to_videoview = new Intent(getApplicationContext(), TakeTourVideo.class);
-            startActivity(to_videoview);
+
         }*/
     }
 

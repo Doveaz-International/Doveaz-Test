@@ -12,5 +12,6 @@
     <color name="action_bar">#009899</color>
     <color name="red">#cc0000</color>
     <color name="green">#2FAB24</color>
-
+    <color name="new_bg">#eeeedd</color>
+    <color name="dialog_bg">#c8c8c8</color>
 </resources>

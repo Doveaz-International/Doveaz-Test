@@ -81,51 +81,19 @@ public class AlertDialogs {
         alertbox.show();
     }
 
-   /* public static void AcceptBack(final Activity activity) {
-        final AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
-        alertbox.setTitle("Alert!");
-        alertbox.setMessage("Your current service process will be cancelled!");
-        alertbox.setPositiveButton("OK", new
-                DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        // Session Manager Class
-                        AcceptCreditActivity acceptCreditActivity;
-                        activity.finish();
-                        // Session class instance
-                        acceptCreditActivity = new AcceptCreditActivity(activity);
-                        acceptCreditActivity.goto_home();
-                    }
-                });
-        alertbox.setNegativeButton("CANCEL", new
-                DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                    }
-                });
-        alertbox.show();
+    public static void showDialogMessage(String message) {
+        Activity activity = null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("PayuMoney Payment");
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
     }
-
-    public static void PurchaseBack(final Activity activity) {
-        final AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
-        alertbox.setTitle("Alert!");
-        alertbox.setMessage("Your current service process will be cancelled!");
-        alertbox.setPositiveButton("OK", new
-                DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        // Session Manager Class
-                        PurchaseCreditActivity acceptCreditActivity;
-                        activity.finish();
-                        // Session class instance
-                        acceptCreditActivity = new PurchaseCreditActivity(activity);
-                        acceptCreditActivity.goto_home();
-                    }
-                });
-        alertbox.setNegativeButton("CANCEL", new
-                DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                    }
-                });
-        alertbox.show();
-    }*/
-
 }
 

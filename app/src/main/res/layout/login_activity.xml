@@ -49,7 +49,7 @@
                     android:id="@+id/edit_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username"
+                    android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/appbackround"
                     android:textColorHint="@color/appbackround" />

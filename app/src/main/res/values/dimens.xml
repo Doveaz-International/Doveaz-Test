@@ -33,4 +33,6 @@
     <dimen name="one_dp">1dp</dimen>
     <dimen name="eighteen_dp">18dp</dimen>
     <dimen name="seventeen_dp">17dp</dimen>
+    <dimen name="three_dp">3dp</dimen>
+    <dimen name="twentyeight_dp">28dp</dimen>
 </resources>

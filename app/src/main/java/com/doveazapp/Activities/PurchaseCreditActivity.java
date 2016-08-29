@@ -1,12 +1,10 @@
 package com.doveazapp.Activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,24 +25,16 @@ import com.doveazapp.R;
 import com.doveazapp.Utils.MenuVisibility;
 import com.doveazapp.Utils.SessionManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.paypal.android.sdk.payments.PayPalAuthorization;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
-import com.paypal.android.sdk.payments.PayPalOAuthScopes;
-import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalProfileSharingActivity;
-import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.paytm.pgsdk.PaytmMerchant;
+import com.paytm.pgsdk.PaytmOrder;
+import com.paytm.pgsdk.PaytmPGService;
+import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Created by Karthik on 2016/01/29.
@@ -77,17 +67,6 @@ public class PurchaseCreditActivity extends AppCompatActivity implements View.On
 
     //For GCM
     ShareExternalServer appUtil;
-
-    //Paypal
-    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
-
-    private static PayPalConfiguration config = new PayPalConfiguration()
-            .environment(CONFIG_ENVIRONMENT)
-            .clientId(Constants.CONFIG_CLIENT_ID)
-            // The following are only used in PayPalFuturePaymentActivity.
-            .merchantName("Doveaz inc")
-            .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
-            .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,7 +197,9 @@ public class PurchaseCreditActivity extends AppCompatActivity implements View.On
                         progressDialog.dismiss();
                         //Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                         /* for future use*/ //call_paypal_sdk();
-                        alert_InsteadOfPaypal();
+                        //alert_InsteadOfPaypal();
+
+                        choose_paymentmethod();
 
                     }
                 } catch (JSONException exception) {
@@ -241,7 +222,12 @@ public class PurchaseCreditActivity extends AppCompatActivity implements View.On
         builder.setTitle("Choose a payment option");
         builder.setItems(options_payment, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                Toast.makeText(getApplicationContext(), options_payment[item], Toast.LENGTH_SHORT).show();
+                if (options_payment[item].equals("Paypal")) {
+                    //alert_InsteadOfPaypal();
+                    //call_paypal_sdk();
+                } else if (options_payment[item].equals("Paytm (Only for India)")) {
+                    call_paytm_sdk();
+                }
             }
         });
         AlertDialog alert = builder.create();
@@ -262,28 +248,93 @@ public class PurchaseCreditActivity extends AppCompatActivity implements View.On
         alertbox.show();
     }
 
-    private void call_paypal_sdk() {
-
-        PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_SALE);
-
-        /*
-         * See getStuffToBuy(..) for examples of some available payment options.
-         */
-
-        Intent intent = new Intent(PurchaseCreditActivity.this, PaymentActivity.class);
-
-        // send the same configuration for restart resiliency
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
-
-        startActivityForResult(intent, Constants.REQUEST_CODE_PAYMENT);
-    }
-
-    private PayPalPayment getThingToBuy(String paymentIntent) {
+    private void call_paytm_sdk() {
         String needed_credits = credit_needed.getText().toString();
-        return new PayPalPayment(new BigDecimal(needed_credits), "USD", "Credits Needed",
-                paymentIntent);
+        PaytmPGService Service = PaytmPGService.getStagingService();
+        Map<String, String> paramMap = new HashMap<String, String>();
+
+        // these are mandatory parameters
+
+        paramMap.put("ORDER_ID", "");
+        paramMap.put("MID", "WorldP64425807474247");
+        paramMap.put("CUST_ID", "");
+        paramMap.put("CHANNEL_ID", "");
+        paramMap.put("INDUSTRY_TYPE_ID", "Retail");
+        paramMap.put("WEBSITE", "www.doveaz.com");
+        paramMap.put("TXN_AMOUNT", needed_credits);
+        paramMap.put("THEME", "merchant");
+        paramMap.put("EMAIL", "support@doveaz.com");
+        paramMap.put("MOBILE_NO", "");
+        PaytmOrder Order = new PaytmOrder(paramMap);
+
+        PaytmMerchant Merchant = new PaytmMerchant(
+                "https://pguat.paytm.com/paytmchecksum/paytmCheckSumGenerator.jsp",
+                "https://pguat.paytm.com/paytmchecksum/paytmCheckSumVerify.jsp");
+
+        Service.initialize(Order, Merchant, null);
+
+        Service.startPaymentTransaction(this, true, true,
+                new PaytmPaymentTransactionCallback() {
+                    @Override
+                    public void someUIErrorOccurred(String inErrorMessage) {
+                        // Some UI Error Occurred in Payment Gateway Activity.
+                        // // This may be due to initialization of views in
+                        // Payment Gateway Activity or may be due to //
+                        // initialization of webview. // Error Message details
+                        // the error occurred.
+                    }
+
+                    @Override
+                    public void onTransactionSuccess(Bundle inResponse) {
+                        // After successful transaction this method gets called.
+                        // // Response bundle contains the merchant response
+                        // parameters.
+                        Log.d("LOG", "Payment Transaction is successful " + inResponse);
+                        Toast.makeText(getApplicationContext(), "Payment Transaction is successful ", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onTransactionFailure(String inErrorMessage,
+                                                     Bundle inResponse) {
+                        // This method gets called if transaction failed. //
+                        // Here in this case transaction is completed, but with
+                        // a failure. // Error Message describes the reason for
+                        // failure. // Response bundle contains the merchant
+                        // response parameters.
+                        Log.d("LOG", "Payment Transaction Failed " + inErrorMessage);
+                        Toast.makeText(getBaseContext(), "Payment Transaction Failed ", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void networkNotAvailable() { // If network is not
+                        // available, then this
+                        // method gets called.
+                    }
+
+                    @Override
+                    public void clientAuthenticationFailed(String inErrorMessage) {
+                        // This method gets called if client authentication
+                        // failed. // Failure may be due to following reasons //
+                        // 1. Server error or downtime. // 2. Server unable to
+                        // generate checksum or checksum response is not in
+                        // proper format. // 3. Server failed to authenticate
+                        // that client. That is value of payt_STATUS is 2. //
+                        // Error Message describes the reason for failure.
+                    }
+
+                    @Override
+                    public void onErrorLoadingWebPage(int iniErrorCode,
+                                                      String inErrorMessage, String inFailingUrl) {
+
+                    }
+
+                    // had to be added: NOTE
+                    @Override
+                    public void onBackPressedCancelTransaction() {
+                        // TODO Auto-generated method stub
+                    }
+
+                });
     }
 
     public void CallAPI_to_purchase_credit() {
@@ -387,7 +438,7 @@ public class PurchaseCreditActivity extends AppCompatActivity implements View.On
         // token
         String api_token = user.get(SessionManager.KEY_APITOKEN);
         Log.v("From", "purchase credit");
-        ServiceCalls.CallAPI_to_transfer_credit(this, Request.Method.POST, Constants.TRANSFER_CREDITS, listener, total_credit, reference_id, service_type, api_token);
+        ServiceCalls.CallAPI_to_transfer_credit(this, Request.Method.POST, Constants.TRANSFER_CREDITS, listener, total_credit, reference_id, api_token);
     }
 
     private void sendMessageToGCMAppServer(final String toUserId,
@@ -474,7 +525,7 @@ public class PurchaseCreditActivity extends AppCompatActivity implements View.On
             _context.startActivity(i);
         }
         if (partner.equals(Constants.KEY_TYPE_PARTNER)) {
-            Intent i = new Intent(_context, WelcomePartnerActivity.class);
+            Intent i = new Intent(_context, AgentLocationActivity.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Add new Flag to start new Activity
@@ -482,138 +533,6 @@ public class PurchaseCreditActivity extends AppCompatActivity implements View.On
             // Staring Login Activity
             _context.startActivity(i);
         }
-    }
-
-    private PayPalOAuthScopes getOauthScopes() {
-        /* create the set of required scopes
-         * Note: see https://developer.paypal.com/docs/integration/direct/identity/attributes/ for mapping between the
-         * attributes you select for this app in the PayPal developer portal and the scopes required here.
-         */
-        Set<String> scopes = new HashSet<String>(
-                Arrays.asList(PayPalOAuthScopes.PAYPAL_SCOPE_EMAIL, PayPalOAuthScopes.PAYPAL_SCOPE_ADDRESS));
-        return new PayPalOAuthScopes(scopes);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.REQUEST_CODE_PAYMENT) {
-            if (resultCode == Activity.RESULT_OK) {
-                PaymentConfirmation confirm =
-                        data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-                if (confirm != null) {
-                    try {
-                        Log.i(TAG, confirm.toJSONObject().toString(4));
-                        Log.i(TAG, confirm.getPayment().toJSONObject().toString(4));
-                        /**
-                         *  TODO: send 'confirm' (and possibly confirm.getPayment() to your server for verification
-                         * or consent completion.
-                         * See https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
-                         * for more details.
-                         *
-                         * For sample mobile backend interactions, see
-                         * https://github.com/paypal/rest-api-sdk-python/tree/master/samples/mobile_backend
-                         */
-                        Toast.makeText(
-                                getApplicationContext(),
-                                "PaymentConfirmation info received from PayPal", Toast.LENGTH_LONG)
-                                .show();
-
-                        CallAPI_to_purchase_credit();
-                    } catch (JSONException e) {
-                        Log.e(TAG, "an extremely unlikely failure occurred: ", e);
-                    }
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i(TAG, "The user canceled.");
-            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-                Log.i(TAG, "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
-            }
-        } else if (requestCode == Constants.REQUEST_CODE_FUTURE_PAYMENT) {
-            if (resultCode == Activity.RESULT_OK) {
-                PayPalAuthorization auth =
-                        data.getParcelableExtra(PayPalFuturePaymentActivity.EXTRA_RESULT_AUTHORIZATION);
-                if (auth != null) {
-                    try {
-                        Log.i("FuturePaymentExample", auth.toJSONObject().toString(4));
-
-                        String authorization_code = auth.getAuthorizationCode();
-                        Log.i("FuturePaymentExample", authorization_code);
-
-                        sendAuthorizationToServer(auth);
-                        Toast.makeText(
-                                getApplicationContext(),
-                                "Future Payment code received from PayPal", Toast.LENGTH_LONG)
-                                .show();
-
-                    } catch (JSONException e) {
-                        Log.e("FuturePaymentExample", "an extremely unlikely failure occurred: ", e);
-                    }
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i("FuturePaymentExample", "The user canceled.");
-            } else if (resultCode == PayPalFuturePaymentActivity.RESULT_EXTRAS_INVALID) {
-                Log.i(
-                        "FuturePaymentExample",
-                        "Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs.");
-            }
-        } else if (requestCode == Constants.REQUEST_CODE_PROFILE_SHARING) {
-            if (resultCode == Activity.RESULT_OK) {
-                PayPalAuthorization auth =
-                        data.getParcelableExtra(PayPalProfileSharingActivity.EXTRA_RESULT_AUTHORIZATION);
-                if (auth != null) {
-                    try {
-                        Log.i("ProfileSharingExample", auth.toJSONObject().toString(4));
-
-                        String authorization_code = auth.getAuthorizationCode();
-                        Log.i("ProfileSharingExample", authorization_code);
-
-                        sendAuthorizationToServer(auth);
-                        Toast.makeText(
-                                getApplicationContext(),
-                                "Profile Sharing code received from PayPal", Toast.LENGTH_LONG)
-                                .show();
-
-                    } catch (JSONException e) {
-                        Log.e("ProfileSharingExample", "an extremely unlikely failure occurred: ", e);
-                    }
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i("ProfileSharingExample", "The user canceled.");
-            } else if (resultCode == PayPalFuturePaymentActivity.RESULT_EXTRAS_INVALID) {
-                Log.i(
-                        "ProfileSharingExample",
-                        "Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs.");
-            }
-        }
-    }
-
-    private void sendAuthorizationToServer(PayPalAuthorization authorization) {
-
-        /**
-         * TODO: Send the authorization response to your server, where it can
-         * exchange the authorization code for OAuth access and refresh tokens.
-         *
-         * Your server must then store these tokens, so that your server code
-         * can execute payments for this user in the future.
-         *
-         * A more complete example that includes the required app-server to
-         * PayPal-server integration is available from
-         * https://github.com/paypal/rest-api-sdk-python/tree/master/samples/mobile_backend
-         */
-
-    }
-
-    public void onFuturePaymentPurchasePressed(View pressed) {
-        // Get the Client Metadata ID from the SDK
-        String metadataId = PayPalConfiguration.getClientMetadataId(this);
-
-        Log.i("FuturePaymentExample", "Client Metadata ID: " + metadataId);
-
-        // TODO: Send metadataId and transaction details to your server for processing with
-        // PayPal...
-        Toast.makeText(
-                getApplicationContext(), "Client Metadata Id received from SDK", Toast.LENGTH_LONG)
-                .show();
     }
 
     @Override

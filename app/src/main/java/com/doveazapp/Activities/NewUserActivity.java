@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * NewUserActivity.java
  * Created by Karthik on 11/17/2015.
  */
 public class NewUserActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/button_grey"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -12,4 +12,37 @@
         android:layout_height="wrap_content"
         android:src="@drawable/logo" />
 
+    <LinearLayout
+        android:id="@+id/connection_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="@dimen/one_fifty_dp"
+            android:layout_height="@dimen/eighty_dp"
+            android:src="@drawable/no_connection" />
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="@string/no_internet"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/retry"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+    </LinearLayout>
 </LinearLayout>

@@ -9,16 +9,22 @@
         compat:showAsAction="never" />
 
     <item
+        android:id="@+id/view_order"
+        android:icon="@drawable/calendar_icon"
+        android:title="View Order"
+        compat:showAsAction="never" />
+
+    <!--<item
         android:id="@+id/pending_milestone"
         android:icon="@drawable/progress"
         android:title="@string/view_orders"
-        compat:showAsAction="never" />
+        compat:showAsAction="never" />-->
 
-    <item
+    <!--<item
         android:id="@+id/notifications"
         android:icon="@drawable/calendar_icon"
         android:title="@string/notifications"
-        compat:showAsAction="never" />
+        compat:showAsAction="never" />-->
 
     <item
         android:id="@+id/my_wallet"

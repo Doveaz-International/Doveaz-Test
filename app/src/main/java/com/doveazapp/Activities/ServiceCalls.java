@@ -1,5 +1,6 @@
 package com.doveazapp.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -145,6 +146,460 @@ public class ServiceCalls {
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
                 headers.put(Constants.KEY_API_TOKEN, api_token);
                 Log.v("Out categories&milelist", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /*GET STATES FROM API*/
+    public static void callAPI_togetStates(final Context context, final int method, final String url,
+                                           final String country, final OnRequestCompletedListener listener) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_COUNTRY, country);
+                Log.v("==INPUT FOR SAVE==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                Log.v("Out categories&milelist", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /*GET CITIES FROM API*/
+    public static void callAPI_togetCity(final Context context, final int method, final String url,
+                                         final String country, final String state, final OnRequestCompletedListener listener) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_COUNTRY, country);
+                params.put(Constants.KEY_STATE, state);
+                Log.v("==INPUT FOR SAVE==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                Log.v("Out categories&milelist", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /*GET AREA FROM GIVE CITY API*/
+    public static void callAPI_togetAreafromcity(final Context context, final int method, final String url,
+                                                 final String city, final OnRequestCompletedListener listener, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_CITY, city);
+                Log.v("==INPUT FOR AREA==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /*GET AREA FROM GIVE CITY API*/
+    public static void callAPI_togetlocalforArea(final Context context, final int method, final String url,
+                                                 final String area, final OnRequestCompletedListener listener, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_AREA, area);
+                Log.v("==INPUT FOR AREA==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /* INPUT MOBILE NUMBER - OUTPUT WILL BE PRIME OR NOT AND HOME, OFFICE ADDRESS*/
+    public static void CallAPI_to_GetPrimeinfo(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                               final String phone, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_PHONE, phone);
+
+                Log.v("INPUT SESSION LOGIN", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    // API REQUEST TO GET THE STORE LIST FROM CATEGORY ID
+    public static void callAPI_togetStorefromcategory_id(final Context context, final int method, final String url,
+                                                         final String category_id, final OnRequestCompletedListener listener, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_CATEGORY, category_id);
+                Log.v("==INPUT FOR STORES==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /*
+    * API REQUEST FOR CATEGORIES
+    * */
+    public static void callAPI_togetCategories(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                               final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==HEADERS CALCULATION==", headers.toString());
+                return headers;
+            }
+
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /* API REQUEST TO GET THE MENU OF A STORE */
+    public static void CallAPI_togetStoreMenu(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                              final String store_id, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_STOREID, store_id);
+                Log.v("==INPUT FOR MENU==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
                 return headers;
             }
         };
@@ -993,7 +1448,7 @@ public class ServiceCalls {
 
     /* TRANSFER CREDITS API*/
     public static void CallAPI_to_transfer_credit(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
-                                                  final String total_credits, final String reference_id, final String service_type, final String api_token) {
+                                                  final String total_credits, final String reference_id, final String api_token) {
         mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -1014,7 +1469,6 @@ public class ServiceCalls {
                 //Adding parameters --input params--
                 params.put(Constants.KEY_TOTAL_CREDITS, total_credits);
                 params.put(Constants.KEY_REFERENCE, reference_id);
-                params.put(Constants.KEY_SERVICE_TYPE, service_type);
 
                 Log.v("INPUT TRANSFER CREDIT", params.toString());
 
@@ -2370,14 +2824,26 @@ public class ServiceCalls {
     }
 
     //*REGISTER*//
-    public static void Call_api_toRegister(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
-                                           final String fullname, final String username, final String email,
-                                           final String password, final String gender, final String date,
-                                           final String state, final String city, final String area,
-                                           final String country, final String street_address, final String be_a_partner,
-                                           final String nationality, final String edu, final String profession, final String prestent_address,
-                                           final String img_proof1, final String img_proof2, final String postal_code,
-                                           final String mobile_numfromnewuser, final String CC_fromnewuser, final String img_profile) {
+    public static void Call_api_toRegister(final Context context,
+                                           final int method,
+                                           final String url,
+                                           final OnRequestCompletedListener listener,
+                                           final String fullname,
+                                           final String username,
+                                           final String email,
+                                           final String password,
+                                           final String date,
+                                           final String state,
+                                           final String city,
+                                           final String area,
+                                           final String country,
+                                           final String street_address,
+                                           final String be_a_partner,
+                                           final String prestent_address,
+                                           final String postal_code,
+                                           final String mobile_numfromnewuser,
+                                           final String CC_fromnewuser,
+                                           final String img_profile) {
         mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -2400,7 +2866,6 @@ public class ServiceCalls {
                 params.put(Constants.KEY_USERNAME, username);
                 params.put(Constants.KEY_EMAIL, email);
                 params.put(Constants.KEY_PASSWORD, password);
-                params.put(Constants.KEY_GENDER, gender);
                 params.put(Constants.KEY_DOB, date);
                 params.put(Constants.KEY_STATE, state);
                 params.put(Constants.KEY_CITY, city);
@@ -2408,16 +2873,90 @@ public class ServiceCalls {
                 params.put(Constants.KEY_COUNTRY, country);
                 params.put(Constants.KEY_STREET, street_address);
                 params.put(Constants.KEY_PARTNER, be_a_partner);
-                params.put(Constants.KEY_NATIONALITY, nationality);
-                params.put(Constants.KEY_EDUCATION, edu);
-                params.put(Constants.KEY_PROFESSION, profession);
                 params.put(Constants.KEY_PRESENTADDRESS, prestent_address);
-                params.put(Constants.KEY_ID1, img_proof1);
-                params.put(Constants.KEY_ID2, img_proof2);
                 params.put(Constants.KEY_POSTALCODE, postal_code);
                 params.put(Constants.KEY_PHONE, mobile_numfromnewuser);
                 params.put(Constants.KEY_COUNTRY_CODE, CC_fromnewuser);
                 params.put(Constants.KEY_PROFILEPIC, img_profile);
+                Log.v("==INPUT REGISTER==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    public static void Call_api_toRegister1(final Context context,
+                                            final int method,
+                                            final String url,
+                                            final OnRequestCompletedListener listener,
+                                            final String fullname,
+                                            final String username,
+                                            final String email,
+                                            final String password,
+                                            final String date,
+                                            final String state,
+                                            final String city,
+                                            final String area,
+                                            final String country,
+                                            final String street_address,
+                                            final String be_a_partner,
+                                            final String prestent_address,
+                                            final String postal_code,
+                                            final String mobile_numfromnewuser,
+                                            final String CC_fromnewuser) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_FULLNAME, fullname);
+                params.put(Constants.KEY_USERNAME, username);
+                params.put(Constants.KEY_EMAIL, email);
+                params.put(Constants.KEY_PASSWORD, password);
+                params.put(Constants.KEY_DOB, date);
+                params.put(Constants.KEY_STATE, state);
+                params.put(Constants.KEY_CITY, city);
+                params.put(Constants.KEY_AREA, area);
+                params.put(Constants.KEY_COUNTRY, country);
+                params.put(Constants.KEY_STREET, street_address);
+                params.put(Constants.KEY_PARTNER, be_a_partner);
+                params.put(Constants.KEY_PRESENTADDRESS, prestent_address);
+                params.put(Constants.KEY_POSTALCODE, postal_code);
+                params.put(Constants.KEY_PHONE, mobile_numfromnewuser);
+                params.put(Constants.KEY_COUNTRY_CODE, CC_fromnewuser);
                 Log.v("==INPUT REGISTER==", params.toString());
 
                 //returning parameters
@@ -2461,6 +3000,7 @@ public class ServiceCalls {
                 listener.onRequestCompleted(new String(error.toString()));
             }
         }) {
+            @SuppressLint("LongLogTag")
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 //Creating parameters
@@ -2470,6 +3010,719 @@ public class ServiceCalls {
                 params.put(Constants.KEY_TRANSACTION_ID, transaction_id);
 
                 Log.v("INPUT TRANSACTION DETAILS", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    public static void CallAPI_to_getDeliveryAddress(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                                     final String reference_id, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @SuppressLint("LongLogTag")
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_REFERENCE_ID, reference_id);
+
+                Log.v("ADDRESS DETAILS", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /* ADD ORDER BUY AND DELIVER*/
+    public static void Call_api_toAddOrderBD(final Context context,
+                                             final int method,
+                                             final String url,
+                                             final OnRequestCompletedListener listener,
+                                             final String order_type,
+                                             final String delivery_address,
+                                             final String deliver_st,
+                                             final String delivery_area,
+                                             final String deliver_city,
+                                             final String deliver_state,
+                                             final String deliver_country,
+                                             final String deliver_zip,
+                                             final String address_type,
+                                             final String Order_details,
+                                             final String store_id,
+                                             final String delivery_phone,
+                                             final String delivery_name,
+                                             final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_TYPE, order_type);
+                params.put(Constants.KEY_DELIVERY_ADDRESS, delivery_address);
+                params.put(Constants.KEY_DELIVERY_STREET, deliver_st);
+                params.put(Constants.KEY_DELIVERY_AREA, delivery_area);
+                params.put(Constants.KEY_DELIVERY_CITY, deliver_city);
+                params.put(Constants.KEY_DELIVERY_STATE, deliver_state);
+                params.put(Constants.KEY_DELIVERY_COUNTRY, deliver_country);
+                params.put(Constants.KEY_DELIVERY_ZIP, deliver_zip);
+                params.put(Constants.KEY_DELIVERY_ADDRESS_TYPE, address_type);
+                params.put(Constants.KEY_ORDER_DETAILS, Order_details);
+                params.put(Constants.KEY_STOREID, store_id);
+                params.put(Constants.KEY_DELIVERY_PHONE, delivery_phone);
+                params.put(Constants.KEY_DELIVERY_NAME, delivery_name);
+
+                Log.v("INPUT B&D ORDER", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /*ADD ORDER COLLECTION*/
+    public static void Call_api_toAddOrderCollection(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                                     final String order_type,
+                                                     final String image,
+                                                     final String pick_street,
+                                                     final String pick_area,
+                                                     final String pick_city,
+                                                     final String pick_state,
+                                                     final String pick_country,
+                                                     final String pick_pincode,
+                                                     final String deliver_street,
+                                                     final String deliver_area,
+                                                     final String deliver_city,
+                                                     final String deliver_state,
+                                                     final String delivery_country,
+                                                     final String deliver_pincode,
+                                                     final String deliver_address_type,
+                                                     final String pickup_address_type,
+                                                     final String id_category,
+                                                     final String delivery_phone,
+                                                     final String pickup_phone,
+                                                     final String pickup_name,
+                                                     final String delivery_name,
+                                                     final String input_price,
+                                                     final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_TYPE, order_type);
+                params.put(Constants.KEY_IMAGE, image);
+                params.put(Constants.KEY_PICKUP_STREET, pick_street);
+                params.put(Constants.KEY_PICKUP_AREA, pick_area);
+                params.put(Constants.KEY_PICKUP_CITY, pick_city);
+                params.put(Constants.KEY_PICKUP_STATE, pick_state);
+                params.put(Constants.KEY_PICKUP_COUNTRY, pick_country);
+                params.put(Constants.KEY_PICKUP_ZIPCODE, pick_pincode);
+                params.put(Constants.KEY_DELIVERY_STREET, deliver_street);
+                params.put(Constants.KEY_DELIVERY_AREA, deliver_area);
+                params.put(Constants.KEY_DELIVERY_CITY, deliver_city);
+                params.put(Constants.KEY_DELIVERY_STATE, deliver_state);
+                params.put(Constants.KEY_DELIVERY_COUNTRY, delivery_country);
+                params.put(Constants.KEY_DELIVERY_ZIP, deliver_pincode);
+                params.put(Constants.KEY_DELIVERY_ADDRESS_TYPE, deliver_address_type);
+                params.put(Constants.KEY_PICKUP_ADDR_TYPE, pickup_address_type);
+                params.put(Constants.KEY_CATEGORY, id_category);
+                params.put(Constants.KEY_DELIVERY_PHONE, delivery_phone);
+                params.put(Constants.KEY_PICKUP_PHONE, pickup_phone);
+                params.put(Constants.KEY_PICKUP_NAME, pickup_name);
+                params.put(Constants.KEY_DELIVERY_NAME, delivery_name);
+                params.put(Constants.KEY_PRICE, input_price);
+
+                Log.v("INPUT B&D ORDER", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+
+    public static void Call_api_toAddOrderCollectionManual(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                                           final String order_type,
+                                                           final String image,
+                                                           final String pick_address,
+                                                           final String pick_street,
+                                                           final String pick_area,
+                                                           final String pick_city,
+                                                           final String pick_state,
+                                                           final String pick_country,
+                                                           final String pick_pincode,
+                                                           final String deliver_address,
+                                                           final String deliver_street,
+                                                           final String deliver_area,
+                                                           final String deliver_city,
+                                                           final String deliver_state,
+                                                           final String delivery_country,
+                                                           final String deliver_pincode,
+                                                           final String deliver_address_type,
+                                                           final String pickup_address_type,
+                                                           final String id_category,
+                                                           final String delivery_phone,
+                                                           final String pickup_phone,
+                                                           final String input_price,
+                                                           final String name_manual,
+                                                           final String name_manual_delivery,
+                                                           final String floor_manual,
+                                                           final String floor_manual_delivery,
+                                                           final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @SuppressLint("LongLogTag")
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_TYPE, order_type);
+                params.put(Constants.KEY_IMAGE, image);
+                params.put(Constants.KEY_PICKUP_ADDRESS, pick_address);
+                params.put(Constants.KEY_PICKUP_STREET, pick_street);
+                params.put(Constants.KEY_PICKUP_AREA, pick_area);
+                params.put(Constants.KEY_PICKUP_CITY, pick_city);
+                params.put(Constants.KEY_PICKUP_STATE, pick_state);
+                params.put(Constants.KEY_PICKUP_COUNTRY, pick_country);
+                params.put(Constants.KEY_PICKUP_ZIPCODE, pick_pincode);
+                params.put(Constants.KEY_DELIVERY_ADDRESS, deliver_address);
+                params.put(Constants.KEY_DELIVERY_STREET, deliver_street);
+                params.put(Constants.KEY_DELIVERY_AREA, deliver_area);
+                params.put(Constants.KEY_DELIVERY_CITY, deliver_city);
+                params.put(Constants.KEY_DELIVERY_STATE, deliver_state);
+                params.put(Constants.KEY_DELIVERY_COUNTRY, delivery_country);
+                params.put(Constants.KEY_DELIVERY_ZIP, deliver_pincode);
+                params.put(Constants.KEY_DELIVERY_ADDRESS_TYPE, deliver_address_type);
+                params.put(Constants.KEY_PICKUP_ADDR_TYPE, pickup_address_type);
+                params.put(Constants.KEY_CATEGORY, id_category);
+                params.put(Constants.KEY_DELIVERY_PHONE, delivery_phone);
+                params.put(Constants.KEY_PICKUP_PHONE, pickup_phone);
+                params.put(Constants.KEY_PRICE, input_price);
+                if (name_manual != null)
+                    params.put(Constants.KEY_PICKUP_NAME, name_manual);
+                if (name_manual_delivery != null)
+                    params.put(Constants.KEY_DELIVERY_NAME, name_manual_delivery);
+                if (floor_manual != null)
+                    params.put(Constants.KEY_PICKUP_FLOOR_NO, floor_manual);
+                if (floor_manual_delivery != null)
+                    params.put(Constants.KEY_DELIVERY_FLOOR_NO, floor_manual_delivery);
+
+                Log.v("INPUT COLLECTION&SEND ORDER", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /*for list of areas agent has to deliver*/
+    public static void CallAPI_to_getAgentPickUpList(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                                     final String area, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_AREA, area);
+                Log.v("==INPUT FOR AREA==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    public static void CallAPI_to_UpdateArea(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                             final String updated_area, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_AREA, updated_area);
+                Log.v("==INPUT FOR AREA==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    public static void CallAPI_to_UpdateStatus(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                               final String order_id, final String status, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_ORDER_ID, order_id);
+                params.put(Constants.KEY_STATUS, status);
+                Log.v("==INPUT FOR AREA==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    /* BUY PURCHASE CREDITS*/
+    public static void CallAPI_to_CreateOrder(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                              final String order_id, final String fee, final String payment_type, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_ORDER_ID, order_id);
+                params.put(Constants.KEY_FEE, fee);
+                params.put(Constants.KEY_PAYMENT_TYPE, payment_type);
+
+                Log.v("INPUT CREATE ORDER", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    public static void CallAPI_to_ViewOrder(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                            final String order_id, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_ORDER_ID, order_id);
+
+                Log.v("INPUT VIEW ORDER", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
+
+    public static void CallAPI_to_Accept_Dispatch(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                                  final String order_id, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @SuppressLint("LongLogTag")
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.KEY_ORDER_ID, order_id);
+                Log.v("==INPUT FOR ACCEPT ORDER==", params.toString());
 
                 //returning parameters
                 return params;

@@ -117,7 +117,7 @@ public class SearchTransactionActivity extends AppCompatActivity implements View
         }
     }
 
-    private void Call_phone() {
+    public void Call_phone() {
         // Check the SDK version and whether the permission is already granted or not.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, PERMISSIONS_REQUEST_PHONE_CALL);

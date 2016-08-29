@@ -1,36 +1,30 @@
 package com.doveazapp.Activities;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
@@ -39,18 +33,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.doveazapp.Analytics.MyApplication;
 import com.doveazapp.Constants;
 import com.doveazapp.Interface.OnRequestCompletedListener;
 import com.doveazapp.R;
+import com.doveazapp.SqliteManager.AddedCartDBHelper;
 import com.doveazapp.Utils.MenuVisibility;
 import com.doveazapp.Utils.SessionManager;
+import com.doveazapp.Utils.Utils;
 import com.google.android.gms.analytics.GoogleAnalytics;
 
 import org.json.JSONArray;
@@ -58,62 +48,82 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * BuyandDeliveryActivity.java
  * Created by Karthik on 11/18/2015.
  */
 public class BuyandDeliveryActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     private final static String TAG = BuyandDeliveryActivity.class.getName();
 
-    Button btn_ok;
+    private LinearLayout loc_layout, loc_items_layout, store_layout, store_details_layout, deliver_layout, deliver_details_layout;
+    private Animation animShow, animHide;
+    private Button button_menu;
+    private ImageView loc_arrow_img, store_arrow_img, deliver_arrow_img;
 
-    ImageButton img_button;
+    private Spinner spin_pickcity, spin_pickarea, spin_pickcategory, spin_pickstore, spin_city_manual, spin_area_manual, spin_local_manual;
 
-    ImageView img_itempic;
+    private ArrayList<HashMap<String, String>> cityArrayList = null;
+    private ArrayList<HashMap<String, String>> areaArrayList = null;
+    private ArrayList<HashMap<String, String>> categoryArrayList = null;
+    private ArrayList<HashMap<String, String>> storeArrayList = null;
+    private ArrayList<HashMap<String, String>> citymArrayList = null;
+    private ArrayList<HashMap<String, String>> areamArrayList = null;
+    private ArrayList<HashMap<String, String>> localArrayList = null;
 
-    TextInputLayout input_shortdesc,
-            input_postalcode, input_streetaddress, input_city, input_state;
+    HashMap<String, String> cityList;
+    HashMap<String, String> areaList;
+    HashMap<String, String> categoryList;
+    HashMap<String, String> storeList;
+    HashMap<String, String> citymList;
+    HashMap<String, String> areamList;
+    HashMap<String, String> localList;
 
-    EditText edit_itemshort_desc, edit_postal_code, edit_streetaddress, editText_state, editText_city;
+    SimpleAdapter cityAdapPROJ, areaAdapPROJ, categoryAdapPROJ, storeAdapPROJ, citymAdapPROJ, areamAdapPROJ, localAdapPROJ;
 
-    ProgressDialog progressDialog;
-
-    Spinner spin_pickcategory, spin_country, spinner_package_type;
-
-    String short_desc, street_address, postal_code, country, city, state, pick_a_category, type_of_package;
-
-    SimpleAdapter sAdapPROJ;
-
-    RadioGroup radiogroup;
-
-    final int CAMERA_CAPTURE = 1;
-
-    Bitmap item_img;
-
-    // captured picture uri
-    private Uri picUri;
-
-    ArrayList<HashMap<String, String>> jsonArraylist = null;
-
-    HashMap<String, String> proList;
-
-    String id_category, category_name;
-
-    // Request code for READ_CONTACTS. It can be any number > 0.
-    private static final int PERMISSIONS_REQUEST_CAMERA = 100;
+    String city_text, id_category, category_name, store_id, store_name, city_mtext, local_mtext;
 
     // Session Manager Class
     SessionManager session;
+
+    //Progress bar for loading
+    ProgressDialog progressDialog;
+
+    // Textviews
+    TextView user_type_prime;
+
+    //RadioGroups
+    RadioGroup radio_address;
+
+    // Radiobuttons
+    RadioButton home_address, office_address, enter_manually;
+
+    //LinearLayout for Address (if prime it will be visible with the addresses)
+    LinearLayout address_layout, manual_address_layout;
+
+    //Textview of address (if prime)
+    TextView street, area, city, state, country, zipcode, mob_number, name_prime;
+
+    AddedCartDBHelper cartDBHelper;
+
+    SQLiteDatabase sqldb;
+
+    String address_type, deliver_st, deliver_area, deliver_city, deliver_state, deliver_country, deliver_zip, delivery_phone,
+            name, floor_num, order_name, deliver_address;
+
+    TextInputLayout input_manual_name, input_manual_street, input_manual_floor, input_manual_pincode;
+
+    EditText edit_manual_name, edit_manual_street, edit_manual_floor, edit_manual_pincode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.buydeliver_activity);
+
+        menuvisibilityinAlldevices();
 
         // Tracking the screen view
         MyApplication.getInstance().trackScreenView("Buy & delivery");
@@ -121,64 +131,95 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
         // Session class instance
         session = new SessionManager(getApplicationContext());
 
-        img_button = (ImageButton) findViewById(R.id.pick_img);
-
-        img_itempic = (ImageView) findViewById(R.id.pick_img);
-
-        //img button for ok
-        btn_ok = (Button) findViewById(R.id.button_ok);
-
-        // Edittext init
-        edit_itemshort_desc = (EditText) findViewById(R.id.edit_itemshortdesc);
-        edit_postal_code = (EditText) findViewById(R.id.edit_postalcode_bd);
-        edit_streetaddress = (EditText) findViewById(R.id.edit_streetaddress);
-        editText_state = (EditText) findViewById(R.id.edit_state);
-        editText_city = (EditText) findViewById(R.id.edit_city);
-
-
-        //TextinputLayout for set error
-        input_shortdesc = (TextInputLayout) findViewById(R.id.input_itemshortdesc);
-        input_postalcode = (TextInputLayout) findViewById(R.id.input_postalcode_bd);
-        input_streetaddress = (TextInputLayout) findViewById(R.id.input_streetaddress);
-        input_city = (TextInputLayout) findViewById(R.id.input_city);
-        input_state = (TextInputLayout) findViewById(R.id.input_state);
-
-        //spinner
-        spin_pickcategory = (Spinner) findViewById(R.id.spin_pickcategory);
-        spin_country = (Spinner) findViewById(R.id.spin_country_bd);
-        spinner_package_type = (Spinner) findViewById(R.id.spinner_package_type);
-
-        //Radio Button
-        radiogroup = (RadioGroup) findViewById(R.id.radioGroup_region);
-
-        //Listeners
-        edit_itemshort_desc.addTextChangedListener(this);
-        edit_streetaddress.addTextChangedListener(this);
-        edit_postal_code.addTextChangedListener(this);
-        img_button.setOnClickListener(this);
-        btn_ok.setOnClickListener(this);
-
-        menuvisibilityinAlldevices();
-
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
-
         // token
         String api_token = user.get(SessionManager.KEY_APITOKEN);
-
         // email
         String email = user.get(SessionManager.KEY_EMAIL);
 
-        LoadSpinners();
+        cartDBHelper = new AddedCartDBHelper(this);
+        sqldb = cartDBHelper.getWritableDatabase();
 
-        LoadCategories_fromAPI();
+        // Animating while opening and closing
+        initAnimation();
+
+        // TextInput layout
+        input_manual_name = (TextInputLayout) findViewById(R.id.input_manual_name);
+        input_manual_street = (TextInputLayout) findViewById(R.id.input_manual_street);
+        input_manual_floor = (TextInputLayout) findViewById(R.id.input_manual_floor);
+        input_manual_pincode = (TextInputLayout) findViewById(R.id.input_manual_pincode);
+
+        edit_manual_name = (EditText) findViewById(R.id.edit_manual_name);
+        edit_manual_street = (EditText) findViewById(R.id.edit_manual_street);
+        edit_manual_floor = (EditText) findViewById(R.id.edit_manual_floor);
+        edit_manual_pincode = (EditText) findViewById(R.id.edit_manual_pincode);
+
+        // Textviews for address (if prime) will be visible to the prime user
+        street = (TextView) findViewById(R.id.street);
+        area = (TextView) findViewById(R.id.area);
+        city = (TextView) findViewById(R.id.city);
+        state = (TextView) findViewById(R.id.state);
+        country = (TextView) findViewById(R.id.country);
+        zipcode = (TextView) findViewById(R.id.zipcode);
+        mob_number = (TextView) findViewById(R.id.mob_number);
+        name_prime = (TextView) findViewById(R.id.name);
+
+        //Radiobuttons
+        home_address = (RadioButton) findViewById(R.id.home_address);
+        office_address = (RadioButton) findViewById(R.id.office_address);
+        enter_manually = (RadioButton) findViewById(R.id.enter_manually);
+
+        // this is for expanding views
+        loc_layout = (LinearLayout) findViewById(R.id.loc_layout);
+        store_layout = (LinearLayout) findViewById(R.id.store_layout);
+        deliver_layout = (LinearLayout) findViewById(R.id.deliver_layout);
+        deliver_details_layout = (LinearLayout) findViewById(R.id.deliver_details_layout);
+        loc_items_layout = (LinearLayout) findViewById(R.id.loc_items_layout);
+        store_details_layout = (LinearLayout) findViewById(R.id.store_details_layout);
+        button_menu = (Button) findViewById(R.id.button_menu);
+        user_type_prime = (TextView) findViewById(R.id.user_type_prime);
+
+        //RadioButtons for address
+        radio_address = (RadioGroup) findViewById(R.id.radio_address);
+
+        //Image views
+        loc_arrow_img = (ImageView) findViewById(R.id.loc_arrow_img);
+        store_arrow_img = (ImageView) findViewById(R.id.store_arrow_img);
+        deliver_arrow_img = (ImageView) findViewById(R.id.deliver_arrow_img);
+
+        loc_layout.setOnClickListener(this);
+        store_layout.setOnClickListener(this);
+        deliver_layout.setOnClickListener(this);
+        button_menu.setOnClickListener(this);
+        edit_manual_name.addTextChangedListener(this);
+        edit_manual_floor.addTextChangedListener(this);
+        edit_manual_street.addTextChangedListener(this);
+        edit_manual_pincode.addTextChangedListener(this);
+
+        spin_pickcity = (Spinner) findViewById(R.id.spin_pickcity);
+        spin_pickarea = (Spinner) findViewById(R.id.spin_pickarea);
+        spin_pickcategory = (Spinner) findViewById(R.id.spin_pickcategory);
+        spin_pickstore = (Spinner) findViewById(R.id.spin_pickstore);
+        spin_city_manual = (Spinner) findViewById(R.id.spin_city_manual);
+        spin_area_manual = (Spinner) findViewById(R.id.spin_area_manual);
+        spin_local_manual = (Spinner) findViewById(R.id.spin_local_manual);
+
+        address_layout = (LinearLayout) findViewById(R.id.address_layout);
+        manual_address_layout = (LinearLayout) findViewById(R.id.manual_address_layout);
+
+        LoadCities_fromAPI();
+        LoadCitiestomanual_fromAPI();
+        LoadAPI_getStorecategories();
 
         spin_pickcategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, String> id1 = jsonArraylist.get(position);
+                HashMap<String, String> id1 = categoryArrayList.get(position);
                 id_category = id1.get("id");
                 category_name = id1.get("category_name");
+
+                Load_storesfromcategories_fromAPI();
             }
 
             @Override
@@ -187,133 +228,684 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
             }
         });
 
+        spin_area_manual.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                LoadLocalsformanual_fromAPI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spin_pickcity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Load_availableAreas_fromAPI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spin_pickstore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, String> id1 = storeArrayList.get(position);
+                store_id = id1.get("id");
+                store_name = id1.get("store_name");
+
+                if (position == 0) {
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spin_city_manual.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Load_Areasformanual_fromAPI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void menuvisibilityinAlldevices() {
         MenuVisibility.menuVisible(BuyandDeliveryActivity.this);
     }
 
-    private void LoadCategories_fromAPI() {
+    private void LoadLocalsformanual_fromAPI() {
         OnRequestCompletedListener listener = new OnRequestCompletedListener() {
             @Override
             public void onRequestCompleted(String response) {
-                Log.v("--OUTPUT LOGIN--", response);
-                Log.v("==Categories success==", response);
-                // response will be like {"status":"false","value":"Username\/Password Incorrect"}
                 try {
-
-                    jsonArraylist = new ArrayList<HashMap<String, String>>();
+                    localArrayList = new ArrayList<HashMap<String, String>>();
                     JSONObject obj = new JSONObject(response);
                     final String status = obj.getString("status");
                     final String value = obj.getString("value");
                     JSONObject value_obj = obj.getJSONObject("value");
-                    JSONArray category_array = value_obj.getJSONArray("categories");
+                    JSONArray city_arr = value_obj.getJSONArray("streets");
 
-                    if (status.equals("false")) {
-                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
-                    } else if (status.equals("true")) {
-                        for (int i = 0; i < category_array.length(); i++) {
-                            JSONObject json_data = category_array.getJSONObject(i);
-                            Log.i("log_tag", "_id" + json_data.getInt("id") +
-                                    ", category_name" + json_data.getString("category_name") +
-                                    ", order" + json_data.getString("order")
-                            );
-                            String category_name = category_array.getJSONObject(i).getString("category_name");
-                            String category_id = category_array.getJSONObject(i).getString("id");
+                    for (int i = 0; i < city_arr.length(); i++) {
+                        Log.v("streets", city_arr.toString());
+                        JSONObject json_data = city_arr.getJSONObject(i);
+                        Log.i("log_tag", " streets" + json_data.getString("street"));
+
+                        String area_name = city_arr.getJSONObject(i).getString("street");
+
+                        if (status.equals("false")) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals("true")) {
+                            Log.v("street", area_name);
 
                             // SEND JSON DATA INTO SPINNER TITLE LIST
-                            proList = new HashMap<String, String>();
-                            proList.put("id", category_id);
-                            proList.put("category_name", category_name);
+                            localList = new HashMap<String, String>();
+                            localList.put("street", area_name);
 
-                            jsonArraylist.add(proList);
+                            localArrayList.add(localList);
 
-                            sAdapPROJ = new SimpleAdapter(BuyandDeliveryActivity.this, jsonArraylist, R.layout.spinner_item,
-                                    new String[]{"id", "category_name"}, new int[]{R.id.Id, R.id.Name});
-                            spin_pickcategory.setAdapter(sAdapPROJ);
+                            localAdapPROJ = new SimpleAdapter(BuyandDeliveryActivity.this, localArrayList, R.layout.spinner_item,
+                                    new String[]{"id", "street"}, new int[]{R.id.Id, R.id.Name});
+                            spin_local_manual.setAdapter(localAdapPROJ);
                         }
-                        //Toast.makeText(getApplicationContext(), category_array.toString(), Toast.LENGTH_SHORT).show();
-                        Log.e("--JSONARRAY--", category_array.toString());
                     }
                 } catch (JSONException exception) {
                     Log.e("--JSON EXCEPTION--", exception.toString());
                 }
             }
         };
-        // get user data from session
+        local_mtext = spin_area_manual.getSelectedItem().toString();
+        local_mtext = local_mtext.replace("city=area=", "");
+        local_mtext = local_mtext.replaceAll("[\\[\\](){}]", "");
+
+         /*String api_token = "cade3fa343d595d72803f460c139086d";*/
         HashMap<String, String> user = session.getUserDetails();
         // token
         String api_token = user.get(SessionManager.KEY_APITOKEN);
-        ServiceCalls.callAPI_togetcategories(this, Request.Method.POST, Constants.GET_CATEGORIES, listener, api_token);
+        local_mtext = local_mtext.replace("area=", "");
+        ServiceCalls.callAPI_togetlocalforArea(this, Request.Method.POST, Constants.GET_LOCALS, local_mtext, listener, api_token);
     }
 
-    private void LoadSpinners() {
+    /*dropdown for city*/
+    private void LoadCities_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                try {
 
-        //Type of package
-        Resources resources = getApplicationContext().getResources();
-        String[] textString = resources.getStringArray(R.array.type_of_package);
-        spinner_package_type.setAdapter(new MyAdapter(BuyandDeliveryActivity.this, R.layout.type_spinner_row, textString));
+                    cityArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject value_obj = obj.getJSONObject(Constants.KEY_VALUE);
+                    JSONArray city_array = value_obj.getJSONArray(Constants.CITIES);
 
-        //spinner adapter for country
-        ArrayAdapter<CharSequence> adapter_country = ArrayAdapter.createFromResource(this,
-                R.array.Country, android.R.layout.simple_spinner_item);
-        adapter_country.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_country.setAdapter(adapter_country);
+                    for (int i = 0; i < city_array.length(); i++) {
+                        JSONObject json_data = city_array.getJSONObject(i);
+                        String city_name = city_array.getJSONObject(i).getString(Constants.CITY_NAME);
+                        if (status.equals(Constants.KEY_FALSE)) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals(Constants.KEY_TRUE)) {
 
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            cityList = new HashMap<String, String>();
+                            cityList.put(Constants.CITY_NAME, city_name);
+
+                            cityArrayList.add(cityList);
+
+                            cityAdapPROJ = new SimpleAdapter(BuyandDeliveryActivity.this, cityArrayList, R.layout.spinner_item,
+                                    new String[]{"id", Constants.CITY_NAME}, new int[]{R.id.Id, R.id.Name});
+                            spin_pickcity.setAdapter(cityAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        ServiceCalls.callAPI_togetCity(this, Request.Method.POST, Constants.GET_CITIES, "India", "Karnataka", listener);
     }
 
-    public class MyAdapter extends ArrayAdapter<String> {
+    private void Load_Areasformanual_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                try {
+                    areamArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject value_obj = obj.getJSONObject(Constants.KEY_VALUE);
+                    JSONArray city_arr = value_obj.getJSONArray(Constants.KEY_AREA);
 
-        public MyAdapter(Context context, int textViewResourceId, String[] objects) {
-            super(context, textViewResourceId, objects);
-        }
+                    for (int i = 0; i < city_arr.length(); i++) {
+                        Log.v("City_array", city_arr.toString());
+                        JSONObject json_data = city_arr.getJSONObject(i);
+                        Log.i("log_tag", " area" + json_data.getString(Constants.KEY_AREA));
 
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
+                        String area_name = city_arr.getJSONObject(i).getString(Constants.KEY_AREA);
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
+                        if (status.equals(Constants.KEY_FALSE)) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals(Constants.KEY_TRUE)) {
+                            Log.v("area", area_name);
 
-        public View getCustomView(int position, View convertView, ViewGroup parent) {
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            areamList = new HashMap<String, String>();
+                            areamList.put(Constants.KEY_AREA, area_name);
 
-            LayoutInflater inflater = getLayoutInflater();
-            View row = inflater.inflate(R.layout.type_spinner_row, parent, false);
-            TextView label = (TextView) row.findViewById(R.id.txt_package_type);
-            Resources resources1 = getApplicationContext().getResources();
-            String[] textString1 = resources1.getStringArray(R.array.type_of_package);
-            label.setText(textString1[position]);
+                            areamArrayList.add(areamList);
 
-            TextView sub = (TextView) row.findViewById(R.id.txt_dimn);
-            Resources resources2 = getApplicationContext().getResources();
-            String[] textString2 = resources2.getStringArray(R.array.package_dimensions);
-            sub.setText(textString2[position]);
+                            areamAdapPROJ = new SimpleAdapter(BuyandDeliveryActivity.this, areamArrayList, R.layout.spinner_item,
+                                    new String[]{"id", Constants.KEY_AREA}, new int[]{R.id.Id, R.id.Name});
+                            spin_area_manual.setAdapter(areamAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        city_mtext = spin_city_manual.getSelectedItem().toString();
+        city_mtext = city_mtext.replace("city_name=", "");
+        city_mtext = city_mtext.replaceAll("[\\[\\](){}]", "");
 
-            ImageView icon = (ImageView) row.findViewById(R.id.image_type);
-            TypedArray icons;
-            Resources res = getResources();
-            icons = res.obtainTypedArray(R.array.image_type_array);
-            Drawable drawable = icons.getDrawable(position);
-            icon.setImageDrawable(drawable);
+         /*String api_token = "cade3fa343d595d72803f460c139086d";*/
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        ServiceCalls.callAPI_togetAreafromcity(this, Request.Method.POST, Constants.GET_AREA, city_mtext, listener, api_token);
+    }
 
-            return row;
-        }
+    /*dropdown for city_manual*/
+    private void LoadCitiestomanual_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                try {
+
+                    citymArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject value_obj = obj.getJSONObject(Constants.KEY_VALUE);
+                    JSONArray city_arr = value_obj.getJSONArray(Constants.CITIES);
+
+                    for (int i = 0; i < city_arr.length(); i++) {
+                        JSONObject json_data = city_arr.getJSONObject(i);
+                        String city_name = city_arr.getJSONObject(i).getString(Constants.CITY_NAME);
+                        if (status.equals(Constants.KEY_FALSE)) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals(Constants.KEY_TRUE)) {
+
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            citymList = new HashMap<String, String>();
+                            citymList.put(Constants.CITY_NAME, city_name);
+
+                            citymArrayList.add(citymList);
+
+                            citymAdapPROJ = new SimpleAdapter(BuyandDeliveryActivity.this, citymArrayList, R.layout.spinner_item,
+                                    new String[]{"id", Constants.CITY_NAME}, new int[]{R.id.Id, R.id.Name});
+                            spin_city_manual.setAdapter(citymAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        ServiceCalls.callAPI_togetCity(this, Request.Method.POST, Constants.GET_CITIES, "India", "Karnataka", listener);
+    }
+
+    /*dropdown for areas*/
+    private void Load_availableAreas_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                try {
+
+                    areaArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject value_obj = obj.getJSONObject(Constants.KEY_VALUE);
+                    JSONArray city_array = value_obj.getJSONArray(Constants.KEY_AREA);
+
+                    for (int i = 0; i < city_array.length(); i++) {
+                        Log.v("City_array", city_array.toString());
+                        JSONObject json_data = city_array.getJSONObject(i);
+                        Log.i("log_tag", " area" + json_data.getString(Constants.KEY_AREA));
+
+                        String area_name = city_array.getJSONObject(i).getString(Constants.KEY_AREA);
+
+                        if (status.equals(Constants.KEY_FALSE)) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals(Constants.KEY_TRUE)) {
+                            Log.v("area", area_name);
+
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            areaList = new HashMap<String, String>();
+                            areaList.put(Constants.KEY_AREA, area_name);
+
+                            areaArrayList.add(areaList);
+
+                            areaAdapPROJ = new SimpleAdapter(BuyandDeliveryActivity.this, areaArrayList, R.layout.spinner_item,
+                                    new String[]{"id", Constants.KEY_AREA}, new int[]{R.id.Id, R.id.Name});
+                            spin_pickarea.setAdapter(areaAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        city_text = spin_pickcity.getSelectedItem().toString();
+        city_text = city_text.replace("city_name=", "");
+        city_text = city_text.replaceAll("[\\[\\](){}]", "");
+
+         /*String api_token = "cade3fa343d595d72803f460c139086d";*/
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        ServiceCalls.callAPI_togetAreafromcity(this, Request.Method.POST, Constants.GET_AREA, city_text, listener, api_token);
+    }
+
+    /*dropdown for categories*/
+    private void LoadAPI_getStorecategories() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("--output store categories--", response);
+                try {
+
+                    categoryArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject value_obj = obj.getJSONObject(Constants.KEY_VALUE);
+                    JSONArray city_array = value_obj.getJSONArray(Constants.CATEGORIES);
+
+                    for (int i = 0; i < city_array.length(); i++) {
+                        JSONObject json_data = city_array.getJSONObject(i);
+                        Log.i("log_tag", " area" + json_data.getString("category_name"));
+
+                        String id = city_array.getJSONObject(i).getString("id");
+                        String category_name = city_array.getJSONObject(i).getString("category_name");
+
+                        if (status.equals(Constants.KEY_FALSE)) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals(Constants.KEY_TRUE)) {
+                            Log.v("category_name", category_name);
+
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            categoryList = new HashMap<String, String>();
+                            categoryList.put("id", id);
+                            categoryList.put("category_name", category_name);
+
+                            categoryArrayList.add(categoryList);
+
+                            categoryAdapPROJ = new SimpleAdapter(BuyandDeliveryActivity.this, categoryArrayList, R.layout.spinner_item,
+                                    new String[]{"id", "category_name"}, new int[]{R.id.Id, R.id.Name});
+                            spin_pickcategory.setAdapter(categoryAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+
+         /*String api_token = "cade3fa343d595d72803f460c139086d";*/
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        ServiceCalls.callAPI_togetCategories(this, Request.Method.POST, Constants.GET_STORECATEGORIES, listener, api_token);
+    }
+
+    /*dropdown for stores*/
+    private void Load_storesfromcategories_fromAPI() {
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("--output store List--", response);
+                try {
+                    storeArrayList = new ArrayList<HashMap<String, String>>();
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject value_obj = obj.getJSONObject(Constants.KEY_VALUE);
+                    JSONArray store_array = value_obj.getJSONArray(Constants.STORES);
+
+                    for (int i = 0; i < store_array.length(); i++) {
+                        JSONObject json_data = store_array.getJSONObject(i);
+                        Log.i("log_tag", " store_name" + json_data.getString("store_name"));
+
+                        String id = store_array.getJSONObject(i).getString("id");
+                        String store_name = store_array.getJSONObject(i).getString("store_name");
+
+                        if (status.equals(Constants.KEY_FALSE)) {
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        } else if (status.equals(Constants.KEY_TRUE)) {
+                            Log.v("store_name", store_name);
+
+                            // SEND JSON DATA INTO SPINNER TITLE LIST
+                            storeList = new HashMap<String, String>();
+                            storeList.put("id", id);
+                            storeList.put("store_name", store_name);
+
+                            storeArrayList.add(storeList);
+
+                            storeAdapPROJ = new SimpleAdapter(BuyandDeliveryActivity.this, storeArrayList, R.layout.spinner_item,
+                                    new String[]{"id", "store_name"}, new int[]{R.id.Id, R.id.Name});
+                            spin_pickstore.setAdapter(storeAdapPROJ);
+                        }
+                    }
+                } catch (JSONException exception) {
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+
+         /*String api_token = "cade3fa343d595d72803f460c139086d";*/
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        ServiceCalls.callAPI_togetStorefromcategory_id(this, Request.Method.POST, Constants.GET_STORES, id_category, listener, api_token);
+    }
+
+    private void openPopup_formobilenumber() {
+        /* Alert Dialog Code Start*/
+        final AlertDialog.Builder alert = new AlertDialog.Builder(BuyandDeliveryActivity.this);
+        alert.setTitle(Constants.MOBILE_NUMBER);
+        alert.setIcon(R.drawable.mobile);
+        alert.setMessage("Please enter your mobile number");
+        alert.setCancelable(false);
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(BuyandDeliveryActivity.this);
+        input.setSingleLine(true);
+        input.setInputType(InputType.TYPE_CLASS_PHONE);
+        alert.setView(input);
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                final String entered_value = input.getEditableText().toString();
+                if (!Utils.isOnline(BuyandDeliveryActivity.this)) {
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
+                    openPopup_formobilenumber();
+                } else if (entered_value.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please enter the mobile number", Toast.LENGTH_LONG).show();
+                    openPopup_formobilenumber();
+                } else {
+                    mob_number.setText(entered_value);
+                    deliver_details_layout.setVisibility(View.VISIBLE);
+                    deliver_details_layout.startAnimation(animShow);
+                    deliver_arrow_img.setImageResource(R.drawable.up_arrow);
+                    progressDialog = ProgressDialog.show(BuyandDeliveryActivity.this, Constants.PLEASE_WAIT, Constants.REQUESTING, true);
+                    progressDialog.setCancelable(false);
+                    OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+                        @Override
+                        public void onRequestCompleted(String response) {
+                            Log.v("OUTPUT USER", response);
+                            progressDialog.dismiss();
+                            try {
+                                JSONObject obj = new JSONObject(response);
+                                final String status = obj.getString(Constants.KEY_STATUS);
+                                final String value = obj.getString(Constants.KEY_VALUE);
+                                JSONObject value_obj = obj.getJSONObject(Constants.KEY_VALUE);
+                                final String user_type = value_obj.getString(Constants.KEY_USER_TYPE);
+
+                                if (status.equals(Constants.KEY_FALSE)) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(BuyandDeliveryActivity.this, value, Toast.LENGTH_SHORT).show();
+                                } else if (status.equals(Constants.KEY_TRUE)) {
+                                    progressDialog.dismiss();
+                                    if (user_type.equals("Prime User")) {
+                                        JSONObject office_address_obj = value_obj.getJSONObject("office_address");
+                                        JSONObject home_address_obj = value_obj.getJSONObject("home_address");
+
+                                        final String home_street = home_address_obj.getString("street");
+                                        final String home_area = home_address_obj.getString("area");
+                                        final String home_city = home_address_obj.getString("city");
+                                        final String home_state = home_address_obj.getString("state");
+                                        final String home_country = home_address_obj.getString("country");
+                                        final String home_zip = home_address_obj.getString("zip");
+                                        final String home_name = home_address_obj.getString("name");
+                                        final String ofc_street = office_address_obj.getString("street");
+                                        final String ofc_area = office_address_obj.getString("area");
+                                        final String ofc_city = office_address_obj.getString("city");
+                                        final String ofc_state = office_address_obj.getString("state");
+                                        final String ofc_country = office_address_obj.getString("country");
+                                        final String ofc_zip = office_address_obj.getString("zip");
+                                        final String ofc_name = office_address_obj.getString("name");
+
+                                        radio_address.setVisibility(View.VISIBLE);
+                                        user_type_prime.setVisibility(View.VISIBLE);
+                                        user_type_prime.setText("Star user");
+                                        home_address.setChecked(true);
+                                        address_layout.setVisibility(View.VISIBLE);
+                                        manual_address_layout.setVisibility(View.GONE);
+                                        street.setText(home_street);
+                                        area.setText(home_area);
+                                        city.setText(home_city);
+                                        state.setText(home_state);
+                                        country.setText(home_country);
+                                        zipcode.setText(home_zip);
+                                        name_prime.setText(home_name);
+
+                                        radio_address.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                            @Override
+                                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                                switch (checkedId) {
+                                                    case R.id.home_address:
+                                                        address_layout.setVisibility(View.VISIBLE);
+                                                        manual_address_layout.setVisibility(View.GONE);
+                                                        street.setText(home_street);
+                                                        area.setText(home_area);
+                                                        city.setText(home_city);
+                                                        state.setText(home_state);
+                                                        country.setText(home_country);
+                                                        zipcode.setText(home_zip);
+                                                        name_prime.setText(home_name);
+                                                        break;
+                                                    case R.id.office_address:
+                                                        manual_address_layout.setVisibility(View.GONE);
+                                                        address_layout.setVisibility(View.VISIBLE);
+                                                        street.setText(ofc_street);
+                                                        area.setText(ofc_area);
+                                                        city.setText(ofc_city);
+                                                        state.setText(ofc_state);
+                                                        country.setText(ofc_country);
+                                                        zipcode.setText(ofc_zip);
+                                                        name_prime.setText(ofc_name);
+                                                        break;
+                                                    case R.id.enter_manually:
+                                                        address_layout.setVisibility(View.GONE);
+                                                        manual_address_layout.setVisibility(View.VISIBLE);
+                                                        break;
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        enter_manually.setChecked(true);
+                                        radio_address.setVisibility(View.GONE);
+                                        address_layout.setVisibility(View.GONE);
+                                        manual_address_layout.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            } catch (JSONException exception) {
+                                progressDialog.dismiss();
+                                Log.e("--JSON EXCEPTION--", exception.toString());
+                            }
+                        }
+                    };
+                    HashMap<String, String> user = session.getUserDetails();
+                    // token
+                    String api_token = user.get(SessionManager.KEY_APITOKEN);
+                    ServiceCalls.CallAPI_to_GetPrimeinfo(BuyandDeliveryActivity.this, Request.Method.POST, Constants.GET_PRIME_OR_NOT, listener, entered_value, api_token);
+                }
+            }
+        });
+        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        }); //End of alert.setNegativeButton
+        AlertDialog alertDialog = alert.create();
+        alertDialog.show();
     }
 
     @Override
     public void onClick(View view) {
-        if (view == btn_ok) {
-            //later it will change to estimate screen
-            validateandCheckpartner();
+        if (view == loc_layout) {
+            if (loc_items_layout.getVisibility() == View.VISIBLE) {
+                // Its visible
+                loc_items_layout.setVisibility(View.GONE);
+                loc_items_layout.startAnimation(animHide);
+                loc_arrow_img.setImageResource(R.drawable.down_arrow);
+            } else {
+                // Either gone or invisible
+                loc_items_layout.setVisibility(View.VISIBLE);
+                loc_items_layout.startAnimation(animShow);
+                loc_arrow_img.setImageResource(R.drawable.up_arrow);
+            }
         }
-        if (view == img_button) {
-            cameraActionToCapture();
+        if (view == store_layout) {
+            if (store_details_layout.getVisibility() == View.VISIBLE) {
+                //its visible
+                store_details_layout.setVisibility(View.GONE);
+                store_details_layout.startAnimation(animHide);
+                store_arrow_img.setImageResource(R.drawable.down_arrow);
+            } else {
+                //Either gone or invisible
+                store_details_layout.setVisibility(View.VISIBLE);
+                store_details_layout.startAnimation(animShow);
+                store_arrow_img.setImageResource(R.drawable.up_arrow);
+            }
+        }
+        if (view == deliver_layout) {
+            if (deliver_details_layout.getVisibility() == View.VISIBLE) {
+                //its visible
+                deliver_details_layout.setVisibility(View.GONE);
+                deliver_details_layout.startAnimation(animHide);
+                deliver_arrow_img.setImageResource(R.drawable.down_arrow);
+            } else {
+                //Either gone or invisible
+                if (mob_number.getText().toString().equals("")) {
+                    openPopup_formobilenumber();
+                } else {
+                    deliver_details_layout.setVisibility(View.VISIBLE);
+                    deliver_details_layout.startAnimation(animShow);
+                    deliver_arrow_img.setImageResource(R.drawable.up_arrow);
+                }
+            }
+        }
+        if (view == button_menu) {
+            //validate_fields();
+            int res_id = radio_address.getCheckedRadioButtonId();
+            if (res_id == -1) {
+                Toast.makeText(getApplicationContext(), "Please select the delivery address", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                RadioButton radioButton = (RadioButton) findViewById(res_id);
+                address_type = radioButton.getText().toString().trim();
+            }
+
+            deliver_state = state.getText().toString();
+            deliver_country = "India";
+            delivery_phone = mob_number.getText().toString();
+            order_name = name_prime.getText().toString();
+
+            String addr_type;
+
+            Intent to_store_menu = new Intent(getApplicationContext(), StoreMenuActivity.class);
+            to_store_menu.putExtra(Constants.KEY_STOREID, store_id);
+            if (address_type.equals("Manual")) {
+                addr_type = "0";
+                if (edit_manual_name.getText().toString().equals("") &&
+                        edit_manual_street.getText().toString().equals("") && edit_manual_floor.getText().toString().equals("") &&
+                        edit_manual_pincode.getText().toString().equals("")) {
+                    input_manual_name.setError("Please enter the name");
+                    input_manual_street.setError("Please enter the street address");
+                    input_manual_floor.setError("Please enter the floor number");
+                    input_manual_pincode.setError("Please enter the pincode");
+                } else {
+                    name = edit_manual_name.getText().toString();
+                    deliver_city = spin_city_manual.getSelectedItem().toString();
+                    deliver_city = deliver_city.replace("city_name=", "");
+                    deliver_city = deliver_city.replaceAll("[\\[\\](){}]", "");
+                    deliver_area = spin_area_manual.getSelectedItem().toString();
+                    deliver_area = deliver_area.replace("area=", "");
+                    deliver_area = deliver_area.replaceAll("[\\[\\](){}]", "");
+                    deliver_address = edit_manual_street.getText().toString();
+                    deliver_st = spin_local_manual.getSelectedItem().toString().replace("street=", "").replaceAll("[\\[\\](){}]", "");
+                    floor_num = edit_manual_floor.getText().toString();
+                    deliver_zip = edit_manual_pincode.getText().toString();
+                    deliver_state = "Karnataka";
+                    to_store_menu.putExtra(Constants.KEY_DELIVERY_ADDRESS, deliver_address);
+                    to_store_menu.putExtra(Constants.KEY_DELIVERY_STREET, deliver_st);
+                    to_store_menu.putExtra(Constants.KEY_DELIVERY_AREA, deliver_area);
+                    to_store_menu.putExtra(Constants.KEY_DELIVERY_CITY, deliver_city);
+                    to_store_menu.putExtra(Constants.KEY_DELIVERY_STATE, deliver_state);
+                    to_store_menu.putExtra(Constants.KEY_DELIVERY_COUNTRY, deliver_country);
+                    to_store_menu.putExtra(Constants.KEY_DELIVERY_POSTAL, deliver_zip);
+                    to_store_menu.putExtra(Constants.KEY_NAME, name);
+                    to_store_menu.putExtra(Constants.KEY_FLOOR_NUMBER, floor_num);
+                    to_store_menu.putExtra(Constants.KEY_ADDRESS_TYPE, addr_type);
+                    to_store_menu.putExtra(Constants.KEY_DELIVERY_PHONE, delivery_phone);
+                    startActivity(to_store_menu);
+                }
+            } else {
+                addr_type = "1";
+                deliver_st = street.getText().toString();
+                deliver_area = area.getText().toString();
+                deliver_city = city.getText().toString();
+                deliver_zip = zipcode.getText().toString();
+                to_store_menu.putExtra(Constants.KEY_DELIVERY_STREET, deliver_st);
+                to_store_menu.putExtra(Constants.KEY_DELIVERY_AREA, deliver_area);
+                to_store_menu.putExtra(Constants.KEY_DELIVERY_CITY, deliver_city);
+                to_store_menu.putExtra(Constants.KEY_DELIVERY_STATE, deliver_state);
+                to_store_menu.putExtra(Constants.KEY_DELIVERY_COUNTRY, deliver_country);
+                to_store_menu.putExtra(Constants.KEY_DELIVERY_POSTAL, deliver_zip);
+                to_store_menu.putExtra(Constants.KEY_ADDRESS_TYPE, addr_type);
+                to_store_menu.putExtra(Constants.KEY_DELIVERY_PHONE, delivery_phone);
+                to_store_menu.putExtra(Constants.KEY_NAME, order_name);
+                startActivity(to_store_menu);
+            }
         }
     }
 
+    private void validate_fields() {
+        if (mob_number.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter mobile number in (Deliver Address) and Enter the address", Toast.LENGTH_SHORT).show();
+        } else if (radio_address.getCheckedRadioButtonId() == -1) {
+            //empty selection
+            Toast.makeText(getApplicationContext(), "Please select the address to deliver", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "All done", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initAnimation() {
+        animShow = AnimationUtils.loadAnimation(this, R.anim.view_show);
+        animHide = AnimationUtils.loadAnimation(this, R.anim.view_hide);
+    }
 
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -321,264 +913,6 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
-    }
-
-    private void cameraActionToCapture() {
-        try {
-            // Check the SDK version and whether the permission is already granted or not.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
-            } else {
-                // use standard intent to capture an image
-                Intent captureIntent = new Intent(
-                        MediaStore.ACTION_IMAGE_CAPTURE);
-                // we will handle the returned data in onActivityResult
-                startActivityForResult(captureIntent, CAMERA_CAPTURE);
-            }
-        } catch (ActivityNotFoundException anfe) {
-            // display an error message
-            String errorMessage = "Whoops - your device doesn't support capturing images!";
-            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_CAMERA) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted
-                cameraActionToCapture();
-            } else {
-                Toast.makeText(this, "Until you grant the permission, we cannot open the camera", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    /**
-     * Handle user returning from both capturing and cropping the image
-     */
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAMERA_CAPTURE) {
-                picUri = data.getData();
-                Bundle extras = data.getExtras();
-                item_img = extras.getParcelable("data");
-                img_itempic.setImageBitmap(item_img);
-            }
-        }
-    }
-
-    private void validateandCheckpartner() {
-        short_desc = edit_itemshort_desc.getText().toString();
-        street_address = edit_streetaddress.getText().toString();
-        postal_code = edit_postal_code.getText().toString();
-        state = editText_state.getText().toString();
-        city = editText_city.getText().toString();
-        country = spin_country.getSelectedItem().toString();
-        type_of_package = spinner_package_type.getSelectedItem().toString();
-
-        if (short_desc.equals("") && street_address.equals("") && postal_code.equals("")
-                && city.equals("") && state.equals("")) {
-            input_shortdesc.setError("Item short description required");
-            input_postalcode.setError("Postal code is required");
-            input_streetaddress.setError("Street address is required");
-            input_state.setError("Your state is required");
-            input_city.setError("City is required");
-
-        } else if (country.equals("--Select--")) {
-            Toast.makeText(getApplicationContext(), "Please select the country", Toast.LENGTH_LONG).show();
-        } else if (type_of_package.equals("--select--")) {
-            Toast.makeText(getApplicationContext(), "Please select the package type", Toast.LENGTH_LONG).show();
-        } else {
-            callSmartyStreetForStreetValidation();
-        }
-    }
-
-    private void callSmartyStreetForStreetValidation() {
-        progressDialog = ProgressDialog.show(BuyandDeliveryActivity.this, "Please wait ...", "Validating Address...", true);
-        progressDialog.setCancelable(false);
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.SMARTY_STREETS_FOR_VALIDATION + "&street=" + edit_streetaddress.getText().toString() + "&city=" + editText_city.getText().toString() + "&state=" + editText_state.getText().toString() + "&zipcode=" + edit_postal_code.getText().toString() + "&candidates=1";
-        Log.v("--SMARTY INPUTS--", url);
-        url = url.replaceAll(" ", "%20");
-        URL sourceUrl = null;
-        try {
-            sourceUrl = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, sourceUrl.toString(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        Log.v("--SMARTYSTREET LOG--", response);
-                        try {
-                            JSONArray obj = new JSONArray(response);
-                            if (obj.toString().equals("[]")) {
-                                progressDialog.dismiss();
-                                Toast.makeText(BuyandDeliveryActivity.this, "Invalid Address contact support", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(BuyandDeliveryActivity.this, "Valid", Toast.LENGTH_LONG).show();
-                                goto_DeliveryAddress();
-                                progressDialog.dismiss();
-                            }
-                        } catch (JSONException exception) {
-                            Log.e("--JSON EXCEPTION--", exception.toString());
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                         progressDialog.dismiss();
-                        Toast.makeText(BuyandDeliveryActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                        Log.v("==Login Failed==", error.toString());
-                    }
-                }) {
-        };
-        stringRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 500000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 500000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
-    private void goto_DeliveryAddress() {
-
-        String img_item_pick = null;
-        if (item_img != null) {
-            img_item_pick = getStringImage(item_img);
-        } else {
-            Toast.makeText(getApplicationContext(), "Please select Image from gallery or from camera", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        int res_id = radiogroup.getCheckedRadioButtonId();
-        RadioButton radioButton = (RadioButton) findViewById(res_id);
-
-        short_desc = edit_itemshort_desc.getText().toString();
-        String selected_region = radioButton.getText().toString();
-        country = spin_country.getSelectedItem().toString();
-        street_address = edit_streetaddress.getText().toString();
-        city = editText_city.getText().toString();
-        state = editText_state.getText().toString();
-        postal_code = edit_postal_code.getText().toString();
-        type_of_package = spinner_package_type.getSelectedItem().toString();
-
-        //String Address_tolatlong = street_address + "," + city + "," + state + "," + country + "," + postal_code;
-
-        /*Geocoder coder = new Geocoder(this);
-        List<Address> address;
-        double lat = 0;
-        double longi = 0;
-        try {
-            address = coder.getFromLocationName(Address_tolatlong, 1);
-            Address location = address.get(0);
-            lat = location.getLatitude();
-            longi = location.getLongitude();
-
-        } catch (Exception e) {
-
-        }*/
-
-      /*  String lat = null;
-        String longi = null;
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        try {
-            List<Address> addressList = geocoder.getFromLocationName(Address_tolatlong, 1);
-            if (addressList != null && addressList.size() > 0) {
-                Address address = addressList.get(0);
-                *//*StringBuilder sb = new StringBuilder();
-                sb.append(address.getLatitude()).append(",");
-                sb.append(address.getLongitude()).append("");
-                result = sb.toString();*//*
-                lat = String.valueOf(address.getLatitude());
-                longi = String.valueOf(address.getLongitude());
-            }
-        } catch (IOException e) {
-            Log.e(TAG, "Unable to connect to Geocoder", e);
-        }
-        Log.v("TEST GEOCODE", lat + longi);*/
-
-        Intent to_delivery = new Intent(getApplicationContext(), DeliveryAddressActivity.class);
-        to_delivery.putExtra(Constants.KEY_CATEGORY_NAME, category_name);
-        to_delivery.putExtra(Constants.KEY_CATEGORY, id_category);
-        to_delivery.putExtra(Constants.KEY_ITEM_SHORT_DESC, short_desc);
-        to_delivery.putExtra(Constants.KEY_IMAGE, img_item_pick);
-        to_delivery.putExtra(Constants.KEY_REGION, selected_region);
-        to_delivery.putExtra(Constants.KEY_PICK_COUNTRY, country);
-        to_delivery.putExtra(Constants.KEY_PICK_ADDRESS, street_address);
-        to_delivery.putExtra(Constants.KEY_PICK_CITY, city);
-        to_delivery.putExtra(Constants.KEY_PICK_STATE, state);
-        to_delivery.putExtra(Constants.KEY_PICK_POSTALCODE, postal_code);
-        to_delivery.putExtra(Constants.KEY_PACKAGE_TYPE, type_of_package);
-        //to_delivery.putExtra("pick_up_lat", lat);
-        //to_delivery.putExtra("pick_up_long", longi);
-        startActivity(to_delivery);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // get user data from session
-        HashMap<String, String> user = session.getUserDetails();
-        String user_type = user.get(SessionManager.KEY_USER_TYPE);
-        menu.clear();
-        if (user_type.equals(Constants.KEY_TYPE_PARTNER)) {
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.items, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.menu_deliver, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return BaseActivity.CommonClass.HandleMenu(this, item.getItemId());
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        if (editable == edit_itemshort_desc.getEditableText()) {
-            input_shortdesc.setError(null);
-        } else if (editable == edit_streetaddress.getEditableText()) {
-            input_streetaddress.setError(null);
-        } else if (editable == edit_postal_code.getEditableText()) {
-            input_postalcode.setError(null);
-        } else if (editable == editText_city.getEditableText()) {
-            input_city.setError(null);
-        } else if (editable == editText_state.getEditableText()) {
-            input_state.setError(null);
-
-        }
     }
 
     @Override
@@ -598,5 +932,48 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
     protected void onStop() {
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        if (editable == edit_manual_name.getEditableText()) {
+            input_manual_name.setError(null);
+        } else if (editable == edit_manual_street.getEditableText()) {
+            input_manual_street.setError(null);
+        } else if (editable == edit_manual_floor.getEditableText()) {
+            input_manual_floor.setError(null);
+        } else if (editable == edit_manual_pincode.getEditableText()) {
+            input_manual_pincode.setError(null);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+        String user_type = user.get(SessionManager.KEY_USER_TYPE);
+        menu.clear();
+        if (user_type.equals(Constants.KEY_TYPE_PARTNER)) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            getMenuInflater().inflate(R.menu.items, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_deliver, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return BaseActivity.CommonClass.HandleMenu(this, item.getItemId());
     }
 }

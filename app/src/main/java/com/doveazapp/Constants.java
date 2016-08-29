@@ -11,7 +11,9 @@ public class Constants {
 
 
     // Base URL for the app
-    public final static String BASE_URL = "http://doveaz.co.in/api";
+    /*public final static String BASE_URL = "http://doveaz.co.in/api";*/
+
+    public final static String BASE_URL = "http://dealanzer.com/api"; // for testing purpose
 
     //LOGIN
     public final static String LOGIN_URL = BASE_URL + "/Users/login";
@@ -108,6 +110,61 @@ public class Constants {
 
     public final static String GET_TRANSACTION_DETAILS = BASE_URL + "/Groups/getTypeBProfileByTransactionId";
 
+    public final static String GET_DELIVERY_ADDRESS = BASE_URL + "/Extra/getDeliveryAddress";
+
+    public final static String GET_ITEM_DETAILS = BASE_URL + "/Extra/getItemDetails";
+
+    public final static String GET_STATES = BASE_URL + "/Extra/getStatesByCountry";
+
+    public final static String GET_CITIES = BASE_URL + "/Extra/getCitiesByStates";
+
+    public final static String GET_AREA = BASE_URL + "/Store/getArea";
+
+    public final static String GET_LOCALS = BASE_URL + "/Store/getStreets";
+
+    public final static String GET_STORECATEGORIES = BASE_URL + "/Store/getStoreCategories";
+
+    public final static String GET_STORES = BASE_URL + "/Store/listStoreByCategory";
+
+    public final static String GET_PRIME_OR_NOT = BASE_URL + "/Store/getUserByPhone";
+
+    public final static String GET_STORE_PRODUCT_LIST = BASE_URL + "/Store/listProductsByStore";
+
+    public final static String ADD_ORDER = BASE_URL + "/Store/addOrder";
+
+    public final static String CREATE_ORDER = BASE_URL + "/Store/createOrder";
+
+    public final static String DISPATCH_ORDER = BASE_URL + "/Dispatch";
+
+    public final static String AGENT_PICKUP_AREAS = BASE_URL + "/Agents/pickupAreas";
+
+    public final static String AGENT_ORDER_HISTORY = BASE_URL + "/Agents/orderHistory";
+
+    public final static String AGENT_DELIVERY_AREAS = BASE_URL + "/Agents/deliveryAreas";
+
+    public final static String UPDATE_AGENT_AREA = BASE_URL + "/Agents/updateArea";
+
+    public final static String PICKUP_LIST_BY_AREA = BASE_URL + "/Agents/pickupListByArea";
+
+    public final static String DELIVERY_LIST_BY_AREA = BASE_URL + "/Agents/deliveryListByArea";
+
+    public final static String AGENT_UPDATE_ORDER_STATUS = BASE_URL + "/Agents/updateOrderStatus";
+
+    public final static String VIEW_ORDER_TYPE_A = BASE_URL + "/Store/viewOrder";
+
+    public final static String VIEW_MY_ORDER = BASE_URL + "/Store/viewMyOrder";
+
+    public final static String CANCEL_ORDER_TYPE_A = BASE_URL + "/Store/cancelOrder";
+
+    public final static String ORDER_CHECK = BASE_URL + "/Store/orderExist";
+
+    public final static String ORDER_CHECK_TYPE_B = BASE_URL + "/Notification/getDetailsB";
+
+    public final static String AGENT_ACCEPT_ORDER = BASE_URL + "/Dispatch/accept";
+
+    public final static String AGENT_DECLINE_ORDER = BASE_URL + "/Dispatch/reject";
+
+    public final static String VIEW_ORDER_INFO = BASE_URL + "/Store/viewMyOrderDetails";
 
     //Select image from camera Toast message
     public static final String SELECT_IMAGE_TOAST_MESSAGE = "Please select Image from gallery or from camera";
@@ -164,7 +221,11 @@ public class Constants {
     public static final String KEY_PACKAGE_TYPE = "type";
     public static final String KEY_DELIVERY_COUNTRY = "delivery_country";
     public static final String KEY_DELIVERY_ADDRESS = "delivery_address";
+    public static final String KEY_DELIVERY_ADDRESS_TYPE = "delivery_address_type";
+    public static final String KEY_DELIVERY_STREET = "delivery_street";
+    public static final String KEY_DELIVERY_AREA = "delivery_area";
     public static final String KEY_DELIVERY_CITY = "delivery_city";
+    public static final String KEY_DELIVERY_PHONE = "delivery_phone";
     public static final String KEY_DELIVERY_STATE = "delivery_state";
     public static final String KEY_DELIVERY_POSTAL = "delivery_postalcode";
     public static final String KEY_DELIVERY_DATE = "date";
@@ -172,6 +233,8 @@ public class Constants {
     public static final String KEY_KNOWN_VALUE = "value";
     public static final String KEY_TIP_FEE = "fee";
     public static final String KEY_CREDITS = "credits";
+    public static final String KEY_TOTAL_PRICE = "total_price";
+
 
     public static final String KEY_SENDER_ID = "sender_id";
     public static final String KEY_COLLECTION_ADDRESS = "collection_address";
@@ -279,10 +342,44 @@ public class Constants {
     * */
     public static final String KEY_MAILID_VALIDATE = "Please enter valid mail id";
     public static final String KEY_PASSWORD_VALIDATE = "Minimum 6 characters required";
-    public static final String KEY_PLEASE_WAIT = "Please wait...";
-    public static final String KEY_LOADING = "Loading...";
     public static final String KEY_BUSINESS = "business";
-
+    public static final String KEY_STOREID = "store_id";
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_OWNER_ID = "owner_id";
+    public static final String KEY_ORDER_QTY = "max_order_qty";
+    public static final String KEY_UNIT_PRICE = "unit_price";
+    public static final String KEY_ADDRESS_TYPE = "address_type";
+    public static final String KEY_DELIVERY_ZIP = "delivery_zip";
+    public static final String KEY_ORDER_DETAILS = "order_details";
+    public static final String KEY_PICKUP_PHONE = "pickup_phone";
+    public static final String KEY_PICKUP_ADDR_TYPE = "pickup_address_type";
+    public static final String KEY_PICKUP_STREET = "pickup_street";
+    public static final String KEY_PICKUP_AREA = "pickup_area";
+    public static final String KEY_PICKUP_CITY = "pickup_city";
+    public static final String KEY_PICKUP_STATE = "pickup_state";
+    public static final String KEY_PICKUP_COUNTRY = "pickup_country";
+    public static final String KEY_PICKUP_ZIPCODE = "pickup_zip";
+    public static final String KEY_FLOOR_NUMBER = "floor_number";
+    public static final String KEY_PICKUP_NAME = "pickup_name";
+    public static final String KEY_DELIVERY_NAME = "delivery_name";
+    public static final String KEY_PICKUP_FLOOR_NO = "pickup_floor_no";
+    public static final String KEY_DELIVERY_FLOOR_NO = "delivery_floor_no";
+    public static final String KEY_ORDER_ID = "order_id";
+    public static final String KEY_ORDER_ITEMS = "order_items";
+    public static final String KEY_CREDIT_TYPE = "credit_type";
+    public static final String KEY_PRICE_STORE = "price_store";
+    public static final String KEY_ORDERS = "orders";
+    public static final String KEY_ORDER_STATUS = "delivery_status";
+    public static final String KEY_PRICE = "price";
+    public static final String KEY_QUANTITY = "qty";
+    public static final String KEY_DELIVERY_STATUS = "delivery_status";
+    public static final String KEY_ORDER_TYPE = "order_type";
+    public static final String KEY_RESULT = "result";
+    public static final String KEY_PRODUCT_ID = "product_id";
+    public static final String KEY_PRODUCT_NAME = "product_name";
+    public static final String KEY_PRODUCT_QUANTITY = "quantity";
+    public static final String KEY_PAYMENT_TYPE = "payment_type";
+    public static final String KEY_PICKUP_ADDRESS = "pickup_address";
 
     //Smarty
     String SMARTY_STREETS = "https://api.smartystreets.com/street-address?auth-id=1aefa793-57b5-c233-4f5e-1f564bc981b9&auth-token=vA78RIZHOI36nbmQJFh2" +
@@ -328,7 +425,7 @@ public class Constants {
     public static final String KEY_GROUP_COUNT = "member_count";
     public static final String KEY_ADMIN = "admin";
     public static final String KEY_VERIFIED_PROFILES = "verified_profiles";
-
+    public static final String KEY_ITEM_DETAILS = "item_description";
 
     // paypal variables
 
@@ -350,9 +447,36 @@ public class Constants {
 
     public static final String KEY_USER_DETAILS = "user_details";
 
+    public static final String KEY_USER = "user";
     public static final String KEY_TRUE = "true";
     public static final String KEY_FALSE = "false";
     public static final String KEY_HOLDER_VALUE = "holder_details";
 
+    /*shared Preference values*/
+    public static final String PREFS_NAME = "preferences";
+    public static final String PREF_UNAME = "Username";
+    public static final String KEY_ONE = "1";
+    public static final String KEY_ZERO = "0";
+    public static final String KEY_FLAG = "flag";
+    public static final String KEY_ORDER = "order";
+
+    /*Delivery status*/
+    public static final String ACCEPTED = "Accepted";
+    public static final String PICKED = "Picked";
+    public static final String DELIVERED = "Delivered";
+    public static final String NOT_AVAILABLE = "N/A";
+    public static final String PLEASE_WAIT = "Please wait...";
+    public static final String LOADING = "Loading...";
+    public static final String REQUESTING = "Requesting...";
+    public static final String CITIES = "cities";
+    public static final String CITY_NAME = "city_name";
+    public static final String CATEGORIES = "categories";
+    public static final String STORES = "stores";
+    public static final String MOBILE_NUMBER = "Mobile Number";
+    public static final String KEY_USER_TYPE = "user_type";
+
+    //PayUmoney Vriables
+    public static final String PAY_U_MONEY_KEY = "ZAcZtRp6";
+    public static final String PAY_U_MONEY_MERCHANT_ID = "5599247";
 
 }

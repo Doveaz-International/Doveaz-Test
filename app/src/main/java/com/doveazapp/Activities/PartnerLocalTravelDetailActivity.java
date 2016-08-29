@@ -56,6 +56,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /**
+ * PartnerLocalTravelDetailActivity.java
  * Created by Karthik on 2016/02/01.
  */
 public class PartnerLocalTravelDetailActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {

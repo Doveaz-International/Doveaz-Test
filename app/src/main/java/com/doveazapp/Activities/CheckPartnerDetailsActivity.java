@@ -37,6 +37,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
+ * CheckPartnerDetailsActivity.java
  * Created by Karthik on 11/24/2015.
  */
 public class CheckPartnerDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -160,9 +161,9 @@ public class CheckPartnerDetailsActivity extends AppCompatActivity implements Vi
                 progressDialog.dismiss();
                 try {
                     JSONObject obj = new JSONObject(response);
-                    final String status = obj.getString("status");
-                    final String value = obj.getString("value");
-                    JSONObject value_obj = obj.getJSONObject("value");
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject value_obj = obj.getJSONObject(Constants.KEY_VALUE);
                     JSONObject profile_obj = value_obj.getJSONObject("profile");
                     JSONObject service_obj = value_obj.getJSONObject("service_details");
                     String dist_from_pickup = value_obj.getString("distace_from_pickup");
@@ -170,10 +171,10 @@ public class CheckPartnerDetailsActivity extends AppCompatActivity implements Vi
                     risk_score_fromapi = value_obj.getString("risk_score");
                     String earnings = value_obj.getString("total_eranings");
                     progressDialog.dismiss();
-                    if (status.equals("false")) {
+                    if (status.equals(Constants.KEY_FALSE)) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
-                    } else if (status.equals("true")) {
+                    } else if (status.equals(Constants.KEY_TRUE)) {
                         progressDialog.dismiss();
                         //Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
 

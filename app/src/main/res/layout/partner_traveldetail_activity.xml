@@ -168,6 +168,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></Spinner>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:text="@string/state" />
+
+                <Spinner
+                    android:id="@+id/spin_state_bd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/thirty_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:text="@string/city" />
+
+                <Spinner
+                    android:id="@+id/spin_city_bd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/thirty_dp" />
+
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_streetaddress_bd"
                     android:layout_width="match_parent"
@@ -179,38 +203,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/destination_address"
-                        android:inputType="textPostalAddress"
-                        android:textColor="@color/doveaz_blue"
-                        android:textColorHint="@color/doveaz_blue" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_city"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/edit_city"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/city"
-                        android:inputType="textPostalAddress"
-                        android:textColor="@color/doveaz_blue"
-                        android:textColorHint="@color/doveaz_blue" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_state"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/edit_state"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/state"
                         android:inputType="textPostalAddress"
                         android:textColor="@color/doveaz_blue"
                         android:textColorHint="@color/doveaz_blue" />

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_order_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+
+    <com.doveazapp.Utils.CustomDoveazFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:text="@string/ur_order_details"
+        android:textSize="@dimen/eighteen_dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/ten_dp"
+            android:weightSum="2">
+
+            <com.doveazapp.Utils.CustomDoveazFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/order_status" />
+
+            <com.doveazapp.Utils.CustomDoveazFont
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/ten_dp"
+            android:weightSum="2">
+
+            <com.doveazapp.Utils.CustomDoveazFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/deliveryaddr" />
+
+            <com.doveazapp.Utils.CustomDoveazFont
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/three_dp"
+        android:layout_marginRight="@dimen/three_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:background="@color/doveaz_orange"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Order id"
+            android:textColor="@color/appbackround" />
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/product_name"
+            android:textColor="@color/appbackround" />
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/price"
+            android:textColor="@color/appbackround" />
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/quantity"
+            android:textColor="@color/appbackround" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

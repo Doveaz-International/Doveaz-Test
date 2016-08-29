@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * FriendsMenuBuyDeliverActivity.java
  * Created by Karthik on 11/20/2015.
  */
 

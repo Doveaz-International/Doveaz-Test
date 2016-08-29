@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
+ * EditDescription.java
  * Created by Karthik on 2016/01/11.
  */
 public class EditDescription extends AppCompatActivity implements TextWatcher, View.OnClickListener {
@@ -90,7 +91,7 @@ public class EditDescription extends AppCompatActivity implements TextWatcher, V
         //Button
         btn_negotiate = (Button) findViewById(R.id.btn_negotiate);
         btn_engage = (Button) findViewById(R.id.btn_engage);
-        btn_decline = (Button) findViewById(R.id.btn_declined);
+        //btn_decline = (Button) findViewById(R.id.btn_declined);
 
         // Edittext init
         edit_postal_code_c = (EditText) findViewById(R.id.edit_postalcode_bd);
@@ -225,9 +226,9 @@ public class EditDescription extends AppCompatActivity implements TextWatcher, V
         if (v == btn_engage) {
             callAPI_toEngagePartner();
         }
-        if (v == btn_decline) {
+        /*if (v == btn_decline) {
             callAPI_toDecline();
-        }
+        }*/
     }
 
     private void callAPI_toDecline() {

@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
+ * AcceptCreditActivity.java
  * Created by Karthik on 2016/01/21.
  */
 public class AcceptCreditActivity extends AppCompatActivity implements View.OnClickListener {
@@ -102,12 +103,12 @@ public class AcceptCreditActivity extends AppCompatActivity implements View.OnCl
         if (item_value != null) {
             text_value.setText(item_value);
         } else {
-            text_value.setText("N/A");
+            text_value.setText(Constants.NOT_AVAILABLE);
         }
         if (fee != null) {
             text_fee.setText(fee);
         } else {
-            text_fee.setText("N/A");
+            text_fee.setText(Constants.NOT_AVAILABLE);
         }
         if (fee != null) {
             fee_value = Integer.parseInt(fee);
@@ -135,7 +136,7 @@ public class AcceptCreditActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void call_transferCreditAPI() {
-        progressDialog = ProgressDialog.show(AcceptCreditActivity.this, "Please wait ...", "Requesting...", true);
+        progressDialog = ProgressDialog.show(AcceptCreditActivity.this, Constants.PLEASE_WAIT, Constants.REQUESTING, true);
         progressDialog.setCancelable(false);
         OnRequestCompletedListener listener = new OnRequestCompletedListener() {
             @Override
@@ -147,15 +148,15 @@ public class AcceptCreditActivity extends AppCompatActivity implements View.OnCl
                     /*{"status":"true","value":{"message":"Your credit has been transfered",
                     "reference_id":"25","credit_holder_id":2}}*/
                     JSONObject obj = new JSONObject(response);
-                    final String status = obj.getString("status");
-                    final String value = obj.getString("value");
-                    JSONObject value_object = obj.getJSONObject("value");
+                    final String status = obj.getString(Constants.KEY_STATUS);
+                    final String value = obj.getString(Constants.KEY_VALUE);
+                    JSONObject value_object = obj.getJSONObject(Constants.KEY_VALUE);
 
-                    if (status.equals("false")) {
+                    if (status.equals(Constants.KEY_FALSE)) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
                         String low_credit = value_object.getString(Constants.KEY_LOW_CREDIT);
-                        if (low_credit.equals("1")) {
+                        if (low_credit.equals(Constants.KEY_ONE)) {
                             Intent to_purchase = new Intent(getApplicationContext(), PurchaseCreditActivity.class);
                             to_purchase.putExtra(Constants.KEY_TOTAL_CREDIT, text_total.getText().toString());
                             to_purchase.putExtra(Constants.KEY_REFERENCE_ID, reference_id);
@@ -163,7 +164,7 @@ public class AcceptCreditActivity extends AppCompatActivity implements View.OnCl
                             to_purchase.putExtra(Constants.KEY_SERVICE_TYPE, service_type);
                             startActivity(to_purchase);
                         }
-                    } else if (status.equals("true")) {
+                    } else if (status.equals(Constants.KEY_TRUE)) {
                         progressDialog.dismiss();
                         String notify_userid = value_object.getString(Constants.KEY_NOTIFY_USERID);
                         HashMap<String, String> user = session.getUserDetails();
@@ -176,7 +177,7 @@ public class AcceptCreditActivity extends AppCompatActivity implements View.OnCl
                             to_milestone.putExtra(Constants.KEY_SERVICE_TYPE, service_type);
                             to_milestone.putExtra(Constants.KEY_REFERENCE_ID, reference_id);
                             to_milestone.putExtra(Constants.KEY_VALUE_ITEM, item_value);
-                            to_milestone.putExtra(Constants.KEY_SUCCESS, "SUCCESS");
+                            to_milestone.putExtra(Constants.KEY_SUCCESS, Constants.KEY_SUCCESS);
                             startActivity(to_milestone);
                         } else if (partner.equals(Constants.KEY_TYPE_DELIVER)) {
                             Intent to_milestone = new Intent(getApplicationContext(), ViewMilestoneDeliverActivity.class);
@@ -197,7 +198,7 @@ public class AcceptCreditActivity extends AppCompatActivity implements View.OnCl
         // token
         String api_token = user.get(SessionManager.KEY_APITOKEN);
         Log.v("Calling API", Constants.TRANSFER_CREDITS);
-        ServiceCalls.CallAPI_to_transfer_credit(this, Request.Method.POST, Constants.TRANSFER_CREDITS, listener, text_total.getText().toString(), reference_id, service_type, api_token);
+        ServiceCalls.CallAPI_to_transfer_credit(this, Request.Method.POST, Constants.TRANSFER_CREDITS, listener, text_total.getText().toString(), reference_id, api_token);
     }
 
     private void sendMessageToGCMAppServer(final String toUserId,
@@ -263,7 +264,7 @@ public class AcceptCreditActivity extends AppCompatActivity implements View.OnCl
             _context.startActivity(i);
         }
         if (partner.equals(Constants.KEY_TYPE_PARTNER)) {
-            Intent i = new Intent(_context, WelcomePartnerActivity.class);
+            Intent i = new Intent(_context, AgentLocationActivity.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Add new Flag to start new Activity

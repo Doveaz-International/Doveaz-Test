@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/loc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/rounded_button"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <com.doveazapp.Utils.CustomDoveazFont
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_weight="2"
+                android:drawableLeft="@drawable/map_marker"
+                android:gravity="fill_vertical"
+                android:text=" Location"
+                android:textColor="@color/white"
+                android:textSize="@dimen/twenty_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loc_items_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:animateLayoutChanges="true"
+            android:background="@color/form_bg"
+            android:orientation="vertical">
+
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="@string/state" />
+
+            <Spinner
+                android:id="@+id/spin_pickstate"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:layout_marginTop="@dimen/ten_dp" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="@string/city" />
+
+            <Spinner
+                android:id="@+id/spin_pickcity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:layout_marginTop="@dimen/ten_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="@string/area" />
+
+            <Spinner
+                android:id="@+id/spin_pickarea"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:layout_marginTop="@dimen/ten_dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="@dimen/one_fifty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/fifty_dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/update"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+
+    </LinearLayout>
+
+</LinearLayout>

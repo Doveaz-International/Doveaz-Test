@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <WebView
+            android:id="@+id/loading_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:layerType="software" />
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searching"
+            android:textSize="@dimen/eighteen_dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.doveazapp.Utils.CustomDoveazFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry_msg"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="@dimen/one_fifty_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/retry"
+            android:textAllCaps="false"
+            android:textColor="@color/appbackround" />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * CheckPartnerListActivity.java
  * Created by Karthik on 11/23/2015.
  */
 

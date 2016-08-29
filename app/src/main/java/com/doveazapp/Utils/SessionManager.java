@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
+import com.doveazapp.Activities.AgentLocationActivity;
 import com.doveazapp.Activities.HomeActivity;
 import com.doveazapp.Activities.MenuActivity;
-import com.doveazapp.Activities.WelcomePartnerActivity;
 import com.doveazapp.Constants;
 
 import java.util.HashMap;
@@ -52,6 +52,8 @@ public class SessionManager {
 
     public static final String KEY_COUNTRY_CODE_ISO = "country_code_iso";
 
+    public static final String KEY_PHONE_NUM = "phone";
+
     // Constructor
     public SessionManager(Context context) {
         this._context = context;
@@ -63,7 +65,7 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String email, String api_token, String partner, String userid, String userName, String country_code) {
+    public void createLoginSession(String email, String api_token, String partner, String userid, String userName, String country_code, String phone) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
         // Storing name in pref
@@ -78,6 +80,8 @@ public class SessionManager {
         editor.putString(KEY_USERID, userid);
 
         editor.putString(KEY_COUNTRY_CODE_ISO, country_code);
+
+        editor.putString(KEY_PHONE_NUM, phone);
 
         // commit changes
         editor.commit();
@@ -113,7 +117,7 @@ public class SessionManager {
             String type = user.get(SessionManager.KEY_USER_TYPE);
 
             if (type.equals(Constants.KEY_TYPE_PARTNER)) {
-                Intent i = new Intent(_context, WelcomePartnerActivity.class);
+                Intent i = new Intent(_context, AgentLocationActivity.class);
                 // Closing all the Activities
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // Add new Flag to start new Activity
@@ -155,6 +159,8 @@ public class SessionManager {
         user.put(KEY_USERNAME, pref.getString(KEY_USERNAME, null));
 
         user.put(KEY_COUNTRY_CODE_ISO, pref.getString(KEY_COUNTRY_CODE_ISO, null));
+
+        user.put(KEY_PHONE_NUM, pref.getString(KEY_PHONE_NUM, null));
 
         // return user
         return user;

@@ -1,7 +1,6 @@
 package com.doveazapp.Utils;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -16,15 +15,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.doveazapp.R;
 
 
 /**
- * Created by DEVEN SINGH on 4/18/2015.
+ * Created by karthik on 4/18/2015.
  */
 public class UserAvatar extends NetworkImageView {
 

@@ -3757,4 +3757,68 @@ public class ServiceCalls {
         // Access the RequestQueue through your singleton class.
         VolleyProvider.getQueue(context).add(mStringRequest);
     }
+
+
+    public static void CallAPI_to_Calculate_hash(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
+                                                 final String payu_key, final String payu_txnId, final String payu_price,
+                                                 final String payu_product_name, final String payu_salt, final String api_token) {
+        mStringRequest = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onRequestCompleted(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                listener.onRequestCompleted(new String(error.toString()));
+            }
+        }) {
+            @SuppressLint("LongLogTag")
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+
+                //Adding parameters --input params--
+                params.put(Constants.PAY_U_KEY, payu_key);
+                params.put(Constants.PAY_U_TXN_ID, payu_txnId);
+                params.put(Constants.PAY_U_AMOUNT, payu_price);
+                params.put(Constants.PAY_U_PROD_INFO, payu_product_name);
+                params.put(Constants.PAY_U_SALT, payu_salt);
+                Log.v("==INPUT FOR CALCULATE HASH==", params.toString());
+
+                //returning parameters
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put(Constants.KEY_API_TOKEN, api_token);
+                Log.v("==input headers==", headers.toString());
+                return headers;
+            }
+        };
+        mStringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 500000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 500000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+        VolleyProvider.getQueue(context).add(mStringRequest);
+    }
 }

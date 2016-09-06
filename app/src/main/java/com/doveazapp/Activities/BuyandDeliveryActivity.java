@@ -633,7 +633,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
         /* Alert Dialog Code Start*/
         final AlertDialog.Builder alert = new AlertDialog.Builder(BuyandDeliveryActivity.this);
         alert.setTitle(Constants.MOBILE_NUMBER);
-        alert.setIcon(R.drawable.mobile);
+        alert.setIcon(R.drawable.mobile_icon);
         alert.setMessage("Please enter your mobile number");
         alert.setCancelable(false);
 

@@ -119,7 +119,7 @@ public class AgentLocationActivity extends AppCompatActivity implements View.OnC
         /* Alert Dialog Code Start*/
         final AlertDialog.Builder alert = new AlertDialog.Builder(AgentLocationActivity.this);
         alert.setTitle("Password");
-        alert.setIcon(R.drawable.lock);
+        alert.setIcon(R.drawable.lock_login);
         alert.setMessage("Please enter your password, for security reasons");
         alert.setCancelable(false);
 

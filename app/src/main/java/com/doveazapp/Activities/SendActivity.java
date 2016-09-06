@@ -45,13 +45,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.doveazapp.Analytics.MyApplication;
 import com.doveazapp.Constants;
 import com.doveazapp.Dialogs.AlertDialogs;
@@ -71,7 +65,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * SendActivity.java
@@ -830,7 +823,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 /* Alert Dialog Code Start*/
         final AlertDialog.Builder alert = new AlertDialog.Builder(SendActivity.this);
         alert.setTitle("Mobile Number");
-        alert.setIcon(R.drawable.mobile);
+        alert.setIcon(R.drawable.mobile_icon);
         alert.setMessage("Please enter the sender mobile number");
         alert.setCancelable(false);
 
@@ -971,7 +964,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 /* Alert Dialog Code Start*/
         final AlertDialog.Builder alert = new AlertDialog.Builder(SendActivity.this);
         alert.setTitle("Mobile Number");
-        alert.setIcon(R.drawable.mobile);
+        alert.setIcon(R.drawable.mobile_icon);
         alert.setMessage("Please enter the receiver mobile number");
         alert.setCancelable(false);
 
@@ -1253,8 +1246,8 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                         order_id = value_object.getString("order_id");
                         //Toast.makeText(getApplicationContext(), fee.toString(), Toast.LENGTH_SHORT).show();
                         //choose_paymentmethod();
-                        //call_checkCreditsapi();
-                        choose_paymentmethod();
+                        call_checkCreditsapi();
+                        // choose_paymentmethod();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1301,9 +1294,9 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (Integer.parseInt(current_credits) < Integer.parseInt(fee)) {
                             Toast.makeText(getApplicationContext(), "Your wallet balance is low please purchase credits", Toast.LENGTH_SHORT).show();
-                            choose_paymentmethod();
+                            CallAPI_to_purchase_credit();
                         } else {
-                            call_DispatchAPI(); /*Calling instead of transfer credit api*/
+                            call_transferCreditAPI(); /*Calling instead of transfer credit api*/
                         }
 
                         progressDialog.dismiss();
@@ -1564,13 +1557,14 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void call_paytm_sdk() {
-// get user data from session
+        // get user data from session
         HashMap<String, String> user = session.getUserDetails();
-
+        String phone = user.get(SessionManager.KEY_PHONE_NUM);
+        Log.v("phone", phone);
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
         builder.setAmount(Double.valueOf(fee))
                 .setTnxId(getTxnId())
-                .setPhone(user.get(SessionManager.KEY_PHONE_NUM))
+                .setPhone(phone)
                 .setProductName("product_name")
                 .setFirstName(user.get(SessionManager.KEY_USERNAME))
                 .setEmail(user.get(SessionManager.KEY_EMAIL))
@@ -1581,35 +1575,107 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                 .setUdf3("")
                 .setUdf4("")
                 .setUdf5("")
-                .setIsDebug(true)
+                .setIsDebug(false)
                 .setKey(Constants.PAY_U_MONEY_KEY)
                 .setMerchantId(Constants.PAY_U_MONEY_MERCHANT_ID);// Debug Merchant ID
 
         PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
 
-            /*
-             server side call required to calculate hash with the help of <salt>
-             <salt> is already shared along with merchant <key>
-             serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
-
-             (e.g.)
-
-             sha512(FCstqb|0nf7|10.0|product_name|piyush|piyush.jain@payu.in||||||MBgjYaFG)
-
-             9f1ce50ba8995e970a23c33e665a990e648df8de3baf64a33e19815acd402275617a16041e421cfa10b7532369f5f12725c7fcf69e8d10da64c59087008590fc
-
-            */
-
         // Recommended
         calculateServerSideHashAndInitiatePayment(paymentParam);
+    }
 
-           /*
-            testing purpose
+    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
 
-            String serverCalculatedHash="9f1ce50ba8995e970a23c33e665a990e648df8de3baf64a33e19815acd402275617a16041e421cfa10b7532369f5f12725c7fcf69e8d10da64c59087008590fc";
-            paymentParam.setMerchantHash(serverCalculatedHash);
-            PayUmoneySdkInitilizer.startPaymentActivityForResult(this, paymentParam);
-            */
+        /*progressDialog = ProgressDialog.show(CollectionActivity.this, "Please wait ...", "Requesting...", true);
+        progressDialog.setCancelable(false);*/
+        AlertDialogs.showProgress(SendActivity.this);
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("OUTPUT HASH CALCULATION", response);
+                progressDialog.dismiss();
+                try {
+                    /*{"status":"true","value":{"message":"Your credit has been transfered",
+                    "reference_id":"25","credit_holder_id":2}}*/
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+                    JSONObject value_object = obj.getJSONObject("value");
+
+                    if (status.equals("false")) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
+                    } else if (status.equals("true")) {
+                        progressDialog.dismiss();
+                        //Call_createOrder_API();
+                        String hash = value_object.getString("hash");
+                        Log.i("app_activity", "Server calculated Hash :  " + hash);
+                        paymentParam.setMerchantHash(hash);
+
+                        PayUmoneySdkInitilizer.startPaymentActivityForResult(SendActivity.this, paymentParam);
+
+                    }
+                } catch (JSONException exception) {
+                    progressDialog.dismiss();
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+
+        /*String api_token = "cade3fa343d595d72803f460c139086d";*/
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        Log.v("Calling API", Constants.CALCULATE_HASH);
+        ServiceCalls.CallAPI_to_Calculate_hash(this, Request.Method.POST, Constants.CALCULATE_HASH, listener, Constants.PAY_U_MONEY_KEY, getTxnId(), fee, "collection_category", Constants.PAY_U_MONEY_SALT_KEY, api_token);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CAMERA_CAPTURE) {
+                // get the Uri for the captured image
+                picUri = data.getData();
+                Bundle extras = data.getExtras();
+                item_img = extras.getParcelable("data");
+                img_itempic.setImageBitmap(item_img);
+            }
+        }
+
+        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+
+            /*if(data != null && data.hasExtra("result")){
+              String responsePayUmoney = data.getStringExtra("result");
+                if(SdkHelper.checkForValidString(responsePayUmoney))
+                    showDialogMessage(responsePayUmoney);
+            } else {
+                showDialogMessage("Unable to get Status of Payment");
+            }*/
+
+            if (resultCode == RESULT_OK) {
+                Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                AlertDialogs.showDialogMessage("Payment Success Id : " + paymentId, SendActivity.this);
+                call_transferCreditAPI();
+            } else if (resultCode == RESULT_CANCELED) {
+                Log.i(TAG, "failure");
+                AlertDialogs.showDialogMessage("cancelled", SendActivity.this);
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
+                Log.i("app_activity", "failure");
+
+                if (data != null) {
+                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
+
+                    } else {
+                        AlertDialogs.showDialogMessage("failure", SendActivity.this);
+                    }
+                }
+                //Write your code if there's no result
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
+                Log.i(TAG, "User returned without login");
+                AlertDialogs.showDialogMessage("User returned without login", SendActivity.this);
+            }
+        }
     }
 
     public void CallAPI_to_purchase_credit() {
@@ -1635,8 +1701,8 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                     } else if (status.equals("true")) {
                         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
 
-                        //openAlert_purchase();
-                        call_DispatchAPI(); /*Calling instead of openAlert_purchase(); api*/
+                        openAlert_purchase();
+                        //call_DispatchAPI(); /*Calling instead of openAlert_purchase(); api*/
                     }
                 } catch (JSONException exception) {
                     progressDialog.dismiss();
@@ -1654,14 +1720,14 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openAlert_purchase() {
         final AlertDialog.Builder alertbox = new AlertDialog.Builder(SendActivity.this);
-        alertbox.setTitle("Confirm Transfer");
-        alertbox.setMessage("Do you wish to Transfer credit and goto milestone?");
+        alertbox.setTitle("Confirm Purchase");
+        alertbox.setMessage("Do you wish to buy " + fee + " credits?");
         alertbox.setPositiveButton("Yes", new
                 DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
 
                        /* call_transferCreditAPI();*/
-
+                        choose_paymentmethod();
                     }
                 });
         alertbox.setNegativeButton("No", new
@@ -1745,113 +1811,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         ServiceCalls.CallAPI_to_transfer_credit(this, Request.Method.POST, Constants.TRANSFER_CREDITS, listener, fee, order_id, api_token);
     }
 
-    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
-
-        // Replace your server side hash generator API URL
-        String url = "https://test.payumoney.com/payment/op/calculateHashForTest";
-
-        Toast.makeText(this, "Please wait... Generating hash from server ... ", Toast.LENGTH_LONG).show();
-        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    if (jsonObject.has(SdkConstants.STATUS)) {
-                        String status = jsonObject.optString(SdkConstants.STATUS);
-                        if (status != null || status.equals("1")) {
-
-                            String hash = jsonObject.getString(SdkConstants.RESULT);
-                            Log.i("app_activity", "Server calculated Hash :  " + hash);
-
-                            paymentParam.setMerchantHash(hash);
-
-                            PayUmoneySdkInitilizer.startPaymentActivityForResult(SendActivity.this, paymentParam);
-                        } else {
-                            Toast.makeText(SendActivity.this,
-                                    jsonObject.getString(SdkConstants.RESULT),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                if (error instanceof NoConnectionError) {
-                    Toast.makeText(SendActivity.this,
-                            SendActivity.this.getString(R.string.connect_to_internet),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(SendActivity.this,
-                            error.getMessage(),
-                            Toast.LENGTH_SHORT).show();
-
-                }
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return paymentParam.getParams();
-            }
-        };
-        Volley.newRequestQueue(this).add(jsonObjectRequest);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAMERA_CAPTURE) {
-                // get the Uri for the captured image
-                picUri = data.getData();
-                Bundle extras = data.getExtras();
-                item_img = extras.getParcelable("data");
-                img_itempic.setImageBitmap(item_img);
-            }
-        }
-
-        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
-
-            /*if(data != null && data.hasExtra("result")){
-              String responsePayUmoney = data.getStringExtra("result");
-                if(SdkHelper.checkForValidString(responsePayUmoney))
-                    showDialogMessage(responsePayUmoney);
-            } else {
-                showDialogMessage("Unable to get Status of Payment");
-            }*/
-
-            if (resultCode == RESULT_OK) {
-                Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
-                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                AlertDialogs.showDialogMessage("Payment Success Id : " + paymentId);
-            } else if (resultCode == RESULT_CANCELED) {
-                Log.i(TAG, "failure");
-                AlertDialogs.showDialogMessage("cancelled");
-            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
-                Log.i("app_activity", "failure");
-
-                if (data != null) {
-                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
-
-                    } else {
-                        AlertDialogs.showDialogMessage("failure");
-                    }
-                }
-                //Write your code if there's no result
-            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
-                Log.i(TAG, "User returned without login");
-                AlertDialogs.showDialogMessage("User returned without login");
-            }
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -1933,4 +1892,17 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
+
+    /*private void showDialogMessage(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(TAG);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }*/
 }

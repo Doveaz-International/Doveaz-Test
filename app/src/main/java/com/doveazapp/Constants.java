@@ -166,6 +166,10 @@ public class Constants {
 
     public final static String VIEW_ORDER_INFO = BASE_URL + "/Store/viewMyOrderDetails";
 
+    public final static String CALCULATE_HASH = BASE_URL + "/Credits/createHash";
+
+
+
     //Select image from camera Toast message
     public static final String SELECT_IMAGE_TOAST_MESSAGE = "Please select Image from gallery or from camera";
 
@@ -478,5 +482,11 @@ public class Constants {
     //PayUmoney Vriables
     public static final String PAY_U_MONEY_KEY = "ZAcZtRp6";
     public static final String PAY_U_MONEY_MERCHANT_ID = "5599247";
+    public static final String PAY_U_MONEY_SALT_KEY = "tZn9EQT2cM";
+    public static final String PAY_U_TXN_ID = "txnid";
+    public static final String PAY_U_AMOUNT = "amount";
+    public static final String PAY_U_PROD_INFO = "productinfo";
+    public static final String PAY_U_KEY = "key";
+    public static final String PAY_U_SALT = "salt";
 
 }

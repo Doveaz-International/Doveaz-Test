@@ -2,6 +2,7 @@ package com.doveazapp.Dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -81,10 +82,14 @@ public class AlertDialogs {
         alertbox.show();
     }
 
-    public static void showDialogMessage(String message) {
-        Activity activity = null;
+    public static void showProgress(final Activity activity){
+        ProgressDialog progressDialog = ProgressDialog.show(activity, "Please wait ...", "Requesting...", true);
+        progressDialog.setCancelable(false);
+    }
+
+    public static void showDialogMessage(String message, final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("PayuMoney Payment");
+        builder.setTitle("PayUmoney Payment");
         builder.setMessage(message);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -95,5 +100,6 @@ public class AlertDialogs {
         builder.show();
 
     }
+
 }
 

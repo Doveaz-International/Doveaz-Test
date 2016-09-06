@@ -121,7 +121,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         /* Alert Dialog Code Start*/
         final AlertDialog.Builder alert = new AlertDialog.Builder(MenuActivity.this);
         alert.setTitle(R.string.password);
-        alert.setIcon(R.drawable.lock);
+        alert.setIcon(R.drawable.lock_login);
         alert.setMessage("Please enter your password, for security reasons");
         alert.setCancelable(false);
 

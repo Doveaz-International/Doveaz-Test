@@ -832,7 +832,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
             delivery_phone = mob_number.getText().toString();
             order_name = name_prime.getText().toString();
 
-            String addr_type;
+            String addr_type;//9167456677
 
             Intent to_store_menu = new Intent(getApplicationContext(), StoreMenuActivity.class);
             to_store_menu.putExtra(Constants.KEY_STOREID, store_id);

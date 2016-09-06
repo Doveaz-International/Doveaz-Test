@@ -1665,7 +1665,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
         Log.v("phone", phone);
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
         builder.setAmount(Double.valueOf(fee))
-                .setTnxId("0nf7147263361087")
+                .setTnxId("0nf7147263361v087")
                 .setPhone(phone)
                 .setProductName("product_name")
                 .setFirstName(user.get(SessionManager.KEY_USERNAME))
@@ -1677,7 +1677,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                 .setUdf3("")
                 .setUdf4("")
                 .setUdf5("")
-                .setIsDebug(true)
+                .setIsDebug(false)
                 .setKey(Constants.PAY_U_MONEY_KEY)
                 .setMerchantId(Constants.PAY_U_MONEY_MERCHANT_ID);// Debug Merchant ID
 

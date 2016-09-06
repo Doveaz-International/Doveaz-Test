@@ -1,5 +1,6 @@
 package com.doveazapp.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -71,6 +72,7 @@ public class OrderReviewActivity extends AppCompatActivity implements View.OnCli
     SQLiteDatabase sqldb;
     private String payment_type;
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +104,8 @@ public class OrderReviewActivity extends AppCompatActivity implements View.OnCli
         delivery_phone = bundle.getString(Constants.KEY_DELIVERY_PHONE, delivery_phone);
         delivery_name = bundle.getString(Constants.KEY_DELIVERY_NAME, delivery_name);
         delivery_address = bundle.getString(Constants.KEY_DELIVERY_ADDRESS, delivery_address);
+
+        //Log.v("Delivery Name from store menu", delivery_address);//9167456677
 
         // Session class instance
         session = new SessionManager(getApplicationContext());

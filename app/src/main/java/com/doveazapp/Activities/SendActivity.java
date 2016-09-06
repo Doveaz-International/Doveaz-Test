@@ -45,7 +45,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.doveazapp.Analytics.MyApplication;
 import com.doveazapp.Constants;
 import com.doveazapp.Dialogs.AlertDialogs;
@@ -65,6 +71,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * SendActivity.java
@@ -1245,8 +1252,8 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                         fee = value_object.getString("fee");
                         order_id = value_object.getString("order_id");
                         //Toast.makeText(getApplicationContext(), fee.toString(), Toast.LENGTH_SHORT).show();
-                        //choose_paymentmethod();
-                        call_checkCreditsapi();
+                        choose_paymentmethod();
+                        //call_checkCreditsapi();
                         // choose_paymentmethod();
                     }
                 } catch (JSONException e) {
@@ -1468,6 +1475,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                     call_cod();
                 } else if (options_payment[item].equals("Paytm (coming soon)")) {
                     call_paytm_sdk();
+                    //call_checkCreditsapi();
                 }
             }
         });
@@ -1483,7 +1491,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         alertbox.setPositiveButton("Confirm", new
                 DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        call_transferCreditAPI();
+                        Call_createOrder_API();
                     }
                 });
         alertbox.setNegativeButton("No", new
@@ -1585,10 +1593,10 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         calculateServerSideHashAndInitiatePayment(paymentParam);
     }
 
-    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
+   /* private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
 
-        /*progressDialog = ProgressDialog.show(CollectionActivity.this, "Please wait ...", "Requesting...", true);
-        progressDialog.setCancelable(false);*/
+        *//*progressDialog = ProgressDialog.show(CollectionActivity.this, "Please wait ...", "Requesting...", true);
+        progressDialog.setCancelable(false);*//*
         AlertDialogs.showProgress(SendActivity.this);
         OnRequestCompletedListener listener = new OnRequestCompletedListener() {
             @Override
@@ -1596,8 +1604,8 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                 Log.v("OUTPUT HASH CALCULATION", response);
                 progressDialog.dismiss();
                 try {
-                    /*{"status":"true","value":{"message":"Your credit has been transfered",
-                    "reference_id":"25","credit_holder_id":2}}*/
+                    *//*{"status":"true","value":{"message":"Your credit has been transfered",
+                    "reference_id":"25","credit_holder_id":2}}*//*
                     JSONObject obj = new JSONObject(response);
                     final String status = obj.getString("status");
                     final String value = obj.getString("value");
@@ -1623,12 +1631,98 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
 
-        /*String api_token = "cade3fa343d595d72803f460c139086d";*/
+        *//*String api_token = "cade3fa343d595d72803f460c139086d";*//*
         HashMap<String, String> user = session.getUserDetails();
         // token
         String api_token = user.get(SessionManager.KEY_APITOKEN);
         Log.v("Calling API", Constants.CALCULATE_HASH);
         ServiceCalls.CallAPI_to_Calculate_hash(this, Request.Method.POST, Constants.CALCULATE_HASH, listener, Constants.PAY_U_MONEY_KEY, getTxnId(), fee, "collection_category", Constants.PAY_U_MONEY_SALT_KEY, api_token);
+    }*/
+
+    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
+
+        // Replace your server side hash generator API URL
+        String url = "http://dealanzer.com/moneyhash.php";
+
+        Toast.makeText(this, "Please wait... Generating hash from server ... ", Toast.LENGTH_LONG).show();
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.v("PAYUMONEY RESPONSE", response);
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.has(SdkConstants.STATUS)) {
+                        String status = jsonObject.optString(SdkConstants.STATUS);
+                        if (status != null || status.equals("1")) {
+
+                            String hash = jsonObject.getString(SdkConstants.RESULT);
+                            Log.i("app_activity", "Server calculated Hash :  " + hash);
+
+                            paymentParam.setMerchantHash(hash);
+
+                            PayUmoneySdkInitilizer.startPaymentActivityForResult(SendActivity.this, paymentParam);
+                        } else {
+                            Toast.makeText(SendActivity.this,
+                                    jsonObject.getString(SdkConstants.RESULT),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    /*JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+                    JSONObject value_object = obj.getJSONObject("value");
+
+                    if (status.equals("false")) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
+                    } else if (status.equals("true")) {
+                        progressDialog.dismiss();
+                        //Call_createOrder_API();
+                        String hash = value_object.getString("hash");
+                        Log.i("app_activity", "Server calculated Hash :  " + hash);
+                        paymentParam.setMerchantHash(hash);
+
+                        PayUmoneySdkInitilizer.startPaymentActivityForResult(SendActivity.this, paymentParam);
+                    }*/
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof NoConnectionError) {
+                    Toast.makeText(SendActivity.this,
+                            SendActivity.this.getString(R.string.connect_to_internet),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SendActivity.this,
+                            error.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Log.v("PAYUMONEY REQUEST", paymentParam.getParams().toString());
+                return paymentParam.getParams();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                HashMap<String, String> user = session.getUserDetails();
+                // token
+                String api_token = user.get(SessionManager.KEY_APITOKEN);
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put("Api-Token", api_token);
+                return headers;
+            }
+        };
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1643,14 +1737,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
-
-            /*if(data != null && data.hasExtra("result")){
-              String responsePayUmoney = data.getStringExtra("result");
-                if(SdkHelper.checkForValidString(responsePayUmoney))
-                    showDialogMessage(responsePayUmoney);
-            } else {
-                showDialogMessage("Unable to get Status of Payment");
-            }*/
 
             if (resultCode == RESULT_OK) {
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));

@@ -45,7 +45,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.doveazapp.Analytics.MyApplication;
 import com.doveazapp.Constants;
 import com.doveazapp.Dialogs.AlertDialogs;
@@ -65,6 +71,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * CollectionActivity.java
@@ -140,7 +147,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
 
     // Textviews
     TextView user_type_prime, street, area, city, state, country, zipcode,
-            user_type_prime_delivery, street1, area1, city1, state1, country1, zipcode1, name, name1, prompt;
+            user_type_prime_delivery, street1, area1, city1, state1, country1, zipcode1, name, name1, prompt, address, address1;
 
     TextInputLayout input_manual_name, input_manual_street, input_manual_floor, input_manual_pincode,
             del_input_manual_name, input_manual_street1, input_manual_floor1, input_manual_pincode1;
@@ -168,17 +175,6 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
     private ArrayList<HashMap<String, String>> localArrayList = null;
     private ArrayList<HashMap<String, String>> localArrayList1 = null;
     private String price;
-
-    /*//Paypal
-    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
-
-    private static PayPalConfiguration config = new PayPalConfiguration()
-            .environment(CONFIG_ENVIRONMENT)
-            .clientId(Constants.CONFIG_CLIENT_ID)
-            // The following are only used in PayPalFuturePaymentActivity.
-            .merchantName("Doveaz inc")
-            .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
-            .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,6 +274,8 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
         zipcode1 = (TextView) findViewById(R.id.zipcode1);
         name1 = (TextView) findViewById(R.id.name1);
         prompt = (TextView) findViewById(R.id.prompt);
+        address = (TextView) findViewById(R.id.address);
+        address1 = (TextView) findViewById(R.id.address1);
 
         //spinner
         spin_pickcategory = (Spinner) findViewById(R.id.spin_pickcategory);
@@ -908,6 +906,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                         JSONObject office_address_obj = value_obj.getJSONObject("office_address");
                                         JSONObject home_address_obj = value_obj.getJSONObject("home_address");
 
+                                        final String home_addr = home_address_obj.getString("address");
                                         final String home_street = home_address_obj.getString("street");
                                         final String home_area = home_address_obj.getString("area");
                                         final String home_city = home_address_obj.getString("city");
@@ -915,6 +914,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                         final String home_country = home_address_obj.getString("country");
                                         final String home_zip = home_address_obj.getString("zip");
                                         final String home_name = home_address_obj.getString("name");
+                                        final String ofc_address = office_address_obj.getString("address");
                                         final String ofc_street = office_address_obj.getString("street");
                                         final String ofc_area = office_address_obj.getString("area");
                                         final String ofc_city = office_address_obj.getString("city");
@@ -929,6 +929,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                         home_address.setChecked(true);
                                         address_layout.setVisibility(View.VISIBLE);
                                         manual_address_layout.setVisibility(View.GONE);
+                                        address.setText(home_addr);
                                         street.setText(home_street);
                                         area.setText(home_area);
                                         city.setText(home_city);
@@ -944,6 +945,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                                     case R.id.home_address:
                                                         address_layout.setVisibility(View.VISIBLE);
                                                         manual_address_layout.setVisibility(View.GONE);
+                                                        address.setText(home_addr);
                                                         street.setText(home_street);
                                                         area.setText(home_area);
                                                         city.setText(home_city);
@@ -955,6 +957,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                                     case R.id.office_address:
                                                         manual_address_layout.setVisibility(View.GONE);
                                                         address_layout.setVisibility(View.VISIBLE);
+                                                        address.setText(ofc_address);
                                                         street.setText(ofc_street);
                                                         area.setText(ofc_area);
                                                         city.setText(ofc_city);
@@ -1049,6 +1052,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                         JSONObject office_address_obj = value_obj.getJSONObject("office_address");
                                         JSONObject home_address_obj = value_obj.getJSONObject("home_address");
 
+                                        final String home_address = home_address_obj.getString("address");
                                         final String home_street = home_address_obj.getString("street");
                                         final String home_area = home_address_obj.getString("area");
                                         final String home_city = home_address_obj.getString("city");
@@ -1056,6 +1060,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                         final String home_country = home_address_obj.getString("country");
                                         final String home_zip = home_address_obj.getString("zip");
                                         final String home_name = home_address_obj.getString("name");
+                                        final String ofc_address = office_address_obj.getString("address");
                                         final String ofc_street = office_address_obj.getString("street");
                                         final String ofc_area = office_address_obj.getString("area");
                                         final String ofc_city = office_address_obj.getString("city");
@@ -1070,6 +1075,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                         delivery_home_address.setChecked(true);
                                         address_layout_delivery.setVisibility(View.VISIBLE);
                                         del_manual_address_layout.setVisibility(View.GONE);
+                                        address1.setText(home_address);
                                         street1.setText(home_street);
                                         area1.setText(home_area);
                                         city1.setText(home_city);
@@ -1085,6 +1091,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                                     case R.id.delivery_home_address:
                                                         address_layout_delivery.setVisibility(View.VISIBLE);
                                                         del_manual_address_layout.setVisibility(View.GONE);
+                                                        address1.setText(home_address);
                                                         street1.setText(home_street);
                                                         area1.setText(home_area);
                                                         city1.setText(home_city);
@@ -1096,6 +1103,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                                                     case R.id.delivery_office_address:
                                                         del_manual_address_layout.setVisibility(View.GONE);
                                                         address_layout_delivery.setVisibility(View.VISIBLE);
+                                                        address1.setText(ofc_address);
                                                         street1.setText(ofc_street);
                                                         area1.setText(ofc_area);
                                                         city1.setText(ofc_city);
@@ -1206,7 +1214,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                 AlertDialogs.showDialogMessage("Payment Success Id : " + paymentId, CollectionActivity.this);
-                call_transferCreditAPI();
+                call_checkCreditsapi();
             } else if (resultCode == RESULT_CANCELED) {
                 Log.i(TAG, "failure");
                 AlertDialogs.showDialogMessage("cancelled", CollectionActivity.this);
@@ -1270,6 +1278,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
         pick_area = area.getText().toString();
         pick_city = city.getText().toString();
         pick_state = state.getText().toString();
+        pick_address = address.getText().toString();
         pick_country = "India";
         pick_zip = zipcode.getText().toString();
         pick_name = name.getText().toString();
@@ -1295,6 +1304,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
         deliver_area = area1.getText().toString();
         deliver_city = city1.getText().toString();
         deliver_state = state1.getText().toString();
+        deliver_address = address1.getText().toString();
         delivery_country = "India";
         deliver_pincode = zipcode1.getText().toString();
         deliver_name = name1.getText().toString();
@@ -1338,7 +1348,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                         order_id = value_object.getString("order_id");
                         //Toast.makeText(getApplicationContext(), fee.toString(), Toast.LENGTH_SHORT).show();
                         //choose_paymentmethod();
-                        call_checkCreditsapi();
+                        choose_paymentmethod();
                         //choose_paymentmethod();
                     }
                 } catch (JSONException e) {
@@ -1357,7 +1367,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
         } else {
             Log.v("Calling API", Constants.ADD_ORDER);
             ServiceCalls.Call_api_toAddOrderCollection(this, Request.Method.POST, Constants.ADD_ORDER, listener, order_type, img_item_pick,
-                    pick_street, pick_area, pick_city, pick_state, pick_country, pick_zip, deliver_street, deliver_area, deliver_city, deliver_state,
+                    pick_address, pick_street, pick_area, pick_city, pick_state, pick_country, pick_zip, deliver_address, deliver_street, deliver_area, deliver_city, deliver_state,
                     delivery_country, deliver_pincode, addr_type_deliver, addr_type_pickup, id_category, delivery_phone, pickup_phone, pick_name, deliver_name, price, api_token);
         }
     }
@@ -1480,6 +1490,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
             deliver_pincode = edit_manual_pincode1.getText().toString();
         } else {
             Log.v("DEL Manual address is not visible", "dsds");
+            deliver_address = address1.getText().toString();
             deliver_street = street1.getText().toString();
             deliver_area = area1.getText().toString();
             deliver_city = city1.getText().toString();
@@ -1585,7 +1596,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
         alertbox.setPositiveButton("Confirm", new
                 DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        call_transferCreditAPI();
+                        Call_createOrder_API();
                     }
                 });
         alertbox.setNegativeButton("No", new
@@ -1637,6 +1648,45 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
         ServiceCalls.CallAPI_to_CreateOrder(this, Request.Method.POST, Constants.CREATE_ORDER, listener, order_id, fee, payment_type, api_token);
     }
 
+    private void Call_createOrder_API_payumoney() {
+        progressDialog = ProgressDialog.show(CollectionActivity.this, "Please wait ...", "Requesting...", true);
+        progressDialog.setCancelable(false);
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("OUTPUT CREATE ORDER", response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+
+                    if (status.equals("false")) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                    } else if (status.equals("true")) {
+                        JSONObject value_obj = obj.getJSONObject("value");
+                        String order_id = value_obj.getString("order_id");
+
+                        Intent to_loading_screen = new Intent(getApplicationContext(), LoadingAgentActivity.class);
+                        to_loading_screen.putExtra(Constants.KEY_ORDER_ID, order_id);
+                        startActivity(to_loading_screen);
+
+                    }
+                } catch (JSONException exception) {
+                    progressDialog.dismiss();
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        Log.v("Calling API", Constants.CREATE_ORDER);
+        payment_type = "Online";
+        ServiceCalls.CallAPI_to_CreateOrder(this, Request.Method.POST, Constants.CREATE_ORDER, listener, order_id, fee, payment_type, api_token);
+    }
+
     private void goto_loading_screen() {
 
     }
@@ -1665,7 +1715,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
         Log.v("phone", phone);
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
         builder.setAmount(Double.valueOf(fee))
-                .setTnxId("0nf7147263361v087")
+                .setTnxId(getTxnId())
                 .setPhone(phone)
                 .setProductName("product_name")
                 .setFirstName(user.get(SessionManager.KEY_USERNAME))
@@ -1689,48 +1739,71 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
 
     private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
 
-        /*progressDialog = ProgressDialog.show(CollectionActivity.this, "Please wait ...", "Requesting...", true);
-        progressDialog.setCancelable(false);*/
-        AlertDialogs.showProgress(CollectionActivity.this);
-        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+        // Replace your server side hash generator API URL
+        String url = Constants.CALCULATE_HASH_FOR_PAYUMONEY;
+
+        Toast.makeText(this, "Please wait... We are directing to payumoney server ... ", Toast.LENGTH_LONG).show();
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onRequestCompleted(String response) {
-                Log.v("OUTPUT HASH CALCULATION", response);
-                progressDialog.dismiss();
+            public void onResponse(String response) {
                 try {
-                    JSONObject obj = new JSONObject(response);
-                    final String status = obj.getString("status");
-                    final String value = obj.getString("value");
-                    JSONObject value_object = obj.getJSONObject("value");
+                    Log.v("PAYUMONEY RESPONSE", response);
+                    JSONObject jsonObject = new JSONObject(response);
 
-                    /*{"status":"true","value":
-                    {"hash":"ba49e0638573233c982f3b5af40886e92a2f2cfed94124eb84856c5e2812d3824d4949d2a48fdbbbeb24e0e4b1eef5913bed35bb533765a58d5689504d41c70a"}}*/
-                    if (status.equals("false")) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
-                    } else if (status.equals("true")) {
-                        progressDialog.dismiss();
-                        //Call_createOrder_API();
+                    if (jsonObject.has(SdkConstants.STATUS)) {
+                        String status = jsonObject.optString(SdkConstants.STATUS);
+                        if (status != null || status.equals("1")) {
 
-                        String hash = value_object.getString("hash");
-                        Log.i("app_activity", "Server calculated Hash :  " + hash);
-                        paymentParam.setMerchantHash(hash);
+                            String hash = jsonObject.getString(SdkConstants.RESULT);
+                            Log.i("app_activity", "Server calculated Hash :  " + hash);
 
-                        PayUmoneySdkInitilizer.startPaymentActivityForResult(CollectionActivity.this, paymentParam);
+                            paymentParam.setMerchantHash(hash);
+
+                            PayUmoneySdkInitilizer.startPaymentActivityForResult(CollectionActivity.this, paymentParam);
+                        } else {
+                            Toast.makeText(CollectionActivity.this,
+                                    jsonObject.getString(SdkConstants.RESULT),
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
-                } catch (JSONException exception) {
-                    progressDialog.dismiss();
-                    Log.e("--JSON EXCEPTION--", exception.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        };
+        }, new Response.ErrorListener() {
 
-        /*String api_token = "cade3fa343d595d72803f460c139086d";*/
-        HashMap<String, String> user = session.getUserDetails();
-        // token
-        String api_token = user.get(SessionManager.KEY_APITOKEN);
-        Log.v("Calling API", Constants.CALCULATE_HASH);
-        ServiceCalls.CallAPI_to_Calculate_hash(this, Request.Method.POST, Constants.CALCULATE_HASH, listener, Constants.PAY_U_MONEY_KEY, "0nf7147263361087", fee, "collection_category", Constants.PAY_U_MONEY_SALT_KEY, api_token);
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof NoConnectionError) {
+                    Toast.makeText(CollectionActivity.this,
+                            CollectionActivity.this.getString(R.string.connect_to_internet),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CollectionActivity.this,
+                            error.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Log.v("PAYUMONEY REQUEST", paymentParam.getParams().toString());
+                return paymentParam.getParams();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                HashMap<String, String> user = session.getUserDetails();
+                // token
+                String api_token = user.get(SessionManager.KEY_APITOKEN);
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put("Api-Token", api_token);
+                return headers;
+            }
+        };
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
     public void CallAPI_to_purchase_credit() {
@@ -1849,7 +1922,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
                     } else if (status.equals("true")) {
                         progressDialog.dismiss();
-                        Call_createOrder_API();
+                        Call_createOrder_API_payumoney();
 
                     }
                 } catch (JSONException exception) {

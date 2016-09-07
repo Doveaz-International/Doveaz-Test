@@ -147,7 +147,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
     // Textviews
     TextView user_type_prime, street, area, city, state, country, zipcode,
-            user_type_prime_delivery, street1, area1, city1, state1, country1, zipcode1, name, name1;
+            user_type_prime_delivery, street1, area1, city1, state1, country1, zipcode1, name, name1, address, address1;
 
     TextInputLayout input_manual_name, input_manual_street, input_manual_floor, input_manual_pincode,
             del_input_manual_name, input_manual_street1, input_manual_floor1, input_manual_pincode1;
@@ -174,17 +174,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<HashMap<String, String>> localArrayList = null;
     private ArrayList<HashMap<String, String>> localArrayList1 = null;
     private String payment_type;
-
-    /*//Paypal
-    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
-
-    private static PayPalConfiguration config = new PayPalConfiguration()
-            .environment(CONFIG_ENVIRONMENT)
-            .clientId(Constants.CONFIG_CLIENT_ID)
-            // The following are only used in PayPalFuturePaymentActivity.
-            .merchantName("Doveaz inc")
-            .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
-            .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,6 +250,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         edit_manual_pincode1 = (EditText) findViewById(R.id.edit_manual_pincode1);
 
         // Textviews for address (if prime) will be visible to the prime user
+        address = (TextView) findViewById(R.id.address);
         street = (TextView) findViewById(R.id.street);
         area = (TextView) findViewById(R.id.area);
         city = (TextView) findViewById(R.id.city);
@@ -269,6 +259,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         zipcode = (TextView) findViewById(R.id.zipcode);
         name = (TextView) findViewById(R.id.name);
         user_type_prime_delivery = (TextView) findViewById(R.id.user_type_prime_delivery);
+        address1 = (TextView) findViewById(R.id.address1);
         street1 = (TextView) findViewById(R.id.street1);
         area1 = (TextView) findViewById(R.id.area1);
         city1 = (TextView) findViewById(R.id.city1);
@@ -875,6 +866,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                         JSONObject office_address_obj = value_obj.getJSONObject("office_address");
                                         JSONObject home_address_obj = value_obj.getJSONObject("home_address");
 
+                                        final String home_addr = home_address_obj.getString("address");
                                         final String home_street = home_address_obj.getString("street");
                                         final String home_area = home_address_obj.getString("area");
                                         final String home_city = home_address_obj.getString("city");
@@ -882,6 +874,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                         final String home_country = home_address_obj.getString("country");
                                         final String home_zip = home_address_obj.getString("zip");
                                         final String home_name = home_address_obj.getString("name");
+                                        final String ofc_address = office_address_obj.getString("address");
                                         final String ofc_street = office_address_obj.getString("street");
                                         final String ofc_area = office_address_obj.getString("area");
                                         final String ofc_city = office_address_obj.getString("city");
@@ -896,6 +889,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                         home_address.setChecked(true);
                                         address_layout.setVisibility(View.VISIBLE);
                                         manual_address_layout.setVisibility(View.GONE);
+                                        address.setText(home_addr);
                                         street.setText(home_street);
                                         area.setText(home_area);
                                         city.setText(home_city);
@@ -911,6 +905,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                                     case R.id.home_address:
                                                         address_layout.setVisibility(View.VISIBLE);
                                                         manual_address_layout.setVisibility(View.GONE);
+                                                        address.setText(home_addr);
                                                         street.setText(home_street);
                                                         area.setText(home_area);
                                                         city.setText(home_city);
@@ -922,6 +917,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                                     case R.id.office_address:
                                                         manual_address_layout.setVisibility(View.GONE);
                                                         address_layout.setVisibility(View.VISIBLE);
+                                                        address.setText(ofc_address);
                                                         street.setText(ofc_street);
                                                         area.setText(ofc_area);
                                                         city.setText(ofc_city);
@@ -1016,6 +1012,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                         JSONObject office_address_obj = value_obj.getJSONObject("office_address");
                                         JSONObject home_address_obj = value_obj.getJSONObject("home_address");
 
+                                        final String home_address = home_address_obj.getString("address");
                                         final String home_street = home_address_obj.getString("street");
                                         final String home_area = home_address_obj.getString("area");
                                         final String home_city = home_address_obj.getString("city");
@@ -1023,6 +1020,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                         final String home_country = home_address_obj.getString("country");
                                         final String home_zip = home_address_obj.getString("zip");
                                         final String home_name = home_address_obj.getString("name");
+                                        final String ofc_address = home_address_obj.getString("address");
                                         final String ofc_street = office_address_obj.getString("street");
                                         final String ofc_area = office_address_obj.getString("area");
                                         final String ofc_city = office_address_obj.getString("city");
@@ -1037,6 +1035,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                         delivery_home_address.setChecked(true);
                                         address_layout_delivery.setVisibility(View.VISIBLE);
                                         del_manual_address_layout.setVisibility(View.GONE);
+                                        address1.setText(home_address);
                                         street1.setText(home_street);
                                         area1.setText(home_area);
                                         city1.setText(home_city);
@@ -1052,6 +1051,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                                     case R.id.delivery_home_address:
                                                         address_layout_delivery.setVisibility(View.VISIBLE);
                                                         del_manual_address_layout.setVisibility(View.GONE);
+                                                        address1.setText(home_address);
                                                         street1.setText(home_street);
                                                         area1.setText(home_area);
                                                         city1.setText(home_city);
@@ -1063,6 +1063,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                                     case R.id.delivery_office_address:
                                                         del_manual_address_layout.setVisibility(View.GONE);
                                                         address_layout_delivery.setVisibility(View.VISIBLE);
+                                                        address1.setText(ofc_address);
                                                         street1.setText(ofc_street);
                                                         area1.setText(ofc_area);
                                                         city1.setText(ofc_city);
@@ -1185,6 +1186,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         pick_area = area.getText().toString();
         pick_city = city.getText().toString();
         pick_state = state.getText().toString();
+        pick_address = address.getText().toString();
         pick_country = "India";
         pick_zip = zipcode.getText().toString();
         pick_name = name.getText().toString();
@@ -1207,6 +1209,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         }
         delivery_phone = edit_mobilenum1.getText().toString();
         deliver_street = street1.getText().toString();
+        deliver_address = address1.getText().toString();
         deliver_area = area1.getText().toString();
         deliver_city = city1.getText().toString();
         deliver_state = state1.getText().toString();
@@ -1271,7 +1274,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
         } else {
             ServiceCalls.Call_api_toAddOrderCollection(this, Request.Method.POST, Constants.ADD_ORDER, listener, order_type, img_item_pick,
-                    pick_street, pick_area, pick_city, pick_state, pick_country, pick_zip, deliver_street, deliver_area, deliver_city, deliver_state,
+                    pick_address, pick_street, pick_area, pick_city, pick_state, pick_country, pick_zip, deliver_address, deliver_street, deliver_area, deliver_city, deliver_state,
                     delivery_country, deliver_pincode, addr_type_deliver, addr_type_pickup, id_category, delivery_phone, pickup_phone, pick_name, deliver_name, "0", api_token);
         }
     }
@@ -1392,6 +1395,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             deliver_pincode = edit_manual_pincode1.getText().toString();
         } else {
             Log.v("DEL Manual address is not visible", "dsds");
+            deliver_address = address1.getText().toString();
             deliver_street = street1.getText().toString();
             deliver_area = area1.getText().toString();
             deliver_city = city1.getText().toString();
@@ -1509,7 +1513,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onRequestCompleted(String response) {
                 Log.v("OUTPUT CREATE ORDER", response);
-                //Toast.makeText(AcceptCreditActivity.this, response, Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
                 try {
                     JSONObject obj = new JSONObject(response);
@@ -1520,7 +1523,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                     } else if (status.equals("true")) {
-                        //Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                         JSONObject value_obj = obj.getJSONObject("value");
                         String order_id = value_obj.getString("order_id");
 
@@ -1540,6 +1542,45 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         String api_token = user.get(SessionManager.KEY_APITOKEN);
         Log.v("Calling API", Constants.CREATE_ORDER);
         payment_type = "COD";
+        ServiceCalls.CallAPI_to_CreateOrder(this, Request.Method.POST, Constants.CREATE_ORDER, listener, order_id, fee, payment_type, api_token);
+    }
+
+    private void Call_createOrder_API_payumoney() {
+        progressDialog = ProgressDialog.show(SendActivity.this, "Please wait ...", "Requesting...", true);
+        progressDialog.setCancelable(false);
+        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
+            @Override
+            public void onRequestCompleted(String response) {
+                Log.v("OUTPUT CREATE ORDER", response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    final String status = obj.getString("status");
+                    final String value = obj.getString("value");
+
+                    if (status.equals("false")) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                    } else if (status.equals("true")) {
+                        JSONObject value_obj = obj.getJSONObject("value");
+                        String order_id = value_obj.getString("order_id");
+
+                        Intent to_loading_screen = new Intent(getApplicationContext(), LoadingAgentActivity.class);
+                        to_loading_screen.putExtra(Constants.KEY_ORDER_ID, order_id);
+                        startActivity(to_loading_screen);
+
+                    }
+                } catch (JSONException exception) {
+                    progressDialog.dismiss();
+                    Log.e("--JSON EXCEPTION--", exception.toString());
+                }
+            }
+        };
+        HashMap<String, String> user = session.getUserDetails();
+        // token
+        String api_token = user.get(SessionManager.KEY_APITOKEN);
+        Log.v("Calling API", Constants.CREATE_ORDER);
+        payment_type = "Online";
         ServiceCalls.CallAPI_to_CreateOrder(this, Request.Method.POST, Constants.CREATE_ORDER, listener, order_id, fee, payment_type, api_token);
     }
 
@@ -1593,58 +1634,12 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         calculateServerSideHashAndInitiatePayment(paymentParam);
     }
 
-   /* private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
-
-        *//*progressDialog = ProgressDialog.show(CollectionActivity.this, "Please wait ...", "Requesting...", true);
-        progressDialog.setCancelable(false);*//*
-        AlertDialogs.showProgress(SendActivity.this);
-        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
-            @Override
-            public void onRequestCompleted(String response) {
-                Log.v("OUTPUT HASH CALCULATION", response);
-                progressDialog.dismiss();
-                try {
-                    *//*{"status":"true","value":{"message":"Your credit has been transfered",
-                    "reference_id":"25","credit_holder_id":2}}*//*
-                    JSONObject obj = new JSONObject(response);
-                    final String status = obj.getString("status");
-                    final String value = obj.getString("value");
-                    JSONObject value_object = obj.getJSONObject("value");
-
-                    if (status.equals("false")) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
-                    } else if (status.equals("true")) {
-                        progressDialog.dismiss();
-                        //Call_createOrder_API();
-                        String hash = value_object.getString("hash");
-                        Log.i("app_activity", "Server calculated Hash :  " + hash);
-                        paymentParam.setMerchantHash(hash);
-
-                        PayUmoneySdkInitilizer.startPaymentActivityForResult(SendActivity.this, paymentParam);
-
-                    }
-                } catch (JSONException exception) {
-                    progressDialog.dismiss();
-                    Log.e("--JSON EXCEPTION--", exception.toString());
-                }
-            }
-        };
-
-        *//*String api_token = "cade3fa343d595d72803f460c139086d";*//*
-        HashMap<String, String> user = session.getUserDetails();
-        // token
-        String api_token = user.get(SessionManager.KEY_APITOKEN);
-        Log.v("Calling API", Constants.CALCULATE_HASH);
-        ServiceCalls.CallAPI_to_Calculate_hash(this, Request.Method.POST, Constants.CALCULATE_HASH, listener, Constants.PAY_U_MONEY_KEY, getTxnId(), fee, "collection_category", Constants.PAY_U_MONEY_SALT_KEY, api_token);
-    }*/
-
     private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
 
         // Replace your server side hash generator API URL
-        String url = "http://dealanzer.com/moneyhash.php";
+        String url = Constants.CALCULATE_HASH_FOR_PAYUMONEY;
 
-        Toast.makeText(this, "Please wait... Generating hash from server ... ", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Please wait... We are directing to payumoney server ... ", Toast.LENGTH_LONG).show();
         StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -1660,31 +1655,15 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                             Log.i("app_activity", "Server calculated Hash :  " + hash);
 
                             paymentParam.setMerchantHash(hash);
-
                             PayUmoneySdkInitilizer.startPaymentActivityForResult(SendActivity.this, paymentParam);
+
+                            /*Call_createOrder_API_payumoney();*/
                         } else {
                             Toast.makeText(SendActivity.this,
                                     jsonObject.getString(SdkConstants.RESULT),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
-                    /*JSONObject obj = new JSONObject(response);
-                    final String status = obj.getString("status");
-                    final String value = obj.getString("value");
-                    JSONObject value_object = obj.getJSONObject("value");
-
-                    if (status.equals("false")) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
-                    } else if (status.equals("true")) {
-                        progressDialog.dismiss();
-                        //Call_createOrder_API();
-                        String hash = value_object.getString("hash");
-                        Log.i("app_activity", "Server calculated Hash :  " + hash);
-                        paymentParam.setMerchantHash(hash);
-
-                        PayUmoneySdkInitilizer.startPaymentActivityForResult(SendActivity.this, paymentParam);
-                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1742,7 +1721,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
                 AlertDialogs.showDialogMessage("Payment Success Id : " + paymentId, SendActivity.this);
-                call_transferCreditAPI();
+                call_checkCreditsapi();
             } else if (resultCode == RESULT_CANCELED) {
                 Log.i(TAG, "failure");
                 AlertDialogs.showDialogMessage("cancelled", SendActivity.this);
@@ -1879,7 +1858,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
                     } else if (status.equals("true")) {
                         progressDialog.dismiss();
-                        Call_createOrder_API();
+                        Call_createOrder_API_payumoney();
 
                     }
                 } catch (JSONException exception) {
@@ -1978,17 +1957,4 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
-
-    /*private void showDialogMessage(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(TAG);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-    }*/
 }

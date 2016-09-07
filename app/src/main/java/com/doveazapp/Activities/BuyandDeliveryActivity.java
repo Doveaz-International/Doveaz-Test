@@ -105,7 +105,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
     LinearLayout address_layout, manual_address_layout;
 
     //Textview of address (if prime)
-    TextView street, area, city, state, country, zipcode, mob_number, name_prime;
+    TextView street, area, city, state, country, zipcode, mob_number, name_prime, address;
 
     AddedCartDBHelper cartDBHelper;
 
@@ -156,6 +156,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
         edit_manual_pincode = (EditText) findViewById(R.id.edit_manual_pincode);
 
         // Textviews for address (if prime) will be visible to the prime user
+        address = (TextView) findViewById(R.id.address);
         street = (TextView) findViewById(R.id.street);
         area = (TextView) findViewById(R.id.area);
         city = (TextView) findViewById(R.id.city);
@@ -680,6 +681,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
                                         JSONObject office_address_obj = value_obj.getJSONObject("office_address");
                                         JSONObject home_address_obj = value_obj.getJSONObject("home_address");
 
+                                        final String home_addr = home_address_obj.getString("address");
                                         final String home_street = home_address_obj.getString("street");
                                         final String home_area = home_address_obj.getString("area");
                                         final String home_city = home_address_obj.getString("city");
@@ -687,6 +689,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
                                         final String home_country = home_address_obj.getString("country");
                                         final String home_zip = home_address_obj.getString("zip");
                                         final String home_name = home_address_obj.getString("name");
+                                        final String ofc_address = office_address_obj.getString("address");
                                         final String ofc_street = office_address_obj.getString("street");
                                         final String ofc_area = office_address_obj.getString("area");
                                         final String ofc_city = office_address_obj.getString("city");
@@ -701,6 +704,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
                                         home_address.setChecked(true);
                                         address_layout.setVisibility(View.VISIBLE);
                                         manual_address_layout.setVisibility(View.GONE);
+                                        address.setText(home_addr);
                                         street.setText(home_street);
                                         area.setText(home_area);
                                         city.setText(home_city);
@@ -716,6 +720,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
                                                     case R.id.home_address:
                                                         address_layout.setVisibility(View.VISIBLE);
                                                         manual_address_layout.setVisibility(View.GONE);
+                                                        address.setText(home_addr);
                                                         street.setText(home_street);
                                                         area.setText(home_area);
                                                         city.setText(home_city);
@@ -727,6 +732,7 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
                                                     case R.id.office_address:
                                                         manual_address_layout.setVisibility(View.GONE);
                                                         address_layout.setVisibility(View.VISIBLE);
+                                                        address.setText(ofc_address);
                                                         street.setText(ofc_street);
                                                         area.setText(ofc_area);
                                                         city.setText(ofc_city);
@@ -877,6 +883,8 @@ public class BuyandDeliveryActivity extends AppCompatActivity implements View.On
                 deliver_area = area.getText().toString();
                 deliver_city = city.getText().toString();
                 deliver_zip = zipcode.getText().toString();
+                deliver_address = address.getText().toString();
+                to_store_menu.putExtra(Constants.KEY_DELIVERY_ADDRESS, deliver_address);
                 to_store_menu.putExtra(Constants.KEY_DELIVERY_STREET, deliver_st);
                 to_store_menu.putExtra(Constants.KEY_DELIVERY_AREA, deliver_area);
                 to_store_menu.putExtra(Constants.KEY_DELIVERY_CITY, deliver_city);

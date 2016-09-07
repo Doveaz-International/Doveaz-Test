@@ -79,6 +79,8 @@ public class AgentPickupByAreaAdapter extends ArrayAdapter<AgentPickupByArea> {
 
         final TextView txt_order_id = (TextView) convertView.findViewById(R.id.txt_order_id);
         TextView pickup_address = (TextView) convertView.findViewById(R.id.pickup_address);
+        TextView pickup_payment_type = (TextView) convertView.findViewById(R.id.pickup_payment_type);
+        TextView pickup_amount = (TextView) convertView.findViewById(R.id.pickup_amount);
         Button btn_map = (Button) convertView.findViewById(R.id.btn_map);
         final Button btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
         Button button_call = (Button) convertView.findViewById(R.id.button_call);
@@ -90,7 +92,11 @@ public class AgentPickupByAreaAdapter extends ArrayAdapter<AgentPickupByArea> {
 
         deliver_name.setText(pickup_area.getPickup_name());
 
-        pickup_address.setText(pickup_area.getPickup_street() + ", " + pickup_area.getPickup_area() +
+        pickup_amount.setText(pickup_area.getCollection_amount());
+
+        pickup_payment_type.setText(pickup_area.getPayment_type());
+
+        pickup_address.setText(pickup_area.getPickup_address() + ", " + pickup_area.getPickup_street() + ", " + pickup_area.getPickup_area() +
                 ", " + pickup_area.getPickup_city() + ", " + pickup_area.getPickup_state() + ", " + pickup_area.getPickup_country()
                 + ", " + pickup_area.getPickup_zip());
 

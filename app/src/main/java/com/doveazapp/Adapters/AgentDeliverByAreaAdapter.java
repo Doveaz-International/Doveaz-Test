@@ -83,6 +83,8 @@ public class AgentDeliverByAreaAdapter extends ArrayAdapter<AgentDeliveryByArea>
         final TextView txt_order_id = (TextView) convertView.findViewById(R.id.txt_order_id);
         TextView pickup_address = (TextView) convertView.findViewById(R.id.pickup_address);
         TextView deliver_name = (TextView) convertView.findViewById(R.id.delivery_name);
+        TextView pickup_payment_type = (TextView) convertView.findViewById(R.id.pickup_payment_type);
+        TextView pickup_amount = (TextView) convertView.findViewById(R.id.pickup_amount);
         Button btn_map = (Button) convertView.findViewById(R.id.btn_map);
         final Button btn_update_status = (Button) convertView.findViewById(R.id.btn_update_status);
         Button button_call = (Button) convertView.findViewById(R.id.button_call);
@@ -91,7 +93,11 @@ public class AgentDeliverByAreaAdapter extends ArrayAdapter<AgentDeliveryByArea>
 
         txt_order_id.setText(pickup_area.getOrder_id());
 
-        pickup_address.setText(pickup_area.getDelivery_street() + ", " + pickup_area.getDelivery_area() +
+        pickup_payment_type.setText(pickup_area.getPayment_type());
+
+        pickup_amount.setText(pickup_area.getCollection_amount());
+
+        pickup_address.setText(pickup_area.getDelivery_address() + ", " + pickup_area.getDelivery_street() + ", " + pickup_area.getDelivery_area() +
                 ", " + pickup_area.getDelivery_city() + ", " + pickup_area.getDelivery_state() + ", " + pickup_area.getDelivery_country()
                 + ", " + pickup_area.getDelivery_zip());
 

@@ -136,6 +136,9 @@ public class AgentDeliveryByAreaFragment extends ListFragment implements Adapter
                             areaDetails.setDelivery_country(jsonobject.getString(Constants.KEY_DELIVERY_COUNTRY));
                             areaDetails.setDelivery_zip(jsonobject.getString(Constants.KEY_DELIVERY_ZIP));
                             areaDetails.setDelivery_phone(jsonobject.getString(Constants.KEY_DELIVERY_PHONE));
+                            areaDetails.setDelivery_name(jsonobject.getString(Constants.KEY_DELIVERY_ADDRESS));
+                            areaDetails.setPayment_type(jsonobject.getString(Constants.KEY_PAYMENT_TYPE));
+                            areaDetails.setCollection_amount(jsonobject.getString(Constants.KEY_COLLECTION_AMOUNT));
 
                             responseDetailsList.add(areaDetails);
                             adapter.notifyDataSetChanged();

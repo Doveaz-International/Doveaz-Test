@@ -138,6 +138,9 @@ public class AgentPickupsByAreaFragment extends ListFragment implements AdapterV
                             areaDetails.setPickup_country(jsonobject.getString(Constants.KEY_PICKUP_COUNTRY));
                             areaDetails.setPickup_zip(jsonobject.getString(Constants.KEY_PICKUP_ZIPCODE));
                             areaDetails.setPickup_phone(jsonobject.getString(Constants.KEY_PICKUP_PHONE));
+                            areaDetails.setPickup_address(jsonobject.getString(Constants.KEY_PICKUP_ADDRESS));
+                            areaDetails.setCollection_amount(jsonobject.getString(Constants.KEY_COLLECTION_AMOUNT));
+                            areaDetails.setPayment_type(jsonobject.getString(Constants.KEY_PAYMENT_TYPE));
 
                             responseDetailsList.add(areaDetails);
                             adapter.notifyDataSetChanged();

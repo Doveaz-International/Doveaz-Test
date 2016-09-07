@@ -18,6 +18,33 @@ public class AgentDeliveryByArea implements Serializable {
     private String delivery_country;
     private String delivery_zip;
     private String delivery_phone;
+    private String delivery_address;
+    private String payment_type;
+    private String collection_amount;
+
+    public String getDelivery_address() {
+        return delivery_address;
+    }
+
+    public void setDelivery_address(String delivery_address) {
+        this.delivery_address = delivery_address;
+    }
+
+    public String getPayment_type() {
+        return payment_type;
+    }
+
+    public void setPayment_type(String payment_type) {
+        this.payment_type = payment_type;
+    }
+
+    public String getCollection_amount() {
+        return collection_amount;
+    }
+
+    public void setCollection_amount(String collection_amount) {
+        this.collection_amount = collection_amount;
+    }
 
     public String getDelivery_phone() {
         return delivery_phone;

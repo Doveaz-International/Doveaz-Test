@@ -115,6 +115,7 @@ public class StoreMenuActivity extends AppCompatActivity implements View.OnClick
             delivery_floor_number = bundle.getString(Constants.KEY_FLOOR_NUMBER);
             delivery_address = bundle.getString(Constants.KEY_DELIVERY_ADDRESS);
         } else {
+            delivery_address = bundle.getString(Constants.KEY_DELIVERY_ADDRESS);
             deliver_st = bundle.getString(Constants.KEY_DELIVERY_STREET);
             deliver_area = bundle.getString(Constants.KEY_DELIVERY_AREA);
             deliver_city = bundle.getString(Constants.KEY_DELIVERY_CITY);

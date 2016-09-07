@@ -17,7 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.doveazapp.Adapters.ReviewOrderAdapter;
 import com.doveazapp.Constants;
 import com.doveazapp.Dialogs.AlertDialogs;
@@ -36,6 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * OrderReviewActivity.java
@@ -198,11 +205,6 @@ public class OrderReviewActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    private void calculate_billing_price() {
-
-
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -358,7 +360,7 @@ public class OrderReviewActivity extends AppCompatActivity implements View.OnCli
         String phone = user.get(SessionManager.KEY_PHONE_NUM);
         Log.v("phone", phone);
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
-        builder.setAmount(Double.valueOf(fee))
+        builder.setAmount(getAmount())
                 .setTnxId(getTxnId())
                 .setPhone(phone)
                 .setProductName("product_name")
@@ -371,7 +373,7 @@ public class OrderReviewActivity extends AppCompatActivity implements View.OnCli
                 .setUdf3("")
                 .setUdf4("")
                 .setUdf5("")
-                .setIsDebug(true)
+                .setIsDebug(false)
                 .setKey(Constants.PAY_U_MONEY_KEY)
                 .setMerchantId(Constants.PAY_U_MONEY_MERCHANT_ID);// Debug Merchant ID
 
@@ -379,6 +381,75 @@ public class OrderReviewActivity extends AppCompatActivity implements View.OnCli
 
         // Recommended
         calculateServerSideHashAndInitiatePayment(paymentParam);
+    }
+
+    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
+
+        // Replace your server side hash generator API URL
+        String url = Constants.CALCULATE_HASH_FOR_PAYUMONEY;
+
+        Toast.makeText(this, "Please wait... We are directing to payumoney server ... ", Toast.LENGTH_LONG).show();
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.v("PAYUMONEY RESPONSE", response);
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.has(SdkConstants.STATUS)) {
+                        String status = jsonObject.optString(SdkConstants.STATUS);
+                        if (status != null || status.equals("1")) {
+
+                            String hash = jsonObject.getString(SdkConstants.RESULT);
+                            Log.i("app_activity", "Server calculated Hash :  " + hash);
+
+                            paymentParam.setMerchantHash(hash);
+
+                            PayUmoneySdkInitilizer.startPaymentActivityForResult(OrderReviewActivity.this, paymentParam);
+                        } else {
+                            Toast.makeText(OrderReviewActivity.this,
+                                    jsonObject.getString(SdkConstants.RESULT),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof NoConnectionError) {
+                    Toast.makeText(OrderReviewActivity.this,
+                            OrderReviewActivity.this.getString(R.string.connect_to_internet),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(OrderReviewActivity.this,
+                            error.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Log.v("PAYUMONEY REQUEST", paymentParam.getParams().toString());
+                return paymentParam.getParams();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                HashMap<String, String> user = session.getUserDetails();
+                // token
+                String api_token = user.get(SessionManager.KEY_APITOKEN);
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put("Api-Token", api_token);
+                return headers;
+            }
+        };
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
     public void CallAPI_to_purchase_credit() {
@@ -489,53 +560,6 @@ public class OrderReviewActivity extends AppCompatActivity implements View.OnCli
         Intent to_loading_screen = new Intent(getApplicationContext(), LoadingAgentActivity.class);
         to_loading_screen.putExtra(Constants.KEY_ORDER_ID, order_id);
         startActivity(to_loading_screen);
-    }
-
-    private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
-
-        /*progressDialog = ProgressDialog.show(CollectionActivity.this, "Please wait ...", "Requesting...", true);
-        progressDialog.setCancelable(false);*/
-        AlertDialogs.showProgress(OrderReviewActivity.this);
-        OnRequestCompletedListener listener = new OnRequestCompletedListener() {
-            @Override
-            public void onRequestCompleted(String response) {
-                Log.v("OUTPUT HASH CALCULATION", response);
-                progressDialog.dismiss();
-                try {
-                    /*{"status":"true","value":{"message":"Your credit has been transfered",
-                    "reference_id":"25","credit_holder_id":2}}*/
-                    JSONObject obj = new JSONObject(response);
-                    final String status = obj.getString("status");
-                    final String value = obj.getString("value");
-                    JSONObject value_object = obj.getJSONObject("value");
-
-                    if (status.equals("false")) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
-                    } else if (status.equals("true")) {
-                        progressDialog.dismiss();
-                        //Call_createOrder_API();
-
-                        String hash = value_object.getString("hash");
-                        Log.i("app_activity", "Server calculated Hash :  " + hash);
-                        paymentParam.setMerchantHash(hash);
-
-                        PayUmoneySdkInitilizer.startPaymentActivityForResult(OrderReviewActivity.this, paymentParam);
-
-                    }
-                } catch (JSONException exception) {
-                    progressDialog.dismiss();
-                    Log.e("--JSON EXCEPTION--", exception.toString());
-                }
-            }
-        };
-
-        /*String api_token = "cade3fa343d595d72803f460c139086d";*/
-        HashMap<String, String> user = session.getUserDetails();
-        // token
-        String api_token = user.get(SessionManager.KEY_APITOKEN);
-        Log.v("Calling API", Constants.CALCULATE_HASH);
-        ServiceCalls.CallAPI_to_Calculate_hash(this, Request.Method.POST, Constants.CALCULATE_HASH, listener, Constants.PAY_U_MONEY_KEY, getTxnId(), fee, "collection_category", Constants.PAY_U_MONEY_SALT_KEY, api_token);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

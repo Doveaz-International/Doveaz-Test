@@ -18,6 +18,33 @@ public class AgentPickupByArea implements Serializable {
     private String pickup_country;
     private String pickup_zip;
     private String pickup_phone;
+    private String pickup_address;
+    private String payment_type;
+    private String collection_amount;
+
+    public String getPayment_type() {
+        return payment_type;
+    }
+
+    public void setPayment_type(String payment_type) {
+        this.payment_type = payment_type;
+    }
+
+    public String getCollection_amount() {
+        return collection_amount;
+    }
+
+    public void setCollection_amount(String collection_amount) {
+        this.collection_amount = collection_amount;
+    }
+
+    public String getPickup_address() {
+        return pickup_address;
+    }
+
+    public void setPickup_address(String pickup_address) {
+        this.pickup_address = pickup_address;
+    }
 
     public String getPickup_phone() {
         return pickup_phone;

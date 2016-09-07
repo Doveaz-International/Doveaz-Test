@@ -302,6 +302,11 @@
                             android:layout_height="wrap_content" />
 
                         <TextView
+                            android:id="@+id/address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
                             android:id="@+id/street"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -569,6 +574,11 @@
                             android:layout_height="wrap_content" />
 
                         <TextView
+                            android:id="@+id/address1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
                             android:id="@+id/street1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -652,6 +662,7 @@
                             android:layout_marginLeft="@dimen/five_dp"
                             android:layout_marginRight="@dimen/five_dp"
                             android:layout_marginTop="@dimen/ten_dp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

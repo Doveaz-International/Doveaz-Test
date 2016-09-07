@@ -169,6 +169,9 @@ public class Constants {
     public final static String CALCULATE_HASH = BASE_URL + "/Credits/createHash";
 
 
+    public final static String CALCULATE_HASH_FOR_PAYUMONEY = "http://dealanzer.com/moneyhash.php";
+
+
 
     //Select image from camera Toast message
     public static final String SELECT_IMAGE_TOAST_MESSAGE = "Please select Image from gallery or from camera";
@@ -384,6 +387,7 @@ public class Constants {
     public static final String KEY_PRODUCT_QUANTITY = "quantity";
     public static final String KEY_PAYMENT_TYPE = "payment_type";
     public static final String KEY_PICKUP_ADDRESS = "pickup_address";
+    public static final String KEY_COLLECTION_AMOUNT = "collection_amount";
 
     //Smarty
     String SMARTY_STREETS = "https://api.smartystreets.com/street-address?auth-id=1aefa793-57b5-c233-4f5e-1f564bc981b9&auth-token=vA78RIZHOI36nbmQJFh2" +

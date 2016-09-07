@@ -3195,12 +3195,14 @@ public class ServiceCalls {
     public static void Call_api_toAddOrderCollection(final Context context, final int method, final String url, final OnRequestCompletedListener listener,
                                                      final String order_type,
                                                      final String image,
+                                                     final String pick_address,
                                                      final String pick_street,
                                                      final String pick_area,
                                                      final String pick_city,
                                                      final String pick_state,
                                                      final String pick_country,
                                                      final String pick_pincode,
+                                                     final String deliver_address,
                                                      final String deliver_street,
                                                      final String deliver_area,
                                                      final String deliver_city,
@@ -3236,12 +3238,14 @@ public class ServiceCalls {
                 //Adding parameters --input params--
                 params.put(Constants.KEY_TYPE, order_type);
                 params.put(Constants.KEY_IMAGE, image);
+                params.put(Constants.KEY_PICKUP_ADDRESS, pick_address);
                 params.put(Constants.KEY_PICKUP_STREET, pick_street);
                 params.put(Constants.KEY_PICKUP_AREA, pick_area);
                 params.put(Constants.KEY_PICKUP_CITY, pick_city);
                 params.put(Constants.KEY_PICKUP_STATE, pick_state);
                 params.put(Constants.KEY_PICKUP_COUNTRY, pick_country);
                 params.put(Constants.KEY_PICKUP_ZIPCODE, pick_pincode);
+                params.put(Constants.KEY_DELIVERY_ADDRESS, deliver_address);
                 params.put(Constants.KEY_DELIVERY_STREET, deliver_street);
                 params.put(Constants.KEY_DELIVERY_AREA, deliver_area);
                 params.put(Constants.KEY_DELIVERY_CITY, deliver_city);
